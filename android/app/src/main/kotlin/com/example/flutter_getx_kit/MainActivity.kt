@@ -1,4 +1,4 @@
-package com.example.flutter_getx_kit
+package io.devdezyn.syren
 
 import io.flutter.embedding.android.FlutterActivity
 

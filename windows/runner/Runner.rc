@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "flutter_getx_kit" "\0"
+            VALUE "CompanyName", "io.devdezyn" "\0"
+            VALUE "FileDescription", "syren" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "flutter_getx_kit" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "flutter_getx_kit.exe" "\0"
-            VALUE "ProductName", "flutter_getx_kit" "\0"
+            VALUE "InternalName", "syren" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2022 io.devdezyn. All rights reserved." "\0"
+            VALUE "OriginalFilename", "syren.exe" "\0"
+            VALUE "ProductName", "syren" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

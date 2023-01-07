@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:syren/utils/enums.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../utils/constants.dart';
 import 'widgets.dart';
 
 // class AppTextField extends StatelessWidget {
@@ -243,27 +243,28 @@ class SelectField extends StatelessWidget {
 }
 
 class AppTextField extends StatelessWidget {
-  const AppTextField({
+  AppTextField({
     super.key,
-    required this.labelText,
+    this.labelText,
     this.hintText,
     this.validationText,
     this.formKey,
     this.maxLength,
     this.icon,
+    this.maxLines = 1,
     this.isObscured = false,
-    this.editingCtrl,
-    this.validator,
-    this.type = TextInputType.text,
-    this.iconTap,
-    this.descriptionText,
     this.fontWeight = FontWeight.w700,
     this.isEnabled = true,
+    this.type = TextInputType.text,
+    this.editingCtrl,
+    this.validator,
+    this.iconTap,
+    this.descriptionText,
     this.initialValue,
   });
   final GlobalKey<FormState>? formKey;
   final String? hintText;
-  final String labelText;
+  final String? labelText;
   final String? validationText;
   final String? initialValue;
   final String? descriptionText;
@@ -276,6 +277,7 @@ class AppTextField extends StatelessWidget {
   final TextInputType type;
   final TextEditingController? editingCtrl;
   final FormFieldValidator<String>? validator;
+  final int maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -284,15 +286,17 @@ class AppTextField extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              labelText,
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: fontWeight,
-                  color: Palette.secondary),
-            ),
+            labelText == null
+                ? const SizedBox()
+                : Text(
+                    labelText!,
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: fontWeight,
+                        color: Palette.secondary),
+                  ),
             SizedBox(
-              height: descriptionText == null ? 10.0 : 5.0,
+              height: labelText == null ? 0 : 5,
             ),
             descriptionText == null
                 ? const SizedBox()
@@ -307,6 +311,7 @@ class AppTextField extends StatelessWidget {
                     ),
                   ),
             TextFormField(
+              maxLines: maxLines,
               initialValue: initialValue,
               controller: editingCtrl,
               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -337,8 +342,7 @@ class AppTextField extends StatelessWidget {
               ),
               validator: (val) {
                 if (val == null || val.isEmpty) {
-                  return validationText ??
-                      "Please provide a valid ${labelText.toLowerCase()}";
+                  return "Please provide a valid ${validationText ?? labelText?.toLowerCase() ?? hintText?.toLowerCase()}";
                 } else {
                   return null;
                 }
@@ -352,7 +356,7 @@ class AppTextField extends StatelessWidget {
 class RadioButtonField extends StatelessWidget {
   const RadioButtonField({
     super.key,
-    this.labelText,
+    required this.labelText,
     this.hintText,
     this.validationText,
     this.formKey,
@@ -362,17 +366,19 @@ class RadioButtonField extends StatelessWidget {
     this.iconTap,
     this.descriptionText,
     this.fontWeight = FontWeight.w700,
+    this.direction = RadioButtonDirection.horizontal,
     this.isEnabled = true,
     this.initialValue,
     required this.options,
   });
   final GlobalKey<FormState>? formKey;
   final String? hintText;
-  final String? labelText;
+  final String labelText;
   final String? validationText;
   final String? initialValue;
   final String? descriptionText;
   final bool isEnabled;
+  final RadioButtonDirection direction;
   final IconData? icon;
   final FontWeight fontWeight;
   final VoidCallback? iconTap;
@@ -388,14 +394,14 @@ class RadioButtonField extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              labelText!,
+              labelText,
               style: TextStyle(
                   fontSize: 12,
                   fontWeight: fontWeight,
                   color: Palette.secondary),
             ),
             SizedBox(
-              height: labelText == null ? 0 : 5,
+              height: direction == RadioButtonDirection.vertical ? 10 : 5,
             ),
             descriptionText == null
                 ? const SizedBox()
@@ -409,36 +415,46 @@ class RadioButtonField extends StatelessWidget {
                       //     color: const Color(0xFFC8CBD5)),
                     ),
                   ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: options
-                    .map(
-                      (e) => Row(children: [
-                        SizedBox(
-                            height: 15.0,
-                            width: 15.0,
-                            child: Transform.scale(
-                                scale: 0.6,
-                                child: Radio(
-                                    value: 1,
-                                    groupValue: 'null',
-                                    onChanged: (index) {}))),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          e,
-                          style: const TextStyle(
-                              fontSize: 12, color: Palette.secondary),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                      ]),
-                    )
-                    .toList())
+            direction == RadioButtonDirection.horizontal
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: _buildOptions())
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _buildOptions())
           ],
         ));
+  }
+
+  List<Widget> _buildOptions() {
+    return options
+        .map(
+          (e) => Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Row(children: [
+              SizedBox(
+                  height: 15.0,
+                  width: 15.0,
+                  child: Transform.scale(
+                      scale: 0.6,
+                      child: Radio(
+                          value: 1,
+                          groupValue: 'null',
+                          onChanged: (index) {}))),
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                e,
+                style: const TextStyle(fontSize: 12, color: Palette.secondary),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+            ]),
+          ),
+        )
+        .toList();
   }
 }
 
@@ -613,6 +629,72 @@ class BottomSheetSelectField extends StatelessWidget {
                 hintText: hintText ?? (options.isNotEmpty ? options.first : ''),
                 editingCtrl: editingCtrl,
                 icon: Icons.arrow_drop_down,
+              ))
+        ]));
+  }
+}
+
+class DropdownSelectField extends StatelessWidget {
+  DropdownSelectField(
+      {super.key,
+      required this.editingCtrl,
+      required this.options,
+      required this.dropdownValue,
+      required this.onChanged,
+      this.labelText,
+      this.fontWeight = FontWeight.w700,
+      this.hint});
+
+  final FontWeight fontWeight;
+  final TextEditingController editingCtrl;
+  final ValueChanged<String?>? onChanged;
+  final List<String> options;
+  final String dropdownValue;
+  final String? labelText;
+  final String? hint;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: double.infinity,
+        margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            labelText!,
+            style: TextStyle(
+                fontSize: 12, fontWeight: fontWeight, color: Palette.secondary),
+          ),
+          SizedBox(
+            height: labelText == null ? 0 : 5,
+          ),
+          DecoratedBox(
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  border: Border.all(color: Palette.secondary, width: 1.5)),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 30, right: 30),
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  underline: Container(),
+                  // Initial Value
+                  value: dropdownValue,
+                  style:
+                      const TextStyle(fontSize: 14, color: Palette.secondary),
+                  // Down Arrow Icon
+                  icon: const Icon(Icons.keyboard_arrow_down),
+                  // Array list of items
+                  items: options.map((String item) {
+                    return DropdownMenuItem(
+                      value: item,
+                      child: Text(item),
+                    );
+                  }).toList(),
+                  // After selecting the desired option,it will
+                  // change button value to selected value
+                  onChanged: (newValue) {
+                    onChanged!(newValue);
+                  },
+                ),
               ))
         ]));
   }
@@ -897,7 +979,7 @@ class LabeledCheckbox extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(100)),
                       value: isChecked,
-                      activeColor: iPrimaryColor,
+                      activeColor: Palette.primary,
                       visualDensity: VisualDensity.compact,
                       onChanged: (val) {
                         isChecked = val!;

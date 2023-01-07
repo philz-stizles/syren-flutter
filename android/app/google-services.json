@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "950704207097",
+    "project_id": "syren-b522e",
+    "storage_bucket": "syren-b522e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:950704207097:android:2a231fa3567cd9675d9e28",
+        "android_client_info": {
+          "package_name": "io.devdezyn.syren"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "950704207097-u9jbf29vi0fiquud0klv4oe7srsu3tvd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWKXm6QciRWvPuCPFFrEpWPCwcF6ponB0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "950704207097-u9jbf29vi0fiquud0klv4oe7srsu3tvd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

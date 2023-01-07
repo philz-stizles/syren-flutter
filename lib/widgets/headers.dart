@@ -4,40 +4,42 @@ import 'package:syren/utils/palette.dart';
 class Header extends StatelessWidget {
   const Header({
     Key? key,
-    required this.text,
-    required this.press,
-    this.img,
+    required this.title,
+    this.subTitle,
   }) : super(key: key);
-  final String? img;
-  final String text;
-  final VoidCallback press;
+  final String title;
+  final String? subTitle;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        img == null
-            ? const SizedBox()
-            : GestureDetector(
-                onTap: press,
-                child: Image.asset(
-                  img!,
-                  height: 30,
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: Palette.secondary,
                 ),
               ),
-        Text(
-          text,
-          // style: AppTextStyles.defaultStyle.copyWith(
-          //   fontSize: 14,
-          //   fontWeight: FontWeight.w600,
-          //   color: const Color.fromRGBO(101, 102, 106, 1),
-          // ),
-        ),
-        Container(),
-      ],
-    );
+              (subTitle == null)
+                  ? const SizedBox()
+                  : Text(
+                      subTitle!,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.normal,
+                        color: Palette.grey,
+                      ),
+                    ),
+            ],
+          ),
+        ));
   }
 }
 
@@ -55,21 +57,21 @@ class FormHeader extends StatelessWidget {
     return Column(children: [
       title != null
           ? Align(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.center,
               child: Text(
                 title!,
                 style: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w900,
                     color: Palette.secondary),
               ),
             )
           : const SizedBox(),
       SizedBox(
-        height: title == null ? 0 : 10,
+        height: title == null ? 0 : 5,
       ),
       Align(
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
           child: Text(
             text!,
             // style: AppTextStyles.defaultStyle.copyWith(

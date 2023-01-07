@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:syren/utils/palette.dart';
 
 class AccountCTA extends StatelessWidget {
   const AccountCTA(
@@ -18,10 +19,10 @@ class AccountCTA extends StatelessWidget {
       children: [
         Text(
           text,
-          // style: AppTextStyles.defaultStyle.copyWith(
-          //   fontSize: 14,
-          //   fontWeight: FontWeight.w500,
-          // ),
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
         ),
         InkWell(
             onTap: onTap,
@@ -29,11 +30,11 @@ class AccountCTA extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(5, 8, 8, 8),
               child: Text(
                 linkText,
-                // style: AppTextStyles.defaultStyle.copyWith(
-                //   fontSize: 14,
-                //   fontWeight: FontWeight.w700,
-                //   color: Colors.red,
-                // ),
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: Palette.primary,
+                ),
               ),
             )),
       ],

@@ -1,19 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:syren/screens/drug_store/drug_store.dart';
+import 'package:syren/screens/views.dart';
+import 'package:syren/screens/vitals/vitals_controller.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:get/get.dart';
+import 'package:syren/widgets/navigation_bar.dart';
 
-import '../utils/constants.dart';
-import '../utils/enums.dart';
-import '../widgets/widgets.dart';
+import '../../utils/constants.dart';
+import '../../utils/enums.dart';
+import '../../widgets/widgets.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+  DashboardScreen({super.key});
+
+  var isActive = ''.obs;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // automaticallyImplyLeading: false,
+        automaticallyImplyLeading: false,
+        leading: GestureDetector(
+          onTap: () {
+            Get.toNamed(ProfileView.routeName);
+          },
+          child: CircleAvatar(
+              child: Image.asset(
+            'assets/images/avatar.png',
+            width: 30,
+            height: 30,
+            fit: BoxFit.cover,
+          )),
+        ),
+        //       Container(
+        //           width: 40,
+        //           height: 40,
+        //           decoration: BoxDecoration(
+        //               borderRadius: BorderRadius.circular(8),
+        //               image: DecorationImage(
+        //                   fit: BoxFit.cover,
+        //                   image: NetworkImage(homeCtrl
+        //                       .appCtrl
+        //                       .currentUserProfile
+        //                       .value!
+        //                       .data!
+        //                       .profilePic!))),
+        //           child: Container()),
+        // ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
@@ -29,7 +62,6 @@ class DashboardScreen extends StatelessWidget {
               onPressed: () {}, icon: const Icon(Icons.notifications_outlined))
         ],
       ),
-      drawer: const AppDrawer(),
       body: SingleChildScrollView(
           child: Padding(
         padding: defaultScreenPadding,
@@ -42,13 +74,16 @@ class DashboardScreen extends StatelessWidget {
                     mainAxisSpacing: 15,
                     crossAxisSpacing: 15,
                     childAspectRatio: 0.90,
-                    children: const [
+                    children: [
                       ImageCaptionCard(
                         title: 'Vitals',
                         description:
                             'Get on top of your health today by checking your vitals',
                         imageLocation: 'assets/images/food-bank-initiative.jpg',
                         icon: Icons.area_chart,
+                        tap: () {
+                          Get.to(VitalsView(), binding: VitalsBinding());
+                        },
                       ),
                       ImageCaptionCard(
                         title: 'Schedule Care',
@@ -56,21 +91,27 @@ class DashboardScreen extends StatelessWidget {
                             'Schedule your daily plans with consultants',
                         imageLocation: 'assets/images/consultant.jpg',
                         icon: Icons.calendar_month_outlined,
+                        tap: () {
+                          Get.toNamed(ScheduleCareView.routeName);
+                        },
                       ),
                       ImageCaptionCard(
-                        title: 'Purchase\n Medications',
+                        title: 'Drug Store',
                         description:
-                            'Get prescribed medications easily at affordable prices',
+                            'Get Prescribed medications easily at affordable prices, and Medical Equiments.',
                         imageLocation: 'assets/images/medication.jpg',
                         icon: Icons.medication,
+                        tap: () {
+                          Get.toNamed(DrugStoreView.routeName);
+                        },
                       ),
                       ImageCaptionCard(
-                        title: 'Urgent Care\n(Panic Button)',
-                        description:
-                            'Any urgent issue? Call on our attention, we\'re here to help you.',
-                        imageLocation: 'assets/images/siren.jpg',
-                        icon: Icons.emergency_outlined,
-                      ),
+                          title: 'Urgent Care\n(Panic Button)',
+                          description:
+                              'Any urgent issue? Call on our attention, we\'re here to help you.',
+                          imageLocation: 'assets/images/siren.jpg',
+                          icon: Icons.emergency_outlined,
+                          tap: () => Get.toNamed(UrgentCareView.routeName)),
                     ])),
             Container(
               decoration: BoxDecoration(
@@ -121,6 +162,26 @@ class DashboardScreen extends StatelessWidget {
           ],
         ),
       )),
+      bottomNavigationBar: AppBottomNavigationBar(
+          currentIndex: 0,
+          onTap: ((value) {
+            // Get.to(SettingsView());
+          })),
     );
+  }
+
+  Widget _buildMenuItem(
+      {required String title, void Function()? onTap, required bool isActive}) {
+    return GestureDetector(
+        onTap: onTap,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(secondaryBorderRadius),
+              color: isActive ? Palette.primary : Palette.white),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Text(title),
+          ),
+        ));
   }
 }

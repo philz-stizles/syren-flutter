@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-const iPrimaryColor = Color(0xFEFE0000);
-const iPrimaryLightColor = Color(0xFFFFE6E6);
-const iPrimaryLighterColor = Color(0xFFFFFAFA);
-const iPrimaryTintColor = Color.fromARGB(100, 255, 200, 200);
+// TEXT
+const signupText = '';
+const logoutText = 'Sign out';
 
 const iPrimaryGradientColor = LinearGradient(
   begin: Alignment.topLeft,
@@ -20,9 +19,10 @@ const iBorderColor = Color.fromARGB(106, 164, 165, 167);
 
 const defaultBorderRadius = 30.0;
 const secondaryBorderRadius = 5.0;
+const mediumBorderRadius = 10.0;
 const defaultScreenPadding = EdgeInsets.symmetric(vertical: 20, horizontal: 20);
 
-const iAnimationDuration = Duration(milliseconds: 200);
+const animationDuration = Duration(milliseconds: 200);
 
 const headingStyle = TextStyle(
   fontSize: 28, // getProportionateScreenWidth(28),

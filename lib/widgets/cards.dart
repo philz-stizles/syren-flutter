@@ -7,13 +7,13 @@ class ImageCaptionCard extends StatelessWidget {
       required this.imageLocation,
       required this.icon,
       required this.title,
-      required this.description,
+      this.description,
       this.tap});
 
   final String imageLocation;
   final IconData icon;
   final String title;
-  final String description;
+  final String? description;
   final VoidCallback? tap;
 
   @override
@@ -72,22 +72,135 @@ class ImageCaptionCard extends StatelessWidget {
                           const SizedBox(
                             height: 5,
                           ),
-                          Text(
-                            description,
-                            textAlign: TextAlign.center,
-                            maxLines: 3,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.normal,
-                              color: Palette.white,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            softWrap: true,
-                          ),
+                          description == null
+                              ? const SizedBox()
+                              : Text(
+                                  description!,
+                                  textAlign: TextAlign.center,
+                                  maxLines: 3,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.normal,
+                                    color: Palette.white,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                ),
                         ],
                       )),
                 ) //
               ],
             )));
+  }
+}
+
+class MedicationCard extends StatelessWidget {
+  const MedicationCard(
+      {super.key,
+      this.imageLocation,
+      this.title,
+      this.pills,
+      this.time,
+      this.daysLeft,
+      this.when});
+  final String? imageLocation;
+  final String? title;
+  final String? pills;
+  final String? time;
+  final String? daysLeft;
+  final String? when;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+        elevation: 3,
+        shadowColor: Palette.secondary,
+        color: Palette.white,
+        child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(children: [
+              const SizedBox(
+                width: 10,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title!,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    children: [
+                      Text(pills!),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(when!)
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(time!),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Icon(
+                        Icons.alarm,
+                        size: 15,
+                      ),
+                      Text('Days left: $daysLeft')
+                    ],
+                  )
+                ],
+              )
+            ])));
+    // return DecoratedBox(
+    //   decoration: BoxDecoration(
+    //       borderRadius: BorderRadius.circular(15), color: Palette.primary),
+    //   child: Padding(padding: const EdgeInsets.symmetric()),
+    // );
+  }
+}
+
+class JumbotronCard extends StatelessWidget {
+  const JumbotronCard(
+      {super.key, required this.image, required this.caption, this.icon});
+
+  final String image;
+  final String caption;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Image.asset(
+            image,
+            height: 200,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+        ),
+        Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              alignment: Alignment.centerLeft,
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Colors.black.withOpacity(0.3)),
+              child: Text(
+                caption,
+                style: const TextStyle(color: Palette.white),
+              ),
+            ))
+      ],
+    );
   }
 }

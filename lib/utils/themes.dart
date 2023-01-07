@@ -6,7 +6,7 @@ import 'palette.dart';
 
 ThemeData theme() {
   return ThemeData(
-      scaffoldBackgroundColor: Colors.white,
+      scaffoldBackgroundColor: Palette.dimWhite,
       primarySwatch: Palette.buildMaterialColor(Palette.primary),
       primaryColor: Palette.primary,
       fontFamily: GoogleFonts.poppins().fontFamily,
@@ -15,12 +15,13 @@ ThemeData theme() {
       textTheme: textTheme(),
       inputDecorationTheme: inputDecorationTheme(),
       elevatedButtonTheme: elevatedButtonTheme(),
-      unselectedWidgetColor: iPrimaryColor);
+      unselectedWidgetColor: Palette.primary,
+      bottomNavigationBarTheme: bottomNavigationBarTheme());
 }
 
 final darkTheme = ThemeData(
     scaffoldBackgroundColor: Colors.white,
-    primaryColor: iPrimaryColor,
+    primaryColor: Palette.primary,
     fontFamily: 'Century Gothic',
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textTheme: textTheme(),
@@ -93,12 +94,32 @@ TextTheme textTheme() {
 AppBarTheme appBarTheme() {
   return const AppBarTheme(
     centerTitle: true,
+    titleTextStyle: TextStyle(fontSize: 18),
     elevation: 0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         bottom: Radius.circular(defaultBorderRadius),
       ),
     ),
+  );
+}
+
+// BottomNavigationBar Themes.
+BottomNavigationBarThemeData bottomNavigationBarTheme() {
+  return const BottomNavigationBarThemeData(
+    backgroundColor: Palette.white,
+    type: BottomNavigationBarType.fixed,
+    elevation: 10,
+    selectedItemColor: Palette.primary,
+    unselectedItemColor: Colors.grey,
+    selectedLabelStyle: TextStyle(
+        color: Palette.primary, fontWeight: FontWeight.w400, fontSize: 11),
+    unselectedLabelStyle: TextStyle(
+        color: Colors.grey, fontWeight: FontWeight.w400, fontSize: 11),
+    showUnselectedLabels: true,
+    // selectedIconTheme:
+    //     const IconThemeData(color: Color.fromRGBO(254, 0, 0, 1)),
+    // unselectedIconTheme: const IconThemeData(color: Colors.grey),
   );
 }
 

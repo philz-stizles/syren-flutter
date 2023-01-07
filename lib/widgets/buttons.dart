@@ -10,19 +10,23 @@ class PrimaryButton extends StatelessWidget {
       {Key? key,
       this.disabled = false,
       this.loading = false,
+      this.outlined = false,
       required this.title,
       required this.press,
       this.color,
       this.expanded = true,
-      this.size = ButtonSize.large})
+      this.size = ButtonSize.large,
+      this.icon})
       : super(key: key);
 
   final Color? color;
   final bool loading;
   final bool disabled;
+  final bool outlined;
   final bool expanded;
   final ButtonSize size;
   final String title;
+  final IconData? icon;
   final VoidCallback press;
 
   @override
@@ -30,33 +34,100 @@ class PrimaryButton extends StatelessWidget {
     return SizedBox(
       width: expanded ? double.infinity : null,
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            padding: EdgeInsets.symmetric(
-                vertical: size == ButtonSize.large ? 18 : 8,
-                horizontal: size == ButtonSize.large ? 15 : 15)),
-        onPressed: disabled ? null : press,
-        child: loading
-            ? Center(
-                child: SpinKitThreeBounce(
-                  size: 20,
-                  itemBuilder: (BuildContext context, int index) {
-                    return DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.white,
+          style: ElevatedButton.styleFrom(
+              side: BorderSide(
+                  color: outlined ? Palette.secondary : Colors.transparent,
+                  width: outlined ? 1 : 0),
+              //shadowColor: outlined ? null : Palette.primary,
+              elevation: outlined ? 0 : null,
+              backgroundColor: outlined ? Palette.white : null,
+              padding: EdgeInsets.symmetric(
+                  vertical: size == ButtonSize.large ? 18 : 8,
+                  horizontal: size == ButtonSize.large ? 15 : 15)),
+          onPressed: disabled ? null : press,
+          child: loading
+              ? Center(
+                  child: SpinKitThreeBounce(
+                    size: 20,
+                    itemBuilder: (BuildContext context, int index) {
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.white,
+                        ),
+                      );
+                    },
+                  ),
+                )
+              : Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: outlined ? Palette.secondary : Palette.white,
                       ),
-                    );
-                  },
-                ),
-              )
-            : Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  color: Palette.white,
-                ),
-              ),
+                    ),
+                    ...icon == null
+                        ? [const SizedBox()]
+                        : [
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Icon(
+                              icon,
+                              size: 20,
+                            )
+                          ]
+                  ],
+                )),
+    );
+  }
+}
+
+class TextIconButton extends StatelessWidget {
+  const TextIconButton({
+    Key? key,
+    this.disabled = false,
+    this.loading = false,
+    this.color,
+    this.leadingIcon,
+    this.trailingIcon,
+    this.fontWeight = FontWeight.bold,
+    required this.label,
+    required this.onPress,
+  }) : super(key: key);
+
+  final Color? color;
+  final bool loading;
+  final bool disabled;
+  final String label;
+  final IconData? leadingIcon;
+  final IconData? trailingIcon;
+  final VoidCallback onPress;
+  final FontWeight fontWeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPress,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          children: [
+            leadingIcon == null ? const SizedBox() : Icon(leadingIcon),
+            SizedBox(width: leadingIcon == null ? 0 : 10),
+            Text(
+              label,
+              style: TextStyle(fontWeight: fontWeight, fontSize: 12),
+            ),
+            SizedBox(width: trailingIcon == null ? 0 : 10),
+            trailingIcon == null ? const SizedBox() : Icon(trailingIcon)
+          ],
+        ),
       ),
     );
   }

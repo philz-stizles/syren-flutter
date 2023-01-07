@@ -1,9 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:syren/pages.dart';
+import 'package:syren/initial_binding.dart';
+import 'package:syren/screens/home.dart';
+import 'package:syren/utils/palette.dart';
 import 'package:syren/utils/themes.dart';
-import 'package:syren/views/sign_up.dart';
 import 'package:get/get.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -14,10 +20,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Syren',
-      theme: theme(),
-      home: const SignUpScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        initialBinding: InitialBinding(),
+        title: 'Syren',
+        theme: theme(),
+        home: const Home(),
+        // initialRoute: '/signin',
+        getPages: getPages());
   }
 }

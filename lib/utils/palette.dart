@@ -4,8 +4,11 @@ class Palette {
   static const primary = Color(0xFF5072f6);
   static const red = Color(0xFFEB1C24);
   static const grey = Color(0xFF5A5A5A);
+  static const lightGrey = Color(0xFFF3F3F3);
   static const secondary = Color(0xFF1B1C1E);
   static const white = Color(0xFFFFFFFF);
+  static const brown = Color(0xFF5A5A5A);
+  static const dimWhite = Color(0xFFF9F9F9);
 
   static MaterialColor buildMaterialColor(Color color) {
     List strengths = <double>[.05];

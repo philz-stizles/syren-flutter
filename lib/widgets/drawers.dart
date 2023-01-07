@@ -1,19 +1,61 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:syren/providers/auth_provider.dart';
+import 'package:syren/screens/signin/signin_view.dart';
 import 'package:syren/utils/palette.dart';
+import 'package:syren/widgets/widgets.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
+  AppDrawer({super.key});
+
+  var authProvider = Get.put(AuthProvider());
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
+        child: SafeArea(
+            child: Padding(
+      padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
       child: Column(children: [
-        AppBar(
-          title: const Text('MENU'),
-          automaticallyImplyLeading:
-              false, // This means a back button should not be added
-          // to the Appbar, since we are using it in the Drawer
+        DecoratedBox(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15), color: Palette.primary),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+            child: Row(
+              children: [
+                const CircleAvatar(),
+                const SizedBox(
+                  width: 10,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    Text(
+                      'Theophilus',
+                      style: TextStyle(color: Palette.white),
+                    ),
+                    Text('User ID', style: TextStyle(color: Palette.white))
+                  ],
+                )
+              ],
+            ),
+          ),
         ),
+        const SizedBox(
+          height: 10,
+        ),
+        ListTile(
+          leading: const Icon(
+            Icons.person,
+            color: Palette.secondary,
+          ),
+          // contentPadding: const EdgeInsets.symmetric(vertical: 0),
+          title: const Text('Profile'),
+          onTap: () => {}, // Remember to use
+          // pushReplacementNamed() so you dont keep pushing screens on the stack(PERFORMANCE!!!)
+        ),
+        const Divider(),
         ListTile(
           leading: const Icon(
             Icons.people,
@@ -44,17 +86,20 @@ class AppDrawer extends StatelessWidget {
         ),
         const Divider(),
         ListTile(
-          leading: const Icon(Icons.person),
-          title: const Text('Profile'),
-          onTap: () {},
-        ),
-        const Divider(),
-        ListTile(
           leading: const Icon(Icons.settings),
           title: const Text('Settings'),
           onTap: () {},
         ),
+        const SizedBox(
+          height: 30,
+        ),
+        PrimaryButton(
+            title: 'Sign Out',
+            press: () async {
+              await authProvider.signOut();
+              Get.offAllNamed(SignInView.routeName);
+            })
       ]),
-    );
+    )));
   }
 }

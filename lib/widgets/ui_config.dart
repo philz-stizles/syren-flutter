@@ -1,11 +1,77 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syren/utils/constants.dart';
+import 'package:syren/widgets/widgets.dart';
 
 class UIConfig {
-  static showBottomSheet(child, {isDismissible = true}) async {
+  static showConfirmBottomSheet(
+      {required IconData icon,
+      required String promptText,
+      String cancelText = 'Cancel',
+      String confirmText = 'Confirm',
+      required VoidCallback onConfirmPress,
+      bool isDismissible = true}) async {
+    Get.bottomSheet(
+      Wrap(
+        alignment: WrapAlignment.center,
+        children: [
+          Padding(
+              padding: const EdgeInsets.fromLTRB(20, 30.0, 20, 20),
+              child: Column(
+                children: [
+                  Icon(
+                    icon,
+                    size: 30,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    promptText,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: PrimaryButton(
+                              outlined: true,
+                              title: cancelText,
+                              press: () {
+                                Get.back();
+                              })),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                          child: PrimaryButton(
+                              title: confirmText, press: onConfirmPress))
+                    ],
+                  )
+                ],
+              ))
+        ],
+      ),
+      backgroundColor: Colors.white,
+      enableDrag: true,
+      isScrollControlled: true,
+      isDismissible: isDismissible,
+      useRootNavigator: true,
+      barrierColor: Colors.black.withOpacity(0.6),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(13),
+            topRight: Radius.circular(13),
+            bottomLeft: Radius.zero,
+            bottomRight: Radius.zero),
+      ),
+    );
+  }
+
+  static showBottomSheet(Widget child, {isDismissible = true}) async {
     Get.bottomSheet(
       Wrap(
         alignment: WrapAlignment.center,
@@ -116,7 +182,7 @@ class UIConfig {
               style: OutlinedButton.styleFrom(
                 fixedSize: const Size(100, 45),
               ),
-              child: Text(
+              child: const Text(
                 'Cancel',
                 // style: AppTextStyles.defaultStyle.copyWith(
                 //     fontSize: 14,
@@ -158,12 +224,12 @@ class UIConfig {
       onConfirm,
       barrierDismissible = true}) async {
     await Get.defaultDialog(
-      radius: defaultBorderRadius,
+      radius: secondaryBorderRadius,
       barrierDismissible: barrierDismissible,
-      contentPadding: EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
+      contentPadding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 20.0),
       titlePadding: const EdgeInsets.all(0),
       title: '',
-      titleStyle: TextStyle(height: 0),
+      titleStyle: const TextStyle(height: 0),
       content: SingleChildScrollView(
         child: content,
       ),
@@ -221,7 +287,7 @@ class UIConfig {
                   style: OutlinedButton.styleFrom(
                     fixedSize: const Size(100, 45),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Decline',
                     // style: AppTextStyles.defaultStyle.copyWith(
                     //     fontSize: 16,
