@@ -80,6 +80,8 @@ class PrimaryButton extends StatelessWidget {
                             Icon(
                               icon,
                               size: 20,
+                              color:
+                                  outlined ? Palette.secondary : Palette.white,
                             )
                           ]
                   ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syren/utils/constants.dart';
 import 'package:syren/utils/enums.dart';
+import 'package:syren/utils/palette.dart';
 import 'package:syren/widgets/widgets.dart';
 
 import 'urgent_care_controller.dart';
@@ -36,12 +37,26 @@ class UrgentCareView extends GetView<UrgentCareController> {
                 height: 10,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.car_rental),
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        color: Palette.primary
+                        // border: Border.all(width: 2, color: Colors.white)
+                        ),
+                    child: const Icon(
+                      Icons.car_rental,
+                      color: Palette.white,
+                    ),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
-                  Column(
+                  Flexible(
+                      child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: const [
                       Text(
@@ -53,22 +68,25 @@ class UrgentCareView extends GetView<UrgentCareController> {
                       ),
                       Text(
                         'Give us a call or send us a message regarding your current situation',
-                        softWrap: true,
-                        overflow: TextOverflow.visible,
-                        maxLines: 3,
-                      )
+                        // softWrap: false,
+                        // overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        textAlign: TextAlign.start,
+                      ),
                     ],
-                  )
+                  ))
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   PrimaryButton(
                     outlined: true,
                     title: 'Call',
+                    icon: Icons.phone,
                     press: () => controller.callNumber(),
                     expanded: false,
                   ),
@@ -77,6 +95,7 @@ class UrgentCareView extends GetView<UrgentCareController> {
                   ),
                   PrimaryButton(
                     title: 'Message',
+                    icon: Icons.message,
                     press: () {},
                     expanded: false,
                   )

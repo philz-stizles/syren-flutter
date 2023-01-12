@@ -149,7 +149,7 @@ class BloodSugarView extends GetView<BloodSugarController> {
   }
 
   List<Widget> buildResults(List<BloodSugarModel> bps) {
-    BloodSugarModel bp = bps[0];
+    BloodSugarModel? bp = bps.isNotEmpty ? bps[0] : null;
     BloodSugarModel? previousBp = bps.length > 1 ? bps[1] : null;
 
     return [
@@ -165,41 +165,45 @@ class BloodSugarView extends GetView<BloodSugarController> {
                             ? MainAxisAlignment.start
                             : MainAxisAlignment.center,
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Palette.brown),
-                              borderRadius:
-                                  BorderRadius.circular(mediumBorderRadius),
-                            ),
-                            padding: const EdgeInsets.all(15),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text('Present Blood Sugar',
-                                      style: TextStyle(
-                                          fontSize: 12, color: Palette.brown)),
-                                  const SizedBox(
-                                    height: 10,
+                          previousBp == null
+                              ? const SizedBox()
+                              : Container(
+                                  margin: const EdgeInsets.only(bottom: 10),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Palette.brown),
+                                    borderRadius: BorderRadius.circular(
+                                        mediumBorderRadius),
                                   ),
-                                  RichText(
-                                    text: TextSpan(
-                                        text: '${bp.fasting}',
-                                        style: const TextStyle(
-                                            fontSize: 18,
-                                            color: Palette.brown,
-                                            fontWeight: FontWeight.bold),
-                                        children: const [
-                                          TextSpan(
-                                            text: 'mg/dL',
+                                  padding: const EdgeInsets.all(15),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Text('Present Blood Sugar',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                color: Palette.brown),
-                                          )
-                                        ]),
-                                  )
-                                ]),
-                          ),
+                                                color: Palette.brown)),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                        RichText(
+                                          text: TextSpan(
+                                              text: '${bp?.fasting}',
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  color: Palette.brown,
+                                                  fontWeight: FontWeight.bold),
+                                              children: const [
+                                                TextSpan(
+                                                  text: 'mg/dL',
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      color: Palette.brown),
+                                                )
+                                              ]),
+                                        )
+                                      ]),
+                                ),
                           SizedBox(
                             width: previousBp == null ? 0 : 10,
                           ),

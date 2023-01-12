@@ -1,19 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syren/models/models.dart';
 
 class UserService extends GetxService {
-  final FirebaseFirestore? firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  String? userId;
 
-  // Future<UserService> init() async {
-  //   _firestore = FirebaseFirestore.instance;
-  //   return this;
-  // }
+  @override
+  void onInit() {
+    userId = auth.currentUser!.uid;
+    super.onInit();
+  }
 
   Future<bool> create(UserModel user) async {
     try {
-      await firestore!.collection('users').doc().set(user.toJson());
+      await firestore.collection('users').doc(user.id).set(user.toJson());
       return true;
     } catch (e) {
       debugPrintStack();
@@ -21,13 +25,26 @@ class UserService extends GetxService {
     }
   }
 
-  Future<UserModel?> getUser(String uId) async {
+  Future<UserModel?> getUser() async {
     try {
-      DocumentSnapshot doc =
-          await firestore!.collection('users').doc(uId).get();
-      return UserModel.fromDocumentSnapshot(doc);
+      DocumentSnapshot<Map<String, dynamic>> doc =
+          await firestore.collection('users').doc(userId).get();
+      Map<String, dynamic>? docData = doc.data();
+      return UserModel.fromDocumentSnapshot(doc, docData);
     } catch (e) {
       rethrow;
     }
   }
+
+  // Stream<List<BloodPressureModel>> stream() {
+  //   return firestore!
+  //       .collection('users')
+  //       .doc(userId).get()
+  //       .snapshots()
+  //       .map((QuerySnapshot query) {
+  //     return query.docs
+  //         .map((e) => BloodPressureModel.fromDocumentSnapshot(e))
+  //         .toList();
+  //   });
+  // }
 }

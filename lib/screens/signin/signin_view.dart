@@ -42,7 +42,7 @@ class SignInView extends GetView<SignInController> {
                     AppTextField(
                       labelText: 'Email Address',
                       hintText: 'Enter your email address',
-                      editingCtrl: controller.emailController,
+                      editingCtrl: controller.emailCtrl,
                     ),
                     AppPasswordField(
                       labelText: 'Password',

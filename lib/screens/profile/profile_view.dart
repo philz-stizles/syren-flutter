@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syren/models/models.dart';
 import 'package:syren/screens/profile/medical_record_edit/medical_record_edit_view.dart';
 import 'package:syren/screens/profile/profile_edit/profile_edit_view.dart';
 import 'package:syren/utils/constants.dart';
@@ -11,12 +12,10 @@ import 'profile_controller.dart';
 class ProfileView extends GetView<ProfileController> {
   ProfileView({super.key});
   static String routeName = "/profile";
-  var isProfileSelected = true.obs;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Palette.dimWhite,
       appBar:
           AppBar(automaticallyImplyLeading: true, title: const Text('Profile')),
       body: Obx(() => SingleChildScrollView(
@@ -70,10 +69,10 @@ class ProfileView extends GetView<ProfileController> {
                   children: [
                     Expanded(
                         child: PrimaryButton(
-                      outlined: !isProfileSelected.value,
+                      outlined: !controller.isProfileSelected.value,
                       title: 'Profile',
                       press: (() {
-                        isProfileSelected.value = true;
+                        controller.isProfileSelected.value = true;
                       }),
                       expanded: false,
                     )),
@@ -83,9 +82,9 @@ class ProfileView extends GetView<ProfileController> {
                     Expanded(
                         child: PrimaryButton(
                       title: 'Medical Records',
-                      outlined: isProfileSelected.value,
+                      outlined: controller.isProfileSelected.value,
                       press: (() {
-                        isProfileSelected.value = false;
+                        controller.isProfileSelected.value = false;
                       }),
                       expanded: false,
                     ))
@@ -99,13 +98,13 @@ class ProfileView extends GetView<ProfileController> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                        isProfileSelected.value
+                        controller.isProfileSelected.value
                             ? 'Personal Information'
                             : 'Medical Information',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14)),
                     GestureDetector(
-                      onTap: () => isProfileSelected.value
+                      onTap: () => controller.isProfileSelected.value
                           ? Get.toNamed(ProfileEditView.routeName)
                           : Get.toNamed(MedicalRecordEditView.routeName),
                       child: Row(
@@ -121,9 +120,9 @@ class ProfileView extends GetView<ProfileController> {
                 const SizedBox(
                   height: 20,
                 ),
-                ...isProfileSelected.value
-                    ? _buildProfile()
-                    : _buildMedicalRecords(),
+                ...controller.isProfileSelected.value
+                    ? _buildProfile(controller.userCtrl.user)
+                    : _buildMedicalRecords(controller.userCtrl.user),
                 const SizedBox(
                   height: 10,
                 ),
@@ -140,7 +139,7 @@ class ProfileView extends GetView<ProfileController> {
                         icon: Icons.logout,
                         promptText:
                             'Are sure you want to sign out\n from this account?',
-                        confirmText: 'Yes, sign out btch',
+                        confirmText: 'Yes, sign out',
                         onConfirmPress: () async {
                           await controller.signOut();
                         },
@@ -153,24 +152,25 @@ class ProfileView extends GetView<ProfileController> {
     );
   }
 
-  List<Widget> _buildProfile() {
+  List<Widget> _buildProfile(UserModel? user) {
     return [
-      _buildInfoItemWidget(name: 'Name', value: 'Theophilus Ighalo'),
+      _buildInfoItemWidget(name: 'Name', value: user?.name),
       _buildInfoItemWidget(name: 'Date of Birth', value: 'September 10, 1996'),
-      _buildInfoItemWidget(name: 'Sex', value: 'Male'),
-      _buildInfoItemWidget(name: 'Religion', value: 'Christian'),
-      _buildInfoItemWidget(name: 'Contact', value: '+234 802 347 6812'),
-      _buildInfoItemWidget(name: 'Email Address', value: 't@gmail.com'),
+      _buildInfoItemWidget(name: 'Sex', value: user?.gender),
+      _buildInfoItemWidget(name: 'Religion', value: user?.religion),
+      _buildInfoItemWidget(name: 'Contact', value: user?.phone),
+      _buildInfoItemWidget(name: 'Email Address', value: user?.email),
     ];
   }
 
-  List<Widget> _buildMedicalRecords() {
+  List<Widget> _buildMedicalRecords(UserModel? user) {
     return [
-      _buildInfoItemWidget(name: 'Allergies', value: 'Nil'),
-      _buildInfoItemWidget(name: 'Medication', value: 'Gelatamine'),
-      _buildInfoItemWidget(name: 'Medical Conditions', value: 'Alzheimers'),
-      _buildInfoItemWidget(name: 'Genotype', value: 'AS'),
-      _buildInfoItemWidget(name: 'Blood Group', value: 'O+ Positive'),
+      _buildInfoItemWidget(name: 'Allergies', value: user?.allergies),
+      _buildInfoItemWidget(name: 'Medication', value: user?.medications),
+      _buildInfoItemWidget(
+          name: 'Medical Conditions', value: user?.medicalConditions),
+      _buildInfoItemWidget(name: 'Genotype', value: user?.genoType),
+      _buildInfoItemWidget(name: 'Blood Group', value: user?.bloodGroup),
       const SizedBox(
         height: 65,
       ),

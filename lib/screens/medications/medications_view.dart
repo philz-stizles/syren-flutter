@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syren/data.dart';
 import 'package:syren/screens/add_medication/add_medication_view.dart';
-import 'package:syren/screens/settings/settings_view.dart';
 import 'package:syren/utils/constants.dart';
-import 'package:syren/widgets/navigation_bar.dart';
 import 'package:syren/widgets/widgets.dart';
 
 import 'medications_controller.dart';

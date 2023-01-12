@@ -89,8 +89,7 @@ class ProfileEditController extends GetxController {
           genoType: genoTypeCtrl.text.trim(),
           bloodGroup: bloodGroupCtrl.text.trim());
       debugPrint(userModel.toJson().toString());
-      await authProvider.signUp(
-          userModel: userModel, password: passwordCtrl.text.trim());
+
       UIConfig.showSnackBar(
           message: 'Signup was successful', backgroundColor: Colors.green);
     } catch (e) {

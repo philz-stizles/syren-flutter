@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:syren/screens/signin/signin_view.dart';
 import 'package:get/get.dart';
 import 'package:syren/screens/signup/signup_controller.dart';
@@ -42,26 +43,39 @@ class SignUpView extends GetView<SignUpController> {
                       hintText: 'Enter your name',
                       editingCtrl: controller.nameCtrl,
                     ),
-                    DropdownSelectField(
-                      labelText: 'Gender',
-                      editingCtrl: controller.genderCtrl,
-                      options: controller.genderTypes,
-                      onChanged: (String? val) {
-                        controller.genderCtrl.text = val!;
-                        controller.genderDropdownValue.value = val;
-                      },
-                      dropdownValue: controller.genderDropdownValue.value,
-                    ),
-                    DropdownSelectField(
-                      labelText: 'Religion',
-                      editingCtrl: controller.religionCtrl,
-                      options: controller.religionTypes,
-                      onChanged: (String? val) {
-                        controller.religionCtrl.text = val!;
-                        controller.religionDropdownValue.value = val;
-                      },
-                      dropdownValue: controller.religionDropdownValue.value,
-                      // initialValue: 'Christian',
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: DropdownSelectField(
+                            labelText: 'Gender',
+                            editingCtrl: controller.genderCtrl,
+                            options: controller.genderTypes,
+                            onChanged: (String? val) {
+                              controller.genderCtrl.text = val!;
+                              controller.genderDropdownValue.value = val;
+                            },
+                            dropdownValue: controller.genderDropdownValue.value,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: DropdownSelectField(
+                            labelText: 'Religion',
+                            editingCtrl: controller.religionCtrl,
+                            options: controller.religionTypes,
+                            onChanged: (String? val) {
+                              controller.religionCtrl.text = val!;
+                              controller.religionDropdownValue.value = val;
+                            },
+                            dropdownValue:
+                                controller.religionDropdownValue.value,
+                            // initialValue: 'Christian',
+                          ),
+                        )
+                      ],
                     ),
                     AppTextField(
                       type: TextInputType.number,
@@ -73,6 +87,27 @@ class SignUpView extends GetView<SignUpController> {
                       labelText: 'Email Address',
                       hintText: 'Enter your email address',
                       editingCtrl: controller.emailCtrl,
+                    ),
+                    DateInputField(
+                      labelText: 'Date of Birth',
+                      icon: Icons.calendar_month,
+                      iconTap: () async {
+                        DateTime? newDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now());
+                        if (newDate == null) {
+                          return;
+                        } else {
+                          controller.dobCtrl.text =
+                              DateFormat('y/MM/dd').format(newDate).toString();
+                        }
+                      },
+                      hintText: DateFormat('y/MM/dd')
+                          .format(DateTime.now())
+                          .toString(),
+                      editingCtrl: controller.dobCtrl,
                     ),
                     AppPasswordField(
                       labelText: 'Password',

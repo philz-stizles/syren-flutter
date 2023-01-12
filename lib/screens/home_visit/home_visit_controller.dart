@@ -16,11 +16,6 @@ class HomeVisitController extends GetxController {
   var isLoadingSignIn = false.obs;
 
   @override
-  void onInit() {
-    super.onInit();
-  }
-  
-  @override
   void onClose() {
     systolicController.dispose();
     diastolicController.dispose();
@@ -31,13 +26,13 @@ class HomeVisitController extends GetxController {
     try {
       isLoadingSignIn(true);
       await authProvider.signIn(
-        email: systolicController.text.trim(), 
-        password: diastolicController.text.trim()
-      );
+          email: systolicController.text.trim(),
+          password: diastolicController.text.trim());
     } on FirebaseAuthException catch (e) {
       debugPrint(e.message);
-      if(e.message != null) {
-        UIConfig.showSnackBar(message: e.message as String, backgroundColor: Colors.red);
+      if (e.message != null) {
+        UIConfig.showSnackBar(
+            message: e.message as String, backgroundColor: Colors.red);
       }
     } finally {
       isLoadingSignIn(false);

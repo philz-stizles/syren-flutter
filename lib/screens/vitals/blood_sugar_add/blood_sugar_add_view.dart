@@ -58,6 +58,7 @@ class BloodSugarAddView extends GetView<BloodSugarAddController> {
                                     'Are you sure you want to save these\n blood sugar vitals?',
                                 onConfirmPress: () async {
                                   Get.back();
+                                  FocusManager.instance.primaryFocus?.unfocus();
                                   await controller.saveBp();
                                 });
                           }

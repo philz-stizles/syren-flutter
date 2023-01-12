@@ -7,7 +7,7 @@ import 'clinic_appointment_controller.dart';
 
 class ClinicAppointmentView extends GetView<ClinicAppointmentController> {
   ClinicAppointmentView({super.key});
-
+  static String routeName = '/clinic-appointment';
   final bpFormKey = GlobalKey<FormState>();
 
   @override

@@ -19,14 +19,21 @@ ThemeData theme() {
       bottomNavigationBarTheme: bottomNavigationBarTheme());
 }
 
-final darkTheme = ThemeData(
-    scaffoldBackgroundColor: Colors.white,
-    primaryColor: Palette.primary,
-    fontFamily: 'Century Gothic',
-    visualDensity: VisualDensity.adaptivePlatformDensity,
-    textTheme: textTheme(),
-    inputDecorationTheme: inputDecorationTheme(),
-    elevatedButtonTheme: elevatedButtonTheme());
+ThemeData darkTheme() {
+  return ThemeData(
+      scaffoldBackgroundColor: Palette.dimWhite,
+      brightness: Brightness.dark,
+      primarySwatch: Palette.buildMaterialColor(Palette.primary),
+      primaryColor: Palette.primary,
+      fontFamily: GoogleFonts.poppins().fontFamily,
+      visualDensity: VisualDensity.adaptivePlatformDensity,
+      appBarTheme: appBarTheme(),
+      textTheme: textTheme(),
+      inputDecorationTheme: inputDecorationTheme(),
+      elevatedButtonTheme: elevatedButtonTheme(),
+      unselectedWidgetColor: Palette.primary,
+      bottomNavigationBarTheme: bottomNavigationBarTheme());
+}
 
 // Input Themes.
 InputDecorationTheme inputDecorationTheme() {
@@ -134,62 +141,11 @@ ElevatedButtonThemeData elevatedButtonTheme() {
           )));
 }
 
-class MainTheme {
-  static TextStyle body = const TextStyle(
-    fontFamily: 'Century Gothic',
-    fontSize: 14,
-    color: Color.fromRGBO(101, 102, 106, 1),
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w400,
-  );
-
-  static TextStyle hint = const TextStyle(
-    fontFamily: 'Century Gothic',
-    fontSize: 14,
-    color: Color.fromRGBO(101, 102, 106, 1),
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w400,
-  );
-
-  static TextStyle header = const TextStyle(
-    fontFamily: 'Century Gothic',
-    fontSize: 22,
-    color: Color.fromRGBO(10, 10, 10, 1),
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w800,
-  );
-
-  static TextStyle subtitle = const TextStyle(
-    fontFamily: 'Century Gothic',
-    fontSize: 14,
-    color: Color.fromRGBO(56, 56, 56, 1),
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w800,
-  );
-
-  static OutlineInputBorder inputBorder = OutlineInputBorder(
-    borderSide: const BorderSide(
-        color: Colors.transparent, width: 0, style: BorderStyle.none),
-    borderRadius: BorderRadius.circular(3),
-  );
-}
-
 class AppTextStyles {
-  static TextStyle defaultStyle = const TextStyle(
-    fontFamily: 'Century Gothic',
-    fontSize: 14,
-    color: Color.fromRGBO(101, 102, 106, 1),
-    fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w600,
-  );
-  static TextStyle topHeader = GoogleFonts.carroisGothic(
-      fontSize: 22,
-      color: const Color.fromRGBO(10, 10, 10, 1),
-      fontStyle: FontStyle.normal,
-      fontWeight: FontWeight.w800);
-  static TextStyle dialogSubTitle = GoogleFonts.carroisGothic(
-      fontSize: 12,
-      color: const Color.fromRGBO(56, 56, 56, 1),
-      fontStyle: FontStyle.normal,
-      fontWeight: FontWeight.w400);
+  static TextStyle headingStyle = GoogleFonts.poppins(
+      textStyle: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold));
+  static TextStyle subHeadingStyle = GoogleFonts.poppins(
+      textStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold));
+  static TextStyle labelStyle = GoogleFonts.poppins(
+      textStyle: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold));
 }

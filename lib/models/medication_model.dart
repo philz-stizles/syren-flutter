@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class DrugModel {
+class MedicationModel {
   String? id;
   String? imageLocation;
   String? title;
@@ -8,11 +8,8 @@ class DrugModel {
   String? time;
   String? when;
   String? daysLeft;
-  bool? hasAllergies;
-  String? allergies;
-  String? medications;
 
-  DrugModel({
+  MedicationModel({
     this.id,
     this.imageLocation,
     this.title,
@@ -20,12 +17,9 @@ class DrugModel {
     this.time,
     this.when,
     this.daysLeft,
-    this.hasAllergies,
-    this.allergies,
-    this.medications,
   });
 
-  DrugModel.fromJson(Map<String, dynamic> json) {
+  MedicationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     imageLocation = json['imageLocation'];
     title = json['title'];
@@ -33,11 +27,9 @@ class DrugModel {
     time = json['time'];
     when = json['when'];
     daysLeft = json['daysLeft'];
-    hasAllergies = json['hasAllergies'];
-    allergies = json['allergies'];
   }
 
-  DrugModel.fromDocumentSnapshot(DocumentSnapshot doc) {
+  MedicationModel.fromDocumentSnapshot(DocumentSnapshot doc) {
     id = doc.id;
     imageLocation = doc['imageLocation'];
     title = doc['title'];
@@ -53,9 +45,6 @@ class DrugModel {
     data['time'] = time;
     data['when'] = when;
     data['daysLeft'] = daysLeft;
-    data['hasAllergies'] = hasAllergies;
-    data['allergies'] = allergies;
-    data['medications'] = medications;
 
     return data;
   }

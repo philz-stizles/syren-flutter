@@ -4,7 +4,6 @@ import 'package:syren/screens/views.dart';
 import 'package:syren/screens/vitals/vitals_controller.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:get/get.dart';
-import 'package:syren/widgets/navigation_bar.dart';
 
 import '../../utils/constants.dart';
 import '../../utils/enums.dart';
@@ -25,12 +24,13 @@ class DashboardScreen extends StatelessWidget {
             Get.toNamed(ProfileView.routeName);
           },
           child: CircleAvatar(
+              backgroundColor: Colors.transparent,
               child: Image.asset(
-            'assets/images/avatar.png',
-            width: 30,
-            height: 30,
-            fit: BoxFit.cover,
-          )),
+                'assets/images/avatar.png',
+                width: 30,
+                height: 30,
+                fit: BoxFit.cover,
+              )),
         ),
         //       Container(
         //           width: 40,

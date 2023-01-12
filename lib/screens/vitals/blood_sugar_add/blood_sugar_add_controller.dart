@@ -43,7 +43,7 @@ class BloodSugarAddController extends GetxController {
         UIConfig.showSnackBar(
             message: 'Blood Sugar was saved successfully',
             backgroundColor: Colors.green);
-        Get.toNamed(BloodSugarView.routeName);
+        Get.offNamed(BloodSugarView.routeName);
       }
     } on FirebaseAuthException catch (e) {
       debugPrint(e.message);

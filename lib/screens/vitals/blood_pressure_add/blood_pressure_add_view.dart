@@ -59,6 +59,7 @@ class BloodPressureAddView extends GetView<BloodPressureAddController> {
                                     'Are you sure you want to save these\n blood pressure vitals?',
                                 onConfirmPress: () async {
                                   Get.back();
+                                  FocusManager.instance.primaryFocus?.unfocus();
                                   await controller.saveBp();
                                 });
                           }

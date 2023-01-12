@@ -48,12 +48,22 @@ class UserModel {
     bloodGroup = json['bloodGroup'];
   }
 
-  UserModel.fromDocumentSnapshot(DocumentSnapshot doc) {
+  UserModel.fromDocumentSnapshot(
+      DocumentSnapshot doc, Map<String, dynamic>? docData) {
     id = doc.id;
-    name = doc['name'];
-    email = doc['email'];
-    gender = doc['gender'];
-    religion = doc['religion'];
+    name = docData?['name'];
+    email = docData?['email'];
+    gender = docData?['gender'];
+    religion = docData?['religion'];
+    phone = docData?['phone'];
+    dob = docData?['dob'];
+    hasAllergies = docData?['hasAllergies'];
+    allergies = docData?['allergies'];
+    hasMedicalConditions = docData?['hasMedicalConditions'];
+    medications = docData?['medications'];
+    medicalConditions = docData?['medicalConditions'];
+    genoType = docData?['genoType'];
+    bloodGroup = docData?['bloodGroup'];
   }
 
   Map<String, dynamic> toJson() {
@@ -73,4 +83,7 @@ class UserModel {
     data['bloodGroup'] = bloodGroup;
     return data;
   }
+
+  @override
+  String toString() => 'UserModel{id: $id, name: $name, email: $email}';
 }

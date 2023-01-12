@@ -2,3 +2,8 @@ export 'user_model.dart';
 export 'blood_pressure_model.dart';
 export 'blood_sugar_model.dart';
 export 'review_model.dart';
+export 'medication_model.dart';
+export 'drug_model.dart';
+export 'email_model.dart';
+export 'drug_reminder_model.dart';
+export 'vital_reminder_model.dart';

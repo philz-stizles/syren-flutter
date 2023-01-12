@@ -197,10 +197,68 @@ class JumbotronCard extends StatelessWidget {
                   color: Colors.black.withOpacity(0.3)),
               child: Text(
                 caption,
+                maxLines: 2,
                 style: const TextStyle(color: Palette.white),
               ),
             ))
       ],
+    );
+  }
+}
+
+class ReminderCard extends StatelessWidget {
+  const ReminderCard({super.key, this.title, this.note, this.time});
+
+  final String? title;
+  final String? note;
+  final String? time;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Palette.secondary),
+          borderRadius: BorderRadius.circular(10)),
+      padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+      margin: const EdgeInsets.only(bottom: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(
+              children: [
+                Text(
+                  title!,
+                  style: const TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Palette.secondary),
+                ),
+                const Icon(Icons.medication,
+                    size: 20, color: Palette.secondary),
+              ],
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(
+              note!,
+              style: const TextStyle(fontSize: 12, color: Palette.brown),
+            ),
+          ]),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(Icons.alarm, size: 20, color: Palette.secondary),
+              Text(
+                time!,
+                style: const TextStyle(fontSize: 12, color: Palette.secondary),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

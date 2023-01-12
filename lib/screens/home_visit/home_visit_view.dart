@@ -7,6 +7,7 @@ import 'home_visit_controller.dart';
 
 class HomeVisitView extends GetView<HomeVisitController> {
   HomeVisitView({super.key});
+  static String routeName = '/home-visit';
 
   final bpFormKey = GlobalKey<FormState>();
 
@@ -30,38 +31,39 @@ class HomeVisitView extends GetView<HomeVisitController> {
           child: Padding(
             padding: defaultScreenPadding,
             child: Obx(() => Form(
-              key: bpFormKey,
+                key: bpFormKey,
                 child: Column(
-              children: [
-                const FormHeader(
-                  title: 'Input your blood pressure vitals.',
-                  text: 'Sign in to your account',
-                ),
-                AppTextField(
-                  labelText: 'Systolic Pressure',
-                  hintText: 'Input value',
-                  editingCtrl: controller.systolicController,
-                ),
-                AppTextField(
-                  labelText: 'Diastolic Pressure',
-                  hintText: 'Input value',
-                  editingCtrl: controller.diastolicController,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                PrimaryButton(
-                    title: 'Enter Blood Pressure',
-                    loading: controller.isLoadingSignIn.value,
-                    press: () async {
-                    if(bpFormKey.currentState!.validate()) {
-                      await controller.signIn();                    }
-                    }),
-                const SizedBox(
-                  height: 30,
-                ),
-              ],
-            ))),
+                  children: [
+                    const FormHeader(
+                      title: 'Input your blood pressure vitals.',
+                      text: 'Sign in to your account',
+                    ),
+                    AppTextField(
+                      labelText: 'Systolic Pressure',
+                      hintText: 'Input value',
+                      editingCtrl: controller.systolicController,
+                    ),
+                    AppTextField(
+                      labelText: 'Diastolic Pressure',
+                      hintText: 'Input value',
+                      editingCtrl: controller.diastolicController,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    PrimaryButton(
+                        title: 'Enter Blood Pressure',
+                        loading: controller.isLoadingSignIn.value,
+                        press: () async {
+                          if (bpFormKey.currentState!.validate()) {
+                            await controller.signIn();
+                          }
+                        }),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                  ],
+                ))),
           ),
         ));
   }

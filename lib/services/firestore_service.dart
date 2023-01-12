@@ -1,6 +1,6 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-// class FirestoreService {
+class FirestoreService {
 //   // just a simple get
 //   static Future<List<Car>> getAllEntries(String collection) async {
 //     return (await FirebaseFirestore.instance.collection(collection).get())
@@ -55,11 +55,11 @@
 //         .set(data);
 //   }
 
-//   // deletes the entry with the given document id
-//   static Future deleteEntry(String collection, String documentId) async {
-//     await FirebaseFirestore.instance
-//         .collection(collection)
-//         .doc(documentId)
-//         .delete();
-//   }
-// }
+  // deletes the entry with the given document id
+  static Future delete(String collection, String documentId) async {
+    await FirebaseFirestore.instance
+        .collection(collection)
+        .doc(documentId)
+        .delete();
+  }
+}

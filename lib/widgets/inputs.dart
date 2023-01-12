@@ -243,7 +243,7 @@ class SelectField extends StatelessWidget {
 }
 
 class AppTextField extends StatelessWidget {
-  AppTextField({
+  const AppTextField({
     super.key,
     this.labelText,
     this.hintText,
@@ -350,6 +350,91 @@ class AppTextField extends StatelessWidget {
             ),
           ],
         ));
+  }
+}
+
+class DateInputField extends StatelessWidget {
+  const DateInputField({
+    this.formKey,
+    this.hintText,
+    super.key,
+    this.icon,
+    this.editingCtrl,
+    this.validator,
+    this.iconTap,
+    this.labelText,
+    this.fontWeight = FontWeight.w700,
+  });
+  final GlobalKey<FormState>? formKey;
+  final String? hintText;
+  final String? labelText;
+  final FontWeight fontWeight;
+  final IconData? icon;
+  final VoidCallback? iconTap;
+  final TextEditingController? editingCtrl;
+  final FormFieldValidator<String>? validator;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            labelText!,
+            style: TextStyle(
+                fontSize: 12, fontWeight: fontWeight, color: Palette.secondary),
+          ),
+          SizedBox(
+            height: labelText == null ? 0 : 5,
+          ),
+          TextFormField(
+            readOnly: true,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            style: const TextStyle(fontSize: 14),
+            controller: editingCtrl,
+            decoration: InputDecoration(
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Color(0xFEFE0000),
+                  width: 1, // width: 0
+                ),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Color(0xFEFE0000),
+                  width: 1, // width: 0
+                ),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              hintText: hintText,
+              suffixIcon: icon == null
+                  ? null
+                  : GestureDetector(
+                      onTap: iconTap,
+                      child: Icon(
+                        icon,
+                        color: Palette.secondary,
+                      )),
+              // suffixIcon: GestureDetector(
+              //     onTap: () {
+              //       isObscure.value = !isObscure.value;
+              //     },
+              //     child: Icon(isObscure.value
+              //         ? Icons.visibility_off
+              //         : Icons.visibility)),
+            ),
+            // validator: (val) {
+            //   if (val == null || val.isEmpty) {
+            //     isError.value = true;
+            //     return "Please provide a valid ${hintText?.toLowerCase()}";
+            //   } else {
+            //     isError.value = false;
+            //     return null;
+            //   }
+            // },
+          )
+        ]));
   }
 }
 
@@ -635,7 +720,7 @@ class BottomSheetSelectField extends StatelessWidget {
 }
 
 class DropdownSelectField extends StatelessWidget {
-  DropdownSelectField(
+  const DropdownSelectField(
       {super.key,
       required this.editingCtrl,
       required this.options,

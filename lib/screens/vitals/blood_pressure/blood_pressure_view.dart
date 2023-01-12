@@ -103,38 +103,40 @@ class BloodPressureView extends GetView<BloodPressureController> {
                     const SizedBox(
                       height: 20,
                     ),
-                    ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: bps.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          // print(bpCtrl.bps[index].id);
-                          final bp = bps[index];
-                          return Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Palette.brown),
-                              borderRadius:
-                                  BorderRadius.circular(mediumBorderRadius),
-                            ),
-                            padding: const EdgeInsets.all(15),
-                            child: Column(children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(DateFormat('MMM d')
-                                      .format(bp.timeStamp.toDate())),
-                                  const Icon(Icons.wb_cloudy_outlined),
-                                  Text(bp.systolicDisplay),
-                                  Text(bp.diastolicDisplay)
-                                ],
+                    SingleChildScrollView(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: bps.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            // print(bpCtrl.bps[index].id);
+                            final bp = bps[index];
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Palette.brown),
+                                borderRadius:
+                                    BorderRadius.circular(mediumBorderRadius),
                               ),
-                              Row(
-                                children: const [],
-                              )
-                            ]),
-                          );
-                        })
+                              padding: const EdgeInsets.all(15),
+                              child: Column(children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(DateFormat('MMM d')
+                                        .format(bp.timeStamp.toDate())),
+                                    const Icon(Icons.wb_cloudy_outlined),
+                                    Text(bp.systolicDisplay),
+                                    Text(bp.diastolicDisplay)
+                                  ],
+                                ),
+                                Row(
+                                  children: const [],
+                                )
+                              ]),
+                            );
+                          }),
+                    )
                   ],
                 )),
       const SizedBox(
@@ -149,8 +151,8 @@ class BloodPressureView extends GetView<BloodPressureController> {
   }
 
   List<Widget> buildResults(List<BloodPressureModel> bps) {
-    BloodPressureModel bp = bps[0];
-    BloodPressureModel? previousBp = bps[1];
+    BloodPressureModel? bp = bps.isNotEmpty ? bps[0] : null;
+    BloodPressureModel? previousBp = bps.length > 1 ? bps[1] : null;
 
     return [
       Expanded(
@@ -184,7 +186,8 @@ class BloodPressureView extends GetView<BloodPressureController> {
                                   ),
                                   RichText(
                                     text: TextSpan(
-                                        text: '${bp.systolic}/${bp.diastolic}',
+                                        text:
+                                            '${bp?.systolic}/${bp?.diastolic}',
                                         style: const TextStyle(
                                             fontSize: 18,
                                             color: Palette.brown,

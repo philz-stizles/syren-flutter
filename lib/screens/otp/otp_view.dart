@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syren/utils/constants.dart';
 import 'package:syren/utils/palette.dart';
-import 'package:syren/widgets/widgets.dart';
+import 'package:syren/utils/size_config.dart';
 
 import 'otp_controller.dart';
+import 'otp_form.dart';
 
 class OtpView extends GetView<OtpController> {
   OtpView({super.key});
@@ -27,62 +28,53 @@ class OtpView extends GetView<OtpController> {
             ],
           ),
         ),
-        body: SingleChildScrollView(
+        body: SizedBox(
+          width: double.infinity,
           child: Padding(
-            padding: defaultScreenPadding,
-            child: Obx(() => Form(
-                key: loginFormKey,
-                child: Column(
-                  children: [
-                    const FormHeader(
-                      title: 'Welcome back',
-                      text: 'Sign in to your account',
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(20)),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: Get.height * 0.05),
+                  const Text(
+                    "OTP Verification",
+                    style: headingStyle,
+                  ),
+                  const Text("We sent your code to +1 898 860 ***"),
+                  buildTimer(),
+                  const OtpForm(),
+                  SizedBox(height: Get.height * 0.1),
+                  GestureDetector(
+                    onTap: () {
+                      // OTP code resend
+                    },
+                    child: const Text(
+                      "Resend OTP Code",
+                      style: TextStyle(decoration: TextDecoration.underline),
                     ),
-                    AppTextField(
-                      labelText: 'Email Address',
-                      hintText: 'Enter your email address',
-                      editingCtrl: controller.emailController,
-                    ),
-                    AppPasswordField(
-                      labelText: 'Password',
-                      editingCtrl: controller.passwordController,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Get.toNamed('forgot-password');
-                          },
-                          child: const Text(
-                            'Forgot password?',
-                            style:
-                                TextStyle(fontSize: 12, color: Palette.primary),
-                          ),
-                        )
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    PrimaryButton(
-                        title: 'Sign in',
-                        loading: controller.isLoadingOtp.value,
-                        press: () async {
-                          if (loginFormKey.currentState!.validate()) {
-                            await controller.signIn();
-                          }
-                        }),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    AccountCTA(
-                        text: 'Don\'t have an account?',
-                        onTap: () => Get.toNamed('signup'),
-                        linkText: 'Sign up'),
-                  ],
-                ))),
+                  )
+                ],
+              ),
+            ),
           ),
         ));
+  }
+
+  Row buildTimer() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Text("This code will expired in "),
+        TweenAnimationBuilder(
+          tween: Tween(begin: 30.0, end: 0.0),
+          duration: const Duration(seconds: 30),
+          builder: (_, dynamic value, child) => Text(
+            "00:${value.toInt()}",
+            style: const TextStyle(color: Palette.primary),
+          ),
+        ),
+      ],
+    );
   }
 }

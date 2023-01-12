@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +43,7 @@ class BloodPressureAddController extends GetxController {
         UIConfig.showSnackBar(
             message: 'Blood pressure was saved successfully',
             backgroundColor: Colors.green);
-        Get.toNamed(BloodPressureView.routeName);
+        Get.offNamed(BloodPressureView.routeName);
       }
     } on FirebaseAuthException catch (e) {
       debugPrint(e.message);

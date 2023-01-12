@@ -11,9 +11,15 @@ class AuthService extends GetxService {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: userModel.email as String, password: password);
+      userModel.id = userCredential.user?.uid;
+      debugPrint(userModel.toString());
+      debugPrint(userCredential.user?.uid);
+      debugPrint(userModel.id);
       var success = await UserService().create(userModel);
       debugPrint(success.toString());
-      if (success) {}
+      if (success) {
+        // Get.find<UserController>().user = userModel;
+      }
     } on FirebaseAuthException catch (e) {
       debugPrint(e.message);
       rethrow;

@@ -51,3 +51,10 @@ class OtpController extends GetxController {
     }
   }
 }
+
+class OtpBinding implements Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => OtpController());
+  }
+}
