@@ -12,11 +12,7 @@ class AuthService extends GetxService {
           .createUserWithEmailAndPassword(
               email: userModel.email as String, password: password);
       userModel.id = userCredential.user?.uid;
-      debugPrint(userModel.toString());
-      debugPrint(userCredential.user?.uid);
-      debugPrint(userModel.id);
       var success = await UserService().create(userModel);
-      debugPrint(success.toString());
       if (success) {
         // Get.find<UserController>().user = userModel;
       }
@@ -44,7 +40,31 @@ class AuthService extends GetxService {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
 
-  Future changePassword({required String email}) async {}
+  Future<void> changePassword({required String password}) async {
+    try {
+      // Create an instance of the current user.
+      User? user = FirebaseAuth.instance.currentUser;
+
+      //Pass in the password to updatePassword.
+      await user?.updatePassword(password);
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+      rethrow;
+    }
+  }
+
+  Future<void> deleteAccount({required String password}) async {
+    try {
+      // Create an instance of the current user.
+      User? user = FirebaseAuth.instance.currentUser;
+
+      //Pass in the password to updatePassword.
+      await user?.delete();
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+      rethrow;
+    }
+  }
 
   // Future<Response> signIn(Map data) => post('http://youapi/users', data);
   // // Post request with File

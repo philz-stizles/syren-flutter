@@ -16,67 +16,85 @@ class FeedbackView extends GetView<FeedbackController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            automaticallyImplyLeading: true, title: const Text('Feedback')),
-        body: SingleChildScrollView(
-          child: Padding(
+      appBar: AppBar(
+          automaticallyImplyLeading: true, title: const Text('Feedback')),
+      body: SingleChildScrollView(
+        child: Padding(
             padding: defaultScreenPadding,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'kindly rate the App',
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Palette.secondary),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: RatingBar.builder(
-                    itemSize: 30,
-                    initialRating: 0,
-                    minRating: 0,
-                    direction: Axis.horizontal,
-                    allowHalfRating: true,
-                    itemCount: 5,
-                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                    itemBuilder: (context, _) => const Icon(
-                      Icons.star,
-                      color: Colors.amber,
+            child: Obx((() => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    const SizedBox(
+                      height: 10,
                     ),
-                    onRatingUpdate: (rating) {
-                      print(rating);
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                RadioButtonField(
-                    direction: RadioButtonDirection.vertical,
-                    labelText: 'Which category will you like to give feedback?',
-                    options: controller.feedbackCategories),
-                AppTextField(
-                  maxLines: 5,
-                  labelText: 'Send in your feedback here',
-                  hintText: 'Send your feedback',
-                  editingCtrl: controller.confirmCtrl,
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                PrimaryButton(
-                    title: 'Submit',
-                    press: () async {
-                      Get.back();
-                    }),
-              ],
-            ),
-          ),
-        ));
+                    const Text(
+                      'Kindly rate the App',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Palette.secondary),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: RatingBar.builder(
+                        itemSize: 30,
+                        initialRating: controller.rating.value,
+                        minRating: 0,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: const EdgeInsets.only(right: 8),
+                        itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (double rating) {
+                          print(rating);
+                          controller.rating.value = rating;
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    RadioButtonField(
+                      direction: RadioButtonDirection.vertical,
+                      labelText:
+                          'Which category will you like to give feedback?',
+                      options: controller.feedbackCategories,
+                      onChanged: (value) => controller.category.value = value,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    AppTextField(
+                      maxLines: 5,
+                      labelText: 'Send in your feedback here',
+                      hintText: 'Send your feedback',
+                      editingCtrl: controller.messageCtrl,
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    PrimaryButton(
+                        disabled: controller.isSavingFeedback.value,
+                        loading: controller.isSavingFeedback.value,
+                        title: 'Submit',
+                        press: () async {
+                          await controller.saveFeedback();
+                        }),
+                  ],
+                )))),
+      ),
+      bottomNavigationBar: AppBottomNavigationBar(
+          currentIndex: 3,
+          onTap: ((value) {
+            // Get.to(SettingsView());
+          })),
+    );
   }
 }

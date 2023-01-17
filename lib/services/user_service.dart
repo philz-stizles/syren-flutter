@@ -30,21 +30,40 @@ class UserService extends GetxService {
       DocumentSnapshot<Map<String, dynamic>> doc =
           await firestore.collection('users').doc(userId).get();
       Map<String, dynamic>? docData = doc.data();
-      return UserModel.fromDocumentSnapshot(doc, docData);
+      return UserModel.fromDocumentSnapshot(doc.id, docData);
     } catch (e) {
       rethrow;
     }
   }
 
-  // Stream<List<BloodPressureModel>> stream() {
-  //   return firestore!
-  //       .collection('users')
-  //       .doc(userId).get()
-  //       .snapshots()
-  //       .map((QuerySnapshot query) {
-  //     return query.docs
-  //         .map((e) => BloodPressureModel.fromDocumentSnapshot(e))
-  //         .toList();
-  //   });
-  // }
+  Stream<UserModel> getUserStream() {
+    return firestore
+        .collection('users')
+        .doc(userId)
+        .snapshots()
+        .map((snapshot) {
+      return UserModel.fromDocumentSnapshot(snapshot.id, snapshot.data());
+    });
+  }
+
+  // updates an existing entry (missing fields won't be touched on update),
+  // document must exist
+  Future<void> update(Map<String, dynamic> userMap) async {
+    try {
+      await firestore.collection('users').doc(userId).update(userMap);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  // updates an existing entry (missing fields won't be touched on update),
+  // document must exist
+  Future updateByUser(String documentId, BloodPressureModel bp) async {
+    await firestore
+        .collection('users')
+        .doc(userId)
+        .collection('bloodPressures')
+        .doc(documentId)
+        .update(bp.toJson());
+  }
 }

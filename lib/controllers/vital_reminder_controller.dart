@@ -21,7 +21,9 @@ class VitalReminderController extends GetxController {
 
   Future<VitalReminderModel?> addReminder(
       {VitalReminderModel? reminder}) async {
-    return await vitalReminderSrv.insert(reminder);
+    var rem = await vitalReminderSrv.insert(reminder);
+    await getReminders();
+    return rem;
   }
 
   Future<void> getReminders() async {

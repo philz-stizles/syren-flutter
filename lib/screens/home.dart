@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:syren/screens/dashboard/dashboard.dart';
-import 'package:syren/screens/signin/signin_view.dart';
+import 'package:syren/screens/dashboard/dashboard_view.dart';
+import 'package:syren/screens/splash/splash_view.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -20,7 +20,7 @@ class Home extends StatelessWidget {
         } else if (snapshot.hasData) {
           return DashboardScreen();
         } else {
-          return SignInView();
+          return SplashView();
         }
       },
     );

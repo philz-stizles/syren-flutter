@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/models/models.dart';
-import 'package:syren/providers/auth_provider.dart';
+import 'package:syren/controllers/user_controller.dart';
+import 'package:syren/services/services.dart';
 import 'package:syren/widgets/widgets.dart';
 
 class ProfileEditController extends GetxController {
-  var authProvider = Get.put(AuthProvider());
+  // Services.
+  var userSrv = Get.find<UserService>();
+
+  // Controllers.
+  var userCtrl = Get.find<UserController>();
 
   // Data.
   var religionTypes = ['Christian', 'Muslim', 'Other'];
@@ -22,7 +26,7 @@ class ProfileEditController extends GetxController {
   final phoneCtrl = TextEditingController();
   final religionCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
-  final passwordCtrl = TextEditingController();
+  final dobCtrl = TextEditingController();
   final hasAllergiesCtrl = TextEditingController();
   final allergiesCtrl = TextEditingController();
   final medicationsCtrl = TextEditingController();
@@ -32,7 +36,7 @@ class ProfileEditController extends GetxController {
   final bloodGroupCtrl = TextEditingController();
 
   // Observables.
-  var isLoadingSignUp = false.obs;
+  var isLoadingSaveProfile = false.obs;
   var genderDropdownValue = ''.obs;
   var religionDropdownValue = ''.obs;
   var hasAllergiesDropdownValue = ''.obs;
@@ -42,6 +46,10 @@ class ProfileEditController extends GetxController {
 
   @override
   void onInit() {
+    nameCtrl.text = userCtrl.user!.name ?? '';
+    phoneCtrl.text = userCtrl.user!.phone ?? '';
+    emailCtrl.text = userCtrl.user!.email ?? '';
+    dobCtrl.text = userCtrl.user!.dob ?? '';
     genderDropdownValue.value = genderTypes[0];
     genderCtrl.text = genderTypes[0];
     religionDropdownValue.value = religionTypes[0];
@@ -60,7 +68,7 @@ class ProfileEditController extends GetxController {
     religionCtrl.dispose();
     phoneCtrl.dispose();
     emailCtrl.dispose();
-    passwordCtrl.dispose();
+    dobCtrl.dispose();
     hasAllergiesCtrl.dispose();
     allergiesCtrl.dispose();
     medicationsCtrl.dispose();
@@ -71,27 +79,23 @@ class ProfileEditController extends GetxController {
     super.onClose();
   }
 
-  Future<void> signUp() async {
+  Future<void> saveProfile() async {
     try {
-      isLoadingSignUp(true);
-      var userModel = UserModel(
-          email: emailCtrl.text.trim(),
-          name: nameCtrl.text.trim(),
-          gender: genderCtrl.text.trim(),
-          religion: religionCtrl.text.trim(),
-          phone: phoneCtrl.text.trim(),
-          dob: '',
-          hasAllergies: true,
-          allergies: allergiesCtrl.text.trim(),
-          medications: medicationsCtrl.text.trim(),
-          hasMedicalConditions: true,
-          medicalConditions: conditionsCtrl.text.trim(),
-          genoType: genoTypeCtrl.text.trim(),
-          bloodGroup: bloodGroupCtrl.text.trim());
-      debugPrint(userModel.toJson().toString());
+      isLoadingSaveProfile(true);
+      var userMap = {
+        'email': emailCtrl.text.trim(),
+        'name': nameCtrl.text.trim(),
+        'gender': genderCtrl.text.trim(),
+        'religion': religionCtrl.text.trim(),
+        'phone': phoneCtrl.text.trim(),
+        'dob': dobCtrl.text
+      };
+      debugPrint(userMap.toString());
+      await userSrv.update(userMap);
 
       UIConfig.showSnackBar(
-          message: 'Signup was successful', backgroundColor: Colors.green);
+          message: 'Profile updated successfully',
+          backgroundColor: Colors.green);
     } catch (e) {
       // debugPrint(e.message);
       // if (e.message != null) {
@@ -99,7 +103,7 @@ class ProfileEditController extends GetxController {
       //       message: e.message as String, backgroundColor: Colors.red);
       // }
     } finally {
-      isLoadingSignUp(false);
+      isLoadingSaveProfile(false);
     }
   }
 }

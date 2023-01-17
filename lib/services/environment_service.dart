@@ -10,7 +10,7 @@ class EnvironmentService extends GetxService {
       await dotenv.load(fileName: ".env.development");
     }
 
-    debugPrint('Init Environment Service}');
+    debugPrint('Init Environment Service');
     return this;
   }
 }

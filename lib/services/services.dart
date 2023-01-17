@@ -13,3 +13,8 @@ export 'notification_service.dart';
 export 'biometric_service.dart';
 export 'drug_reminder_service.dart';
 export 'vital_reminder_service.dart';
+export 'home_visit_service.dart';
+export 'ambulance_service.dart';
+export 'clinic_appointment_service.dart';
+export 'feedback_service.dart';
+export 'chat_service.dart';

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:syren/utils/constants.dart';
 import 'package:syren/utils/enums.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import 'widgets.dart';
 
@@ -80,6 +82,7 @@ import 'widgets.dart';
 //   }
 // }
 
+// ignore: must_be_immutable
 class AppPasswordField extends StatelessWidget {
   AppPasswordField({
     this.formKey,
@@ -101,19 +104,23 @@ class AppPasswordField extends StatelessWidget {
   final TextEditingController? editingCtrl;
   final FormFieldValidator<String>? validator;
 
-  final isObscure = true.obs;
-  final isError = false.obs;
+  RxBool isObscure = true.obs;
+  RxBool isError = false.obs;
 
   @override
   Widget build(BuildContext context) {
     return Container(
         margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            labelText!,
-            style: TextStyle(
-                fontSize: 12, fontWeight: fontWeight, color: Palette.secondary),
-          ),
+          labelText == null
+              ? const SizedBox()
+              : Text(
+                  labelText!,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: fontWeight,
+                      color: Palette.secondary),
+                ),
           SizedBox(
             height: labelText == null ? 0 : 5,
           ),
@@ -291,7 +298,7 @@ class AppTextField extends StatelessWidget {
                 : Text(
                     labelText!,
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: fontWeight,
                         color: Palette.secondary),
                   ),
@@ -439,41 +446,36 @@ class DateInputField extends StatelessWidget {
 }
 
 class RadioButtonField extends StatelessWidget {
-  const RadioButtonField({
+  RadioButtonField({
     super.key,
     required this.labelText,
+    required this.options,
     this.hintText,
     this.validationText,
-    this.formKey,
-    this.icon,
-    this.editingCtrl,
-    this.validator,
-    this.iconTap,
+    this.onChanged,
     this.descriptionText,
     this.fontWeight = FontWeight.w700,
     this.direction = RadioButtonDirection.horizontal,
     this.isEnabled = true,
-    this.initialValue,
-    required this.options,
+    // this.groupValue,
   });
-  final GlobalKey<FormState>? formKey;
+
   final String? hintText;
   final String labelText;
   final String? validationText;
-  final String? initialValue;
+  // final String? groupValue;
   final String? descriptionText;
   final bool isEnabled;
   final RadioButtonDirection direction;
-  final IconData? icon;
   final FontWeight fontWeight;
-  final VoidCallback? iconTap;
-  final TextEditingController? editingCtrl;
-  final FormFieldValidator<String>? validator;
+  final ValueChanged<String?>? onChanged;
   final List<dynamic> options;
+
+  final groupValue = Rxn<String>();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Obx((() => Container(
         margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -481,9 +483,7 @@ class RadioButtonField extends StatelessWidget {
             Text(
               labelText,
               style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: fontWeight,
-                  color: Palette.secondary),
+                  fontSize: 14, fontWeight: fontWeight, color: Palette.label),
             ),
             SizedBox(
               height: direction == RadioButtonDirection.vertical ? 10 : 5,
@@ -494,10 +494,6 @@ class RadioButtonField extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: Text(
                       descriptionText!,
-                      // style: AppTextStyles.defaultStyle.copyWith(
-                      //     fontSize: 10,
-                      //     fontWeight: FontWeight.w400,
-                      //     color: const Color(0xFFC8CBD5)),
                     ),
                   ),
             direction == RadioButtonDirection.horizontal
@@ -508,30 +504,39 @@ class RadioButtonField extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: _buildOptions())
           ],
-        ));
+        ))));
   }
 
   List<Widget> _buildOptions() {
     return options
         .map(
           (e) => Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Row(children: [
               SizedBox(
-                  height: 15.0,
-                  width: 15.0,
-                  child: Transform.scale(
-                      scale: 0.6,
-                      child: Radio(
-                          value: 1,
-                          groupValue: 'null',
-                          onChanged: (index) {}))),
+                height: 30.0,
+                width: 30.0,
+                child: Transform.scale(
+                    scale: 0.8,
+                    child: Radio(
+                        //fillColor: Palette.midGrey,
+                        materialTapTargetSize: MaterialTapTargetSize.padded,
+                        visualDensity: VisualDensity.adaptivePlatformDensity,
+                        value: e,
+                        groupValue: groupValue.value,
+                        onChanged: (value) {
+                          groupValue.value = value.toString();
+                          if (onChanged != null) {
+                            onChanged!(groupValue.value);
+                          }
+                        })),
+              ),
               const SizedBox(
-                width: 5,
+                width: 10,
               ),
               Text(
                 e,
-                style: const TextStyle(fontSize: 12, color: Palette.secondary),
+                style: const TextStyle(fontSize: 14, color: Palette.secondary),
               ),
               const SizedBox(
                 width: 10,
@@ -747,7 +752,7 @@ class DropdownSelectField extends StatelessWidget {
           Text(
             labelText!,
             style: TextStyle(
-                fontSize: 12, fontWeight: fontWeight, color: Palette.secondary),
+                fontSize: 14, fontWeight: fontWeight, color: Palette.secondary),
           ),
           SizedBox(
             height: labelText == null ? 0 : 5,
@@ -1179,6 +1184,87 @@ class BottomSheetOption extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SelectDateField extends StatelessWidget {
+  SelectDateField(
+      {super.key,
+      required this.label,
+      required this.selectedDay,
+      required this.focusedDay,
+      required this.onDaySelected});
+
+  final String label;
+  DateTime selectedDay;
+  DateTime focusedDay;
+  void Function(DateTime, DateTime)? onDaySelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+              fontSize: 14, fontWeight: FontWeight.bold, color: Palette.label),
+        ),
+        TableCalendar(
+          headerStyle: HeaderStyle(
+              formatButtonVisible: false,
+              leftChevronMargin: const EdgeInsets.all(0),
+              leftChevronPadding:
+                  const EdgeInsets.symmetric(horizontal: 0, vertical: 12.0),
+              leftChevronIcon: DecoratedBox(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(secondaryBorderRadius),
+                    border: Border.all(color: Palette.lightGrey, width: 2.0)),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.chevron_left),
+                ),
+              ),
+              rightChevronMargin: const EdgeInsets.all(0),
+              rightChevronPadding:
+                  const EdgeInsets.symmetric(horizontal: 0, vertical: 12.0),
+              rightChevronIcon: DecoratedBox(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(secondaryBorderRadius),
+                    border: Border.all(color: Palette.lightGrey, width: 2.0)),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(Icons.chevron_right),
+                ),
+              ),
+              titleCentered: true,
+              titleTextStyle:
+                  const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+          calendarStyle: const CalendarStyle(),
+          rowHeight: 42,
+          firstDay: DateTime.now(),
+          lastDay: DateTime.now().add(const Duration(days: 365)),
+          focusedDay: focusedDay,
+          selectedDayPredicate: (day) {
+            return isSameDay(selectedDay, day);
+          },
+          onDaySelected: onDaySelected
+          // calendarFormat: _calendarFormat,
+          // onFormatChanged: (format) {
+          //   setState(() {
+          //     _calendarFormat = format;
+          //   });
+          // },
+          ,
+          // onPageChanged: (currentFocusedDay) {
+          //   focusedDay = currentFocusedDay;
+          // },
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
     );
   }
 }

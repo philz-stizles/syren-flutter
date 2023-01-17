@@ -9,7 +9,7 @@ ThemeData theme() {
       scaffoldBackgroundColor: Palette.dimWhite,
       primarySwatch: Palette.buildMaterialColor(Palette.primary),
       primaryColor: Palette.primary,
-      fontFamily: GoogleFonts.poppins().fontFamily,
+      fontFamily: GoogleFonts.inter().fontFamily,
       visualDensity: VisualDensity.adaptivePlatformDensity,
       appBarTheme: appBarTheme(),
       textTheme: textTheme(),
@@ -45,14 +45,15 @@ InputDecorationTheme inputDecorationTheme() {
 
   OutlineInputBorder outlineInputBorder = OutlineInputBorder(
     borderSide: const BorderSide(
-      color: Palette.secondary,
+      color: Palette.grey,
       width: 1.5,
     ),
     borderRadius: BorderRadius.circular(secondaryBorderRadius),
   );
 
   return InputDecorationTheme(
-    hintStyle: const TextStyle(color: Palette.grey, fontSize: 12),
+    hintStyle: const TextStyle(color: Palette.grey, fontSize: 14),
+    errorStyle: const TextStyle(fontSize: 12),
     contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
     enabledBorder: outlineInputBorder, // bOutlineInputBorder,
     focusedBorder: outlineInputBorder, // bOutlineInputBorder,
@@ -101,7 +102,8 @@ TextTheme textTheme() {
 AppBarTheme appBarTheme() {
   return const AppBarTheme(
     centerTitle: true,
-    titleTextStyle: TextStyle(fontSize: 18),
+    iconTheme: IconThemeData(size: 20, color: Palette.white),
+    titleTextStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
     elevation: 0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
@@ -114,9 +116,9 @@ AppBarTheme appBarTheme() {
 // BottomNavigationBar Themes.
 BottomNavigationBarThemeData bottomNavigationBarTheme() {
   return const BottomNavigationBarThemeData(
-    backgroundColor: Palette.white,
+    backgroundColor: Colors.transparent, // Palette.white,
     type: BottomNavigationBarType.fixed,
-    elevation: 10,
+    elevation: 0, //10,
     selectedItemColor: Palette.primary,
     unselectedItemColor: Colors.grey,
     selectedLabelStyle: TextStyle(

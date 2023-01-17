@@ -8,16 +8,19 @@ class MedicationModel {
   String? time;
   String? when;
   String? daysLeft;
+  String? prescribedBy;
+  late MedicationSource medicationSource;
 
-  MedicationModel({
-    this.id,
-    this.imageLocation,
-    this.title,
-    this.pills,
-    this.time,
-    this.when,
-    this.daysLeft,
-  });
+  MedicationModel(
+      {this.id,
+      this.imageLocation,
+      this.title,
+      this.pills,
+      this.time,
+      this.when,
+      this.daysLeft,
+      this.prescribedBy,
+      this.medicationSource = MedicationSource.prescribed});
 
   MedicationModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -45,7 +48,11 @@ class MedicationModel {
     data['time'] = time;
     data['when'] = when;
     data['daysLeft'] = daysLeft;
+    data['prescribedBy'] = prescribedBy;
+    data['medicationSource'] = medicationSource;
 
     return data;
   }
 }
+
+enum MedicationSource { prescribed, random }

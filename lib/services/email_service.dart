@@ -4,6 +4,7 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:syren/models/models.dart';
+import 'package:syren/templates/email/signup_otp.dart';
 
 class EmailService extends GetxService {
   late SmtpServer smtpServer;
@@ -12,16 +13,17 @@ class EmailService extends GetxService {
     // Note that using a username and password for gmail only works if
     // you have two-factor authentication enabled and created an App password.
     // Search for "gmail app password 2fa. The alternative is to use oauth.
-    // final smtpServer = gmail(username, password);
+    // smtpServer =
+    //   gmail(dotenv.get('GOOGLE_SMTP_USER'), dotenv.get('GOOGLE_SMTP_PASS'));
     smtpServer = SmtpServer(dotenv.get('SMTP_HOST'),
         username: dotenv.get('SMTP_USER'),
         password: dotenv.get('SMTP_PASS'),
         port: int.parse(dotenv.get('SMTP_PORT')));
-    debugPrint('Init Email Service}');
+    debugPrint('Init Email Service');
     return this;
   }
 
-  Future sendMail(EmailModel mail) async {
+  Future sendMail(EmailModel mail, String? template) async {
     // Create message.
     final message = Message()
       ..from = const Address('philzstizles@gmail.com', 'Your name')
@@ -31,7 +33,7 @@ class EmailService extends GetxService {
       ..subject =
           mail.subject // 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
       ..text = mail.message
-      ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+      ..html = template;
 
     try {
       final sendReport = await send(message, smtpServer);

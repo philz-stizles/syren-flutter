@@ -155,7 +155,7 @@ class ProfileView extends GetView<ProfileController> {
   List<Widget> _buildProfile(UserModel? user) {
     return [
       _buildInfoItemWidget(name: 'Name', value: user?.name),
-      _buildInfoItemWidget(name: 'Date of Birth', value: 'September 10, 1996'),
+      _buildInfoItemWidget(name: 'Date of Birth', value: user?.dob),
       _buildInfoItemWidget(name: 'Sex', value: user?.gender),
       _buildInfoItemWidget(name: 'Religion', value: user?.religion),
       _buildInfoItemWidget(name: 'Contact', value: user?.phone),
@@ -165,15 +165,23 @@ class ProfileView extends GetView<ProfileController> {
 
   List<Widget> _buildMedicalRecords(UserModel? user) {
     return [
+      _buildInfoItemWidget(
+          name: 'Has allergies',
+          value: user?.hasAllergies != null && user?.hasAllergies == true
+              ? 'Yes'
+              : 'No'),
       _buildInfoItemWidget(name: 'Allergies', value: user?.allergies),
       _buildInfoItemWidget(name: 'Medication', value: user?.medications),
+      _buildInfoItemWidget(
+          name: 'Has medical conditions',
+          value: user?.hasMedicalConditions != null &&
+                  user?.hasMedicalConditions == true
+              ? 'Yes'
+              : 'No'),
       _buildInfoItemWidget(
           name: 'Medical Conditions', value: user?.medicalConditions),
       _buildInfoItemWidget(name: 'Genotype', value: user?.genoType),
       _buildInfoItemWidget(name: 'Blood Group', value: user?.bloodGroup),
-      const SizedBox(
-        height: 65,
-      ),
     ];
   }
 

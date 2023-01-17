@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:syren/controllers/vital_reminder_controller.dart';
 import 'package:syren/models/models.dart';
+import 'package:syren/screens/views.dart';
 import 'package:syren/services/services.dart';
 
 class SetVitalReminderController extends GetxController {
@@ -19,6 +21,7 @@ class SetVitalReminderController extends GetxController {
   // Observables.
   Rx<TimeOfDay> morningTime = const TimeOfDay(hour: 08, minute: 45).obs;
   Rx<TimeOfDay> nightTime = const TimeOfDay(hour: 09, minute: 25).obs;
+  var isloading = false.obs;
 
   @override
   void onInit() {
@@ -33,19 +36,23 @@ class SetVitalReminderController extends GetxController {
     super.onClose();
   }
 
-  Future addReminder(hr, min) async {
+  Future addReminder(TimeOfDay time) async {
+    isloading(true);
     final now = DateTime.now();
     await vitalReminderCtrl.addReminder(
         reminder: VitalReminderModel(
             title: vitalCtrl.text.trim(),
             note: 'Take Test',
-            date: DateTime(now.year, now.month, now.day, hr, min).toString()));
+            date: DateTime(now.year, now.month, now.day, time.hour, time.minute)
+                .toString()));
 
-    // await notificationSrv.scheduleNotifications(
-    //     id: 100, title: vitalCtrl.text.trim(), body: 'Body'
-    //     // time: DateTime(
-    //     //   now.year, now.month, now.day, nightTime.hour, nightTime.minute)
-    //     );
+    await notificationSrv.scheduleNotification(
+        id: 0,
+        title: vitalCtrl.text.trim(),
+        body: 'Body',
+        time: Time(time.hour, time.minute));
+    isloading(true);
+    Get.toNamed(RemindersView.routeName);
   }
 }
 

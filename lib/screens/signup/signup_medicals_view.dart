@@ -35,7 +35,6 @@ class SignUpMedicalsView extends GetView<SignUpController> {
                   children: [
                     const FormHeader(
                       title: 'Set up your medical records',
-                      text: '',
                     ),
                     DropdownSelectField(
                       labelText: 'Do you have any allergies',

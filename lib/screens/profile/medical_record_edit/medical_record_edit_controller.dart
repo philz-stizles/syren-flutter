@@ -1,11 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/models/models.dart';
-import 'package:syren/services/services.dart';
+import 'package:syren/controllers/user_controller.dart';
+import 'package:syren/screens/profile/profile_view.dart';
+import 'package:syren/screens/success.dart';
+import 'package:syren/services/user_service.dart';
 import 'package:syren/widgets/widgets.dart';
 
 class MedicalRecordEditController extends GetxController {
-  var userService = Get.put(UserService());
+  // Services.
+  var userSrv = Get.find<UserService>();
+
+  // Controllers.
+  var userCtrl = Get.find<UserController>();
 
   // Data.
   var religionTypes = ['Christian', 'Muslim', 'Other'];
@@ -16,7 +23,6 @@ class MedicalRecordEditController extends GetxController {
   var bloodGroups = ['O+', 'AB+', 'A+', 'AB-', 'B+'];
 
   // Form.
-  final signUpFormKey = GlobalKey<FormState>();
   final hasAllergiesCtrl = TextEditingController();
   final allergiesCtrl = TextEditingController();
   final medicationsCtrl = TextEditingController();
@@ -26,7 +32,7 @@ class MedicalRecordEditController extends GetxController {
   final bloodGroupCtrl = TextEditingController();
 
   // Observables.
-  var isLoadingSignUp = false.obs;
+  var isLoadingSaveMedRecords = false.obs;
   var genderDropdownValue = ''.obs;
   var religionDropdownValue = ''.obs;
   var hasAllergiesDropdownValue = ''.obs;
@@ -36,6 +42,23 @@ class MedicalRecordEditController extends GetxController {
 
   @override
   void onInit() {
+    // Initialize input fields.
+    if (userCtrl.user != null && userCtrl.user?.hasAllergies != null) {
+      hasAllergiesCtrl.text =
+          userCtrl.user!.hasAllergies! == true ? 'Yes' : 'No';
+    }
+
+    if (userCtrl.user != null && userCtrl.user!.hasMedicalConditions != null) {
+      hasConditionsCtrl.text =
+          userCtrl.user!.hasMedicalConditions! == true ? 'Yes' : 'No';
+    }
+
+    allergiesCtrl.text = userCtrl.user!.allergies ?? '';
+    medicationsCtrl.text = userCtrl.user!.medications ?? '';
+    conditionsCtrl.text = userCtrl.user!.medicalConditions ?? '';
+    genoTypeCtrl.text = userCtrl.user!.genoType ?? '';
+    bloodGroupCtrl.text = userCtrl.user!.bloodGroup ?? '';
+
     hasAllergiesDropdownValue.value = alleries[0];
     hasConditionsDropdownValue.value = conditions[0];
     genoTypeDropdownValue.value = genoTypes[0];
@@ -55,38 +78,39 @@ class MedicalRecordEditController extends GetxController {
     super.onClose();
   }
 
-  Future<void> signUp() async {
+  Future<void> saveMedRecords() async {
     try {
-      isLoadingSignUp(true);
-      var userModel = UserModel(
-          hasAllergies: true,
-          allergies: allergiesCtrl.text.trim(),
-          medications: medicationsCtrl.text.trim(),
-          hasMedicalConditions: true,
-          medicalConditions: conditionsCtrl.text.trim(),
-          genoType: genoTypeCtrl.text.trim(),
-          bloodGroup: bloodGroupCtrl.text.trim());
-      debugPrint(userModel.toJson().toString());
+      isLoadingSaveMedRecords(true);
+      var userMap = {
+        'hasAllergies': true,
+        'allergies': allergiesCtrl.text.trim(),
+        'medications': medicationsCtrl.text.trim(),
+        'hasMedicalConditions': true,
+        'medicalConditions': conditionsCtrl.text.trim(),
+        'genoType': genoTypeCtrl.text.trim(),
+        'bloodGroup': bloodGroupCtrl.text.trim()
+      };
+      await userSrv.update(userMap);
+
+      // Get.off(SuccessView(
+      //     message: 'You have successfully updated\n your medical records.',
+      //     title: 'Profile',
+      //     backToPage: ProfileView.routeName));
 
       UIConfig.showSnackBar(
-          message: 'Signup was successful', backgroundColor: Colors.green);
-    } catch (e) {
-      // debugPrint(e.message);
-      // if (e.message != null) {
-      //   UIConfig.showSnackBar(
-      //       message: e.message as String, backgroundColor: Colors.red);
-      // }
+          message: 'Profile updated successfully',
+          backgroundColor: Colors.green);
+
+      // Get.back();
+    } on FirebaseException catch (e) {
+      debugPrint(e.message);
+      if (e.message != null) {
+        UIConfig.showSnackBar(
+            message: e.message as String, backgroundColor: Colors.red);
+      }
     } finally {
-      isLoadingSignUp(false);
+      isLoadingSaveMedRecords(false);
     }
-    // checkUser(emailController.text, passwordController.text).then((auth) {
-    //   if (auth) {
-    //     Get.snackbar('Login', 'Login successfully');
-    //   } else {
-    //     Get.snackbar('Login', 'Invalid email or password');
-    //   }
-    //   passwordController.clear();
-    // });
   }
 }
 

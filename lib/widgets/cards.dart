@@ -262,3 +262,74 @@ class ReminderCard extends StatelessWidget {
     );
   }
 }
+
+class NotificationCard extends StatelessWidget {
+  const NotificationCard(
+      {super.key,
+      this.title,
+      this.message,
+      this.time,
+      this.icon,
+      required this.isRead});
+
+  final String? title;
+  final String? message;
+  final IconData? icon;
+  final String? time;
+  final bool isRead;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              color: isRead ? Colors.transparent : Palette.lighterGrey,
+              border: Border.all(color: Palette.secondary),
+              borderRadius: BorderRadius.circular(10)),
+          padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+          margin: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Icon(Icons.alarm, size: 24, color: Palette.secondary),
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title!,
+                        style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Palette.secondary),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        message!,
+                        style:
+                            const TextStyle(fontSize: 12, color: Palette.brown),
+                      ),
+                    ]),
+              )
+            ],
+          ),
+        ),
+        const Text(
+          '1 hour ago',
+          style: TextStyle(fontSize: 12, color: Palette.brown),
+        ),
+        const SizedBox(
+          height: 16,
+        ),
+      ],
+    );
+  }
+}

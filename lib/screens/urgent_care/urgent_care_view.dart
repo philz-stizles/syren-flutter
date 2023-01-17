@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syren/screens/urgent_care/message/message_view.dart';
 import 'package:syren/utils/constants.dart';
 import 'package:syren/utils/enums.dart';
 import 'package:syren/utils/palette.dart';
@@ -21,10 +22,10 @@ class UrgentCareView extends GetView<UrgentCareController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const RadioButtonField(
+              RadioButtonField(
                   direction: RadioButtonDirection.vertical,
                   labelText: 'Describe patient\'s current condition',
-                  options: [
+                  options: const [
                     'Currently not Breathing or Responding',
                     'Currently Breathing but in Distress',
                     'Others'
@@ -83,22 +84,25 @@ class UrgentCareView extends GetView<UrgentCareController> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  PrimaryButton(
-                    outlined: true,
-                    title: 'Call',
-                    icon: Icons.phone,
-                    press: () => controller.callNumber(),
-                    expanded: false,
+                  Expanded(
+                    child: PrimaryButton(
+                      outlined: true,
+                      title: 'Call',
+                      icon: Icons.phone,
+                      press: () => controller.callNumber(),
+                      expanded: false,
+                    ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
-                  PrimaryButton(
+                  Expanded(
+                      child: PrimaryButton(
                     title: 'Message',
                     icon: Icons.message,
-                    press: () {},
+                    press: () => Get.toNamed(MessageView.routeName),
                     expanded: false,
-                  )
+                  ))
                 ],
               )
             ],

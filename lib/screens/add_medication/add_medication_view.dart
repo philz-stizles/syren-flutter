@@ -20,7 +20,7 @@ class AddMedicationView extends GetView<AddMedicationController> {
         padding: defaultScreenPadding,
         child: Column(
           children: [
-            const RadioButtonField(
+            RadioButtonField(
                 labelText: 'Set duration for getting drugs',
                 options: ['Weekly', 'Monthly']),
             const Divider(

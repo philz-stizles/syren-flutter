@@ -70,15 +70,17 @@ class FormHeader extends StatelessWidget {
       SizedBox(
         height: title == null ? 0 : 5,
       ),
-      Align(
-          alignment: Alignment.center,
-          child: Text(
-            text!,
-            // style: AppTextStyles.defaultStyle.copyWith(
-            //     fontSize: 12,
-            //     fontWeight: FontWeight.w400,
-            //     color: const Color.fromRGBO(98, 107, 137, 1)),
-          )),
+      text == null
+          ? const SizedBox()
+          : Align(
+              alignment: Alignment.center,
+              child: Text(
+                text!,
+                // style: AppTextStyles.defaultStyle.copyWith(
+                //     fontSize: 12,
+                //     fontWeight: FontWeight.w400,
+                //     color: const Color.fromRGBO(98, 107, 137, 1)),
+              )),
       const SizedBox(
         height: 20.0,
       ),

@@ -208,13 +208,24 @@ class SetVitalReminderView extends GetView<SetVitalReminderController> {
                         ),
                         PrimaryButton(
                             title: 'Set Reminder',
+                            loading: controller.isloading.value,
+                            disabled: controller.isloading.value,
                             press: () async => {
                                   if (controller
                                       .vitalReminderFormKey.currentState!
                                       .validate())
                                     {
-                                      await controller.addReminder(
-                                          nightTime.hour, nightTime.minute)
+                                      UIConfig.showConfirmBottomSheet(
+                                          icon: Icons.alarm,
+                                          promptText:
+                                              'Are you sure you want to save\n this reminder?',
+                                          onConfirmPress: () async {
+                                            Get.back();
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                            await controller
+                                                .addReminder(nightTime);
+                                          })
                                     }
                                 })
                       ],

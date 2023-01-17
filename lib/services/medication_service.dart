@@ -80,7 +80,7 @@ class MedicationService extends GetxService {
     await collection.doc(documentId).set(bp.toJson());
   }
 
-  Future<List<MedicationModel>> list(String userId) async {
+  Future<List<MedicationModel>> list() async {
     return (await FirebaseFirestore.instance
             .collection('medications')
             .where("userId", isEqualTo: userId)

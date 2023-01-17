@@ -1,4 +1,4 @@
-import 'package:syren/models/drug_model.dart';
+import 'package:syren/models/models.dart';
 
 final List<Map<String, dynamic>> splashScreenData = [
   {
@@ -139,3 +139,27 @@ final List<DrugModel> drugsData = [
       when: 'Only morning',
       daysLeft: '3'),
 ];
+
+// final List<DrugProductModel> drugProductsData = [
+//   DrugProductModel(
+//       imageLocation: 'assets/images/bp.jpg',
+      
+//   DrugProductModel(
+//       imageLocation: 'assets/images/bp.jpg',
+      
+//   DrugProductModel(
+//       imageLocation: 'assets/images/bp.jpg',
+      
+//   DrugProductModel(
+//       imageLocation: 'assets/images/bp.jpg',
+      
+//   DrugProductModel(
+//       imageLocation: 'assets/images/bp.jpg',
+      
+//   DrugProductModel(
+//       imageLocation: 'assets/images/bp.jpg',
+      
+//   DrugProductModel(
+//       imageLocation: 'assets/images/bp.jpg',
+      
+// ];

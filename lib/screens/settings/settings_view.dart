@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/screens/change_password/change_password_view.dart';
-import 'package:syren/screens/settings/feedback/feedback_view.dart';
+import 'package:syren/screens/views.dart';
 import 'package:syren/utils/constants.dart';
-import 'package:syren/widgets/navigation_bar.dart';
 import 'package:syren/widgets/widgets.dart';
 
 import 'settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
   SettingsView({super.key});
+  static String routeName = '/settings';
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class SettingsView extends GetView<SettingsController> {
             AppMenuItem(
               icon: Icons.notifications_outlined,
               label: 'Notifications settings',
-              onTap: () {},
+              onTap: () => Get.toNamed(NotificationSettingsView.routeName),
             ),
             const SizedBox(
               height: 15,
@@ -49,14 +48,12 @@ class SettingsView extends GetView<SettingsController> {
             ),
             AppMenuItem(
               icon: Icons.delete_outlined,
-              onTap: () {},
+              onTap: () => Get.to(const DeleteAccountView()),
               label: 'Delete account',
             ),
           ],
         ),
       ),
-      bottomNavigationBar:
-          AppBottomNavigationBar(currentIndex: 3, onTap: ((value) {})),
     );
   }
 }

@@ -80,17 +80,19 @@ class MedicalRecordEditView extends GetView<MedicalRecordEditController> {
                     ),
                     PrimaryButton(
                         title: 'Save Changes',
-                        loading: controller.isLoadingSignUp.value,
+                        disabled: controller.isLoadingSaveMedRecords.value,
+                        loading: controller.isLoadingSaveMedRecords.value,
                         press: () async {
                           if (signUpMedicalsFormKey.currentState!.validate()) {
+                            FocusManager.instance.primaryFocus?.unfocus();
                             UIConfig.showConfirmBottomSheet(
                                 icon: Icons.edit,
                                 promptText:
                                     'Are sure you want to save\n these changes?',
                                 confirmText: 'Save',
-                                onConfirmPress: () {
+                                onConfirmPress: () async {
                                   Get.back();
-                                  // controller.authService.signOut();
+                                  await controller.saveMedRecords();
                                 },
                                 isDismissible: true);
                           }

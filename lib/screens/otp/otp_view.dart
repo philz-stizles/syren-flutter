@@ -14,6 +14,7 @@ class OtpView extends GetView<OtpController> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,

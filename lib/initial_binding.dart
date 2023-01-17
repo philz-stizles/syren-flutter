@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:syren/screens/medications/medications_controller.dart';
+import 'package:syren/screens/reminders/reminders_controller.dart';
 import 'package:syren/services/services.dart';
 
 class InitialBinding implements Bindings {
@@ -18,5 +20,7 @@ class InitialBinding implements Bindings {
     await Get.putAsync(() => EmailService().init());
     await Get.putAsync(() => NotificationService().init());
     await Get.putAsync(() => VitalReminderService().init());
+    Get.lazyPut(() => MedicationsController());
+    Get.lazyPut(() => RemindersController());
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -648,5 +649,105 @@ class BottomSheetButton extends StatelessWidget {
               ),
             ),
     ]);
+  }
+}
+
+class LabelButton extends StatelessWidget {
+  const LabelButton(
+      {Key? key,
+      this.disabled = false,
+      this.loading = false,
+      this.outlined = false,
+      required this.label,
+      this.color,
+      this.icon})
+      : super(key: key);
+
+  final Color? color;
+  final bool loading;
+  final bool disabled;
+  final bool outlined;
+  final String label;
+  final IconData? icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+          color: Palette.primary,
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(label,
+                style: const TextStyle(color: Palette.white, fontSize: 12)),
+            const SizedBox(
+              width: 5,
+            ),
+            Icon(icon, size: 18, color: Palette.white)
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TimeButton extends StatelessWidget {
+  const TimeButton(
+      {Key? key,
+      this.disabled = false,
+      this.isSelected = false,
+      this.outlined = false,
+      required this.label,
+      required this.onTap,
+      this.color})
+      : super(key: key);
+
+  final Color? color;
+  final bool isSelected;
+  final bool disabled;
+  final bool outlined;
+  final String label;
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+            boxShadow: const [
+              BoxShadow(
+                color: Color.fromRGBO(0, 0, 0, 0.1),
+                // spreadRadius: 10.0,
+                blurRadius: 10.0,
+                offset: Offset(0, 4),
+              )
+            ],
+            color: isSelected ? Palette.primary : Palette.white,
+            borderRadius: const BorderRadius.all(Radius.circular(5))),
+        padding: const EdgeInsets.all(10),
+        margin: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(Icons.alarm_outlined,
+                size: 18, color: isSelected ? Palette.white : Palette.brown),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(label,
+                style: TextStyle(
+                    color: isSelected ? Palette.white : Palette.brown,
+                    fontSize: 12)),
+          ],
+        ),
+      ),
+    );
   }
 }

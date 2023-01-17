@@ -19,10 +19,10 @@ class AppMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Material(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        elevation: 1,
-        color: Palette.white,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Palette.brown)),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(

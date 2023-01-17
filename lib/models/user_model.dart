@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class UserModel {
   String? id;
   String? name;
@@ -48,9 +46,8 @@ class UserModel {
     bloodGroup = json['bloodGroup'];
   }
 
-  UserModel.fromDocumentSnapshot(
-      DocumentSnapshot doc, Map<String, dynamic>? docData) {
-    id = doc.id;
+  UserModel.fromDocumentSnapshot(String id, Map<String, dynamic>? docData) {
+    id = id;
     name = docData?['name'];
     email = docData?['email'];
     gender = docData?['gender'];

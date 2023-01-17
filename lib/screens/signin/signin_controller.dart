@@ -4,9 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:get/get.dart';
-import 'package:syren/models/email_model.dart';
 import 'package:syren/providers/auth_provider.dart';
-import 'package:syren/screens/dashboard/dashboard.dart';
+import 'package:syren/screens/dashboard/dashboard_view.dart';
 import 'package:syren/services/email_service.dart';
 import 'package:syren/widgets/widgets.dart';
 
@@ -39,10 +38,10 @@ class SignInController extends GetxController {
 
   Future<void> signIn() async {
     try {
-      emailService.sendMail(EmailModel(
-          to: emailCtrl.text.trim(),
-          subject: 'Email Verification',
-          message: ''));
+      // emailService.sendMail(EmailModel(
+      //     to: emailCtrl.text.trim(),
+      //     subject: 'Email Verification',
+      //     message: ''), SignUpOTPTemplate.template.replaceAll('{{NAME}}', emailCtrl.text.trim()));
       isLoadingSignIn(true);
       await authProvider.signIn(
           email: emailCtrl.text.trim(),
@@ -80,5 +79,12 @@ class SignInController extends GetxController {
       UIConfig.showSnackBar(
           message: error.toString(), backgroundColor: Colors.red);
     }
+  }
+}
+
+class SignInBinding implements Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => SignInController());
   }
 }

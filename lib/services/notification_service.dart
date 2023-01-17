@@ -18,6 +18,8 @@ class NotificationService extends GetxService {
   Future<NotificationService> init() async {
     try {
       //Initialization Settings for Android
+      await _configureLocalTimeZone();
+
       const AndroidInitializationSettings initializationSettingsAndroid =
           AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -36,8 +38,6 @@ class NotificationService extends GetxService {
               android: initializationSettingsAndroid,
               iOS: initializationSettingsDarwin);
 
-      tz.initializeTimeZones();
-
       await flutterLocalNotificationsPlugin.initialize(initializationSettings,
           onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
 
@@ -46,7 +46,7 @@ class NotificationService extends GetxService {
       print(e);
     }
 
-    debugPrint('Init Notification Service}');
+    debugPrint('Init Notification Service');
     return this;
   }
 
@@ -101,21 +101,32 @@ class NotificationService extends GetxService {
     );
   }
 
-  Future<void> scheduleNotifications({id, title, body, time}) async {
+  Future<void> scheduleNotification({
+    required int id,
+    required Time time,
+    String? title,
+    String? body,
+  }) async {
     try {
+      print(time.hour);
+      print(time.minute);
       await flutterLocalNotificationsPlugin.zonedSchedule(
           id,
           title,
           body,
-          tz.TZDateTime.from(time, tz.local),
+          _scheduleDaily(time),
           const NotificationDetails(
               android: AndroidNotificationDetails(
-                  'your channel id', 'your channel name',
-                  channelDescription: 'your channel description')),
+            'your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            playSound: true,
+            // sound: RawResourceAndroidNotificationSound('notification')
+          )),
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
-          matchDateTimeComponents: DateTimeComponents.time);
+          matchDateTimeComponents: DateTimeComponents.time,
+          payload: '');
     } catch (e) {
       print(e);
     }
@@ -125,22 +136,52 @@ class NotificationService extends GetxService {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails('your channel id', 'your channel name',
             channelDescription: 'your channel description',
+            playSound: true,
+            // sound: RawResourceAndroidNotificationSound('notification'),
             importance: Importance.max,
             priority: Priority.high,
             ticker: 'ticker');
-    const DarwinNotificationDetails iosNotificationDetails =
+    const DarwinNotificationDetails iosPlatformChannelSpecifics =
         DarwinNotificationDetails(
       categoryIdentifier: darwinNotificationCategoryPlain,
     );
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
-      iOS: iosNotificationDetails,
+      iOS: iosPlatformChannelSpecifics,
     );
     await flutterLocalNotificationsPlugin
         .show(id, title, body, platformChannelSpecifics, payload: payload);
   }
 
   Future<void> _configureLocalTimeZone() async {
+    tz.initializeTimeZones();
+
     final String timeZone = await FlutterNativeTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZone));
+  }
+
+  tz.TZDateTime _scheduleDaily(Time time) {
+    final now = tz.TZDateTime.now(tz.local);
+    final scheduledDate = tz.TZDateTime(tz.local, now.year, now.month, now.day,
+        time.hour, time.minute, time.second);
+
+    return scheduledDate.isBefore(now)
+        ? scheduledDate.add(const Duration(days: 1))
+        : scheduledDate;
+  }
+
+  tz.TZDateTime _scheduleWeekly(Time time, {required List<int> days}) {
+    tz.TZDateTime scheduledDate = _scheduleDaily(time);
+    while (!days.contains(scheduledDate.weekday)) {
+      scheduledDate = scheduledDate.add(const Duration(days: 1));
+    }
+
+    return scheduledDate;
+  }
+
+  tz.TZDateTime _scheduleMonthly(Time time, {required int day}) {
+    tz.TZDateTime scheduledDate = _scheduleDaily(time);
+
+    return scheduledDate;
   }
 }
