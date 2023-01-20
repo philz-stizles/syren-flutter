@@ -11,13 +11,12 @@ import 'package:syren/widgets/widgets.dart';
 import 'reminders_controller.dart';
 
 class RemindersView extends GetView<RemindersController> {
-  const RemindersView({super.key});
-  static String routeName = "/reminders";
+  RemindersView({super.key});
+  static const String routeName = "/reminders";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Palette.dimWhite,
         appBar: AppBar(
             automaticallyImplyLeading: false, title: const Text('Reminders')),
         body: Padding(
@@ -55,27 +54,25 @@ class RemindersView extends GetView<RemindersController> {
                       height: 20,
                     ),
                     ...controller.page.value == 0
-                        ? _buildMedications()
-                        : _buildVitals(
-                            controller.vitalReminderCtrl.vitalReminders)
+                        ? _buildMedications(controller.notifications
+                            .where((NotificationModel model) =>
+                                model.notificationType ==
+                                NotificationType.medReminder)
+                            .toList())
+                        : _buildVitals(controller.notifications
+                            .where((NotificationModel model) =>
+                                model.notificationType ==
+                                NotificationType.vitalReminder)
+                            .toList())
                   ],
                 ))));
   }
 
-  List<Widget> _buildMedications() {
+  List<Widget> _buildMedications(List<NotificationModel> notifications) {
     return [
       const JumbotronCard(
           image: 'assets/images/medication-reminder.jpg',
           caption: 'With Syren, You’ll never\n miss your Medications'),
-      const SizedBox(
-        height: 30,
-      ),
-      const Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            'You have no reminder set',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-          )),
       const SizedBox(
         height: 20,
       ),
@@ -86,6 +83,19 @@ class RemindersView extends GetView<RemindersController> {
         },
         trailingIcon: Icons.add_circle_outline,
       ),
+      const SizedBox(
+        height: 10,
+      ),
+      // ...reminders.isEmpty
+      //     ? [
+      //         const Align(
+      //             alignment: Alignment.centerLeft,
+      //             child: Text(
+      //               'You have no reminder set',
+      //               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+      //             ))
+      //       ]
+      //     : [
       Container(
         decoration: BoxDecoration(
             color: Palette.primary, borderRadius: BorderRadius.circular(10)),
@@ -96,7 +106,7 @@ class RemindersView extends GetView<RemindersController> {
           children: [
             Row(children: const [
               Text(
-                'Morning Medications',
+                'Morning Vitals',
                 style: TextStyle(color: Palette.white, fontSize: 12),
               ),
               SizedBox(
@@ -122,53 +132,24 @@ class RemindersView extends GetView<RemindersController> {
       const SizedBox(
         height: 16,
       ),
-      Container(
-        decoration: BoxDecoration(
-            border: Border.all(color: Palette.secondary),
-            borderRadius: BorderRadius.circular(10)),
-        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(
-                children: const [
-                  Text(
-                    'Gliclazide (80g)',
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Palette.secondary),
-                  ),
-                  Icon(Icons.medication, size: 20, color: Palette.secondary),
-                ],
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              const Text(
-                'Take 2 tablets',
-                style: TextStyle(fontSize: 12, color: Palette.brown),
-              ),
-            ]),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                Icon(Icons.alarm, size: 20, color: Palette.secondary),
-                Text(
-                  '08:45PM',
-                  style: TextStyle(fontSize: 12, color: Palette.secondary),
-                ),
-              ],
-            )
-          ],
-        ),
-      )
+      Expanded(
+          child: ListView.builder(
+              itemCount: notifications.length,
+              shrinkWrap: true,
+              itemBuilder: ((context, index) {
+                var notification = notifications[index];
+                return ReminderCard(
+                    title: notification.title,
+                    note: notification.note,
+                    time: DateFormat('HH:mm')
+                        .format(DateTime.parse(notification.date!))
+                        .toString());
+              })))
+      //]
     ];
   }
 
-  List<Widget> _buildVitals(List<VitalReminderModel> vitalReminders) {
+  List<Widget> _buildVitals(List<NotificationModel> vitalReminders) {
     return [
       const JumbotronCard(
           image: 'assets/images/medication-reminder.jpg',

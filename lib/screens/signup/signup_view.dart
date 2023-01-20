@@ -10,7 +10,7 @@ import '../../widgets/widgets.dart';
 
 class SignUpView extends GetView<SignUpController> {
   const SignUpView({super.key});
-  static String routeName = "/signup";
+  static const String routeName = "/signup";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

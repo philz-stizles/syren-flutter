@@ -8,7 +8,7 @@ import 'home_visit_controller.dart';
 
 class HomeVisitView extends GetView<HomeVisitController> {
   const HomeVisitView({super.key});
-  static String routeName = '/home-visit';
+  static const String routeName = '/home-visit';
 
   List<Widget> _buildSelectTimeField() {
     return [

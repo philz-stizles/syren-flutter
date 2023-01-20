@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:syren/screens/signup/signup_medicals_view.dart';
 import 'package:syren/utils/constants.dart';
 import 'package:syren/widgets/widgets.dart';
 
@@ -9,7 +8,7 @@ import 'profile_edit_controller.dart';
 
 class ProfileEditView extends GetView<ProfileEditController> {
   const ProfileEditView({super.key});
-  static String routeName = "/profile-edit";
+  static const String routeName = "/profile-edit";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

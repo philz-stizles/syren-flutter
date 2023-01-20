@@ -19,6 +19,7 @@ class UserController extends GetxController {
 
   @override
   void onReady() async {
-    user = (await userService.getUser())!;
+    // user = (await userService.getUser())!;
+    userModel.bindStream(userService.getUserStream());
   }
 }

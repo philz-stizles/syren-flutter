@@ -10,7 +10,7 @@ import 'urgent_care_controller.dart';
 
 class UrgentCareView extends GetView<UrgentCareController> {
   UrgentCareView({super.key});
-  static String routeName = "/urgent-care";
+  static const String routeName = "/urgent-care";
   @override
   Widget build(BuildContext context) {
     return Scaffold(

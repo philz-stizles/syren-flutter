@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatModel {
   String? id;
-  late String createdBy;
+  String? createdBy;
+  String? to;
   late String message;
   late Timestamp createdAt;
 
@@ -18,6 +19,7 @@ class ChatModel {
     message = json['message'];
     createdAt = json['createdAt'];
     createdBy = json['createdBy'];
+    to = json['to'];
   }
 
   ChatModel.fromDocumentSnapshot(DocumentSnapshot doc) {
@@ -25,6 +27,7 @@ class ChatModel {
     message = doc['message'];
     createdAt = doc['createdAt'];
     createdBy = doc['createdBy'];
+    to = doc['to'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +35,7 @@ class ChatModel {
     data['message'] = message;
     data['createdAt'] = createdAt;
     data['createdBy'] = createdBy;
+    data['to'] = to;
 
     return data;
   }

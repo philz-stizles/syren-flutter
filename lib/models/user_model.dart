@@ -13,6 +13,7 @@ class UserModel {
   String? medicalConditions;
   String? genoType;
   String? bloodGroup;
+  late String role;
 
   UserModel(
       {this.id,
@@ -28,7 +29,8 @@ class UserModel {
       this.hasMedicalConditions,
       this.medicalConditions,
       this.genoType,
-      this.bloodGroup});
+      this.bloodGroup,
+      this.role = 'user'});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -44,10 +46,11 @@ class UserModel {
     medicalConditions = json['medicalConditions'];
     genoType = json['genoType'];
     bloodGroup = json['bloodGroup'];
+    role = json['role'];
   }
 
-  UserModel.fromDocumentSnapshot(String id, Map<String, dynamic>? docData) {
-    id = id;
+  UserModel.fromDocumentSnapshot(String docId, Map<String, dynamic>? docData) {
+    id = docId;
     name = docData?['name'];
     email = docData?['email'];
     gender = docData?['gender'];
@@ -61,6 +64,7 @@ class UserModel {
     medicalConditions = docData?['medicalConditions'];
     genoType = docData?['genoType'];
     bloodGroup = docData?['bloodGroup'];
+    role = docData?['role'];
   }
 
   Map<String, dynamic> toJson() {
@@ -78,9 +82,17 @@ class UserModel {
     data['medicalConditions'] = medicalConditions;
     data['genoType'] = genoType;
     data['bloodGroup'] = bloodGroup;
+    data['role'] = role;
+
     return data;
   }
 
   @override
-  String toString() => 'UserModel{id: $id, name: $name, email: $email}';
+  String toString() => '''UserModel{
+    id: $id, 
+    name: $name, 
+    email: $email, 
+    gender: $gender, 
+    religion: $religion
+  }''';
 }

@@ -22,7 +22,7 @@ class AppMenuItem extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            border: Border.all(color: Palette.brown)),
+            border: Border.all(color: Palette.grey)),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(

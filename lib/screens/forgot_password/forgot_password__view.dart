@@ -7,7 +7,7 @@ import 'forgot_password_controller.dart';
 
 class ForgotPasswordView extends GetView<ForgotPasswordController> {
   ForgotPasswordView({super.key});
-  static String routeName = "/forgot-password";
+  static const String routeName = "/forgot-password";
   final loginFormKey = GlobalKey<FormState>();
 
   @override

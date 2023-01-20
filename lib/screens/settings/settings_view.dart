@@ -7,8 +7,8 @@ import 'package:syren/widgets/widgets.dart';
 import 'settings_controller.dart';
 
 class SettingsView extends GetView<SettingsController> {
-  SettingsView({super.key});
-  static String routeName = '/settings';
+  const SettingsView({super.key});
+  static const String routeName = '/settings';
 
   @override
   Widget build(BuildContext context) {

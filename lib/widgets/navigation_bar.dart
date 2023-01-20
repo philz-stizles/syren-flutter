@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:syren/screens/views.dart';
 import 'package:syren/utils/palette.dart';
 
 class AppBottomNavigationBar extends StatelessWidget {

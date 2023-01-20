@@ -8,80 +8,6 @@ import 'package:table_calendar/table_calendar.dart';
 
 import 'widgets.dart';
 
-// class AppTextField extends StatelessWidget {
-//   const AppTextField({
-//     required this.hintText,
-//     super.key,
-//     this.formKey,
-//     this.maxLength,
-//     this.icon,
-//     this.isObscured = false,
-//     this.isEnabled = true,
-//     this.editingCtrl,
-//     this.onSaved,
-//     this.validator,
-//     this.type = TextInputType.text,
-//     this.iconTap,
-//     this.validationText,
-//   });
-//   final GlobalKey<FormState>? formKey;
-//   final String hintText;
-//   final String? validationText;
-//   final bool isObscured;
-//   final bool isEnabled;
-//   final IconData? icon;
-//   final VoidCallback? iconTap;
-//   final int? maxLength;
-//   final TextInputType type;
-//   final TextEditingController? editingCtrl;
-//   final FormFieldSetter<String>? onSaved;
-//   final FormFieldValidator<String>? validator;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
-//       child: TextFormField(
-//         controller: editingCtrl,
-//         enabled: isEnabled,
-//         autovalidateMode: AutovalidateMode.onUserInteraction,
-//         style: const TextStyle(fontSize: 14),
-//         keyboardType: type,
-//         maxLength: maxLength,
-//         obscureText: isObscured,
-//         decoration: InputDecoration(
-//           focusedErrorBorder: OutlineInputBorder(
-//             borderSide: const BorderSide(
-//               color: Color(0xFEFE0000),
-//               width: 1, // width: 0
-//             ),
-//             borderRadius: BorderRadius.circular(5),
-//           ),
-//           errorBorder: OutlineInputBorder(
-//             borderSide: const BorderSide(
-//               color: Color(0xFEFE0000),
-//               width: 1, // width: 0
-//             ),
-//             borderRadius: BorderRadius.circular(5),
-//           ),
-//           hintText: hintText,
-//           suffixIcon: icon == null
-//               ? null
-//               : GestureDetector(onTap: iconTap, child: Icon(icon)),
-//         ),
-//         validator: (val) {
-//           if (val == null || val.isEmpty) {
-//             return validationText ??
-//                 "Please provide a valid ${hintText.toLowerCase()}";
-//           } else {
-//             return null;
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
-
 // ignore: must_be_immutable
 class AppPasswordField extends StatelessWidget {
   AppPasswordField({
@@ -755,14 +681,14 @@ class DropdownSelectField extends StatelessWidget {
                 fontSize: 14, fontWeight: fontWeight, color: Palette.secondary),
           ),
           SizedBox(
-            height: labelText == null ? 0 : 5,
+            height: labelText == null ? 0 : 10,
           ),
           DecoratedBox(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   border: Border.all(color: Palette.secondary, width: 1.5)),
               child: Padding(
-                padding: const EdgeInsets.only(left: 30, right: 30),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: DropdownButton<String>(
                   isExpanded: true,
                   underline: Container(),
@@ -785,7 +711,7 @@ class DropdownSelectField extends StatelessWidget {
                     onChanged!(newValue);
                   },
                 ),
-              ))
+              )),
         ]));
   }
 }

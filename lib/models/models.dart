@@ -7,7 +7,7 @@ export 'drug_model.dart';
 export 'drug_product_model.dart';
 export 'email_model.dart';
 export 'drug_reminder_model.dart';
-export 'vital_reminder_model.dart';
+export 'notification_model.dart';
 export 'home_visit_model.dart';
 export 'clinic_appointment_model.dart';
 export 'ambulance_service_model.dart';

@@ -31,3 +31,7 @@ export 'settings/change_password/change_password_view.dart';
 export 'settings/feedback/feedback_view.dart';
 export 'settings/delete_account/delete_account_view.dart';
 export 'settings/notification_settings/notification_settings_view.dart';
+export 'drug_store/drug_store.dart';
+export 'drug_store/purchase_medication.dart';
+export 'drug_store/purchase_equipment.dart';
+export 'drug_store/purchase_detail.dart';

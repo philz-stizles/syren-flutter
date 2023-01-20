@@ -76,7 +76,7 @@ class ClinicAppointmentController extends GetxController {
 
       clearForm();
 
-      Get.to(SuccessView(
+      Get.to(const SuccessView(
         message: 'Your Appointment has been Scheduled successfully',
         title: 'Home Visit',
         backToPage: ScheduleCareView.routeName,

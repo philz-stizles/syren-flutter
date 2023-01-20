@@ -4,7 +4,6 @@ import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
 import 'package:syren/models/models.dart';
-import 'package:syren/templates/email/signup_otp.dart';
 
 class EmailService extends GetxService {
   late SmtpServer smtpServer;

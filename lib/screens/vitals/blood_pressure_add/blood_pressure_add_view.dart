@@ -7,7 +7,7 @@ import 'blood_pressure_add_controller.dart';
 
 class BloodPressureAddView extends GetView<BloodPressureAddController> {
   BloodPressureAddView({super.key});
-  static String routeName = "/blood-pressure-add";
+  static const String routeName = "/blood-pressure-add";
 
   final bpFormKey = GlobalKey<FormState>();
 

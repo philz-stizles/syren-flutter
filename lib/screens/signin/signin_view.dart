@@ -9,7 +9,7 @@ import 'signin_controller.dart';
 
 class SignInView extends GetView<SignInController> {
   SignInView({super.key});
-  static String routeName = "/signin";
+  static const String routeName = "/signin";
   final loginFormKey = GlobalKey<FormState>();
 
   @override
@@ -46,7 +46,7 @@ class SignInView extends GetView<SignInController> {
                     ),
                     AppPasswordField(
                       labelText: 'Password',
-                      editingCtrl: controller.passwordController,
+                      editingCtrl: controller.passwordCtrl,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -71,7 +71,9 @@ class SignInView extends GetView<SignInController> {
                         loading: controller.isLoadingSignIn.value,
                         press: () async {
                           if (loginFormKey.currentState!.validate()) {
-                            await controller.signIn();
+                            await controller.signIn(
+                                email: controller.emailCtrl.text.trim(),
+                                password: controller.passwordCtrl.text.trim());
                           }
                         }),
                     const SizedBox(

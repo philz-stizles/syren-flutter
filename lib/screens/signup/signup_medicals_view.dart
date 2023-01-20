@@ -8,7 +8,7 @@ import '../../widgets/widgets.dart';
 
 class SignUpMedicalsView extends GetView<SignUpController> {
   SignUpMedicalsView({super.key});
-  static String routeName = "/signup-medicals";
+  static const String routeName = "/signup-medicals";
   final signUpMedicalsFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {

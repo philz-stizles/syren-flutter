@@ -9,7 +9,7 @@ import 'otp_form.dart';
 
 class OtpView extends GetView<OtpController> {
   OtpView({super.key});
-  static String routeName = "/otp";
+  static const String routeName = "/otp";
   final loginFormKey = GlobalKey<FormState>();
 
   @override

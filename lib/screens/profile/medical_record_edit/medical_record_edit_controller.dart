@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syren/controllers/user_controller.dart';
-import 'package:syren/screens/profile/profile_view.dart';
-import 'package:syren/screens/success.dart';
 import 'package:syren/services/user_service.dart';
 import 'package:syren/widgets/widgets.dart';
 

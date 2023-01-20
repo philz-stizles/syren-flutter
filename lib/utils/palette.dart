@@ -9,7 +9,6 @@ class Palette {
   static const lighterGrey = Color(0xFFE5E5E5);
   static const secondary = Color(0xFF1B1C1E);
   static const white = Color(0xFFFFFFFF);
-  static const brown = Color(0xFF5A5A5A);
   static const label = Color(0xFF1B1C1E);
   static const dimWhite = Color(0xFFF9F9F9);
   static const ash = Color(0xFFB9B9B9);

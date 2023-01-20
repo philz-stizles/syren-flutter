@@ -21,7 +21,7 @@ class UIConfig {
                 children: [
                   Icon(
                     icon,
-                    size: 30,
+                    size: 40,
                   ),
                   const SizedBox(
                     height: 20,

@@ -7,7 +7,7 @@ import 'medical_record_edit_controller.dart';
 
 class MedicalRecordEditView extends GetView<MedicalRecordEditController> {
   MedicalRecordEditView({super.key});
-  static String routeName = "/medical-record-edit";
+  static const String routeName = "/medical-record-edit";
   final signUpMedicalsFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {

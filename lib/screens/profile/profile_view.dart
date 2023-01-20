@@ -10,8 +10,8 @@ import 'package:syren/widgets/widgets.dart';
 import 'profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
-  ProfileView({super.key});
-  static String routeName = "/profile";
+  const ProfileView({super.key});
+  static const String routeName = "/profile";
 
   @override
   Widget build(BuildContext context) {

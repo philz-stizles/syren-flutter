@@ -10,7 +10,7 @@ import 'feedback_controller.dart';
 
 class FeedbackView extends GetView<FeedbackController> {
   FeedbackView({super.key});
-  static String routeName = '/feedback';
+  static const String routeName = '/feedback';
   final loginFormKey = GlobalKey<FormState>();
 
   @override
@@ -53,7 +53,6 @@ class FeedbackView extends GetView<FeedbackController> {
                           color: Colors.amber,
                         ),
                         onRatingUpdate: (double rating) {
-                          print(rating);
                           controller.rating.value = rating;
                         },
                       ),
@@ -90,11 +89,11 @@ class FeedbackView extends GetView<FeedbackController> {
                   ],
                 )))),
       ),
-      bottomNavigationBar: AppBottomNavigationBar(
-          currentIndex: 3,
-          onTap: ((value) {
-            // Get.to(SettingsView());
-          })),
+      // bottomNavigationBar: AppBottomNavigationBar(
+      //     currentIndex: 3,
+      //     onTap: ((value) {
+      //       // Get.to(SettingsView());
+      //     })),
     );
   }
 }

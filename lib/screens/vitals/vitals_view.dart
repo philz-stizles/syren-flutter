@@ -9,7 +9,7 @@ import 'blood_sugar/blood_sugar_view.dart';
 
 class VitalsView extends GetView<VitalsController> {
   const VitalsView({super.key});
-  static String routeName = "/vitals";
+  static const String routeName = "/vitals";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +22,7 @@ class VitalsView extends GetView<VitalsController> {
         child: Column(
           children: [
             const JumbotronCard(
-                image: 'assets/images/medication-reminder.jpg',
+                image: 'assets/images/vitals.jpg',
                 caption:
                     'With Syren, You’re sure to have\n stable blood vitals'),
             const SizedBox(
@@ -38,23 +38,23 @@ class VitalsView extends GetView<VitalsController> {
                     children: [
                       ImageCaptionCard(
                           title: 'Blood Pressure',
-                          imageLocation: 'assets/images/consultant.jpg',
-                          icon: Icons.medical_information_outlined,
+                          imageLocation: 'assets/images/blood_pressure.jpg',
+                          icon: Icons.bloodtype,
                           tap: () => Get.toNamed(BloodPressureView.routeName)),
                       ImageCaptionCard(
                           title: 'Blood Sugar',
-                          imageLocation: 'assets/images/consultant.jpg',
-                          icon: Icons.medical_information,
+                          imageLocation: 'assets/images/blood_sugar.jpg',
+                          icon: Icons.bloodtype_outlined,
                           tap: () => Get.toNamed(BloodSugarView.routeName)),
                     ])),
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavigationBar(
-          currentIndex: 0,
-          onTap: ((value) {
-            // Get.to(SettingsView());
-          })),
+      // bottomNavigationBar: AppBottomNavigationBar(
+      //     currentIndex: 0,
+      //     onTap: ((value) {
+      //       // Get.to(SettingsView());
+      //     })),
     );
   }
 }

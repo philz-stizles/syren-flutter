@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syren/models/models.dart';
 import 'package:syren/utils/constants.dart';
 import 'package:syren/widgets/widgets.dart';
 
@@ -7,7 +8,7 @@ import 'notifications_controller.dart';
 
 class NotificationsView extends GetView<NotificationsController> {
   const NotificationsView({super.key});
-  static String routeName = "/notifications";
+  static const String routeName = "/notifications";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,31 +55,36 @@ class NotificationsView extends GetView<NotificationsController> {
                       TextIconButton(
                         label: 'Mark all as read',
                         trailingIcon: Icons.check,
-                        onPress: () {},
+                        onPress: () => controller.markAllAsRead(),
                       )
                     ],
                   ),
                   // const SizedBox(height: 5),
-                  Expanded(
-                      child: ListView.builder(
-                          itemCount: 4,
-                          shrinkWrap: true,
-                          itemBuilder: ((context, index) {
-                            // var reminder = vitalReminders[index];
-                            return NotificationCard(
-                                title: 'Medications',
-                                message:
-                                    'It’s time to take your medications seun, Always stay on top of your health',
-                                isRead: false,
-                                time: DateTime.now().toString());
-                          })))
+                  ..._buildRecentNotifications(controller.notifications)
                 ],
               ))),
-      bottomNavigationBar: AppBottomNavigationBar(
-          currentIndex: 0,
-          onTap: ((value) {
-            // Get.to(SettingsView());
-          })),
     );
+  }
+
+  List<Widget> _buildRecentNotifications(
+      List<NotificationModel> notifications) {
+    return [
+      Expanded(
+          child: ListView.builder(
+              itemCount: notifications.length,
+              shrinkWrap: true,
+              itemBuilder: ((context, index) {
+                var notification = notifications[index];
+                return NotificationCard(
+                    title: notification.title,
+                    message: notification.body,
+                    isRead: notification.isRead,
+                    time: notification.date,
+                    icon: notification.notificationType ==
+                            NotificationType.vitalReminder
+                        ? Icons.bloodtype
+                        : Icons.medication);
+              })))
+    ];
   }
 }

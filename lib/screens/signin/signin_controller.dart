@@ -18,7 +18,7 @@ class SignInController extends GetxController {
 
   // Form.
   final emailCtrl = TextEditingController();
-  final passwordController = TextEditingController();
+  final passwordCtrl = TextEditingController();
 
   // Observables.
   var isLoadingSignIn = false.obs;
@@ -32,21 +32,19 @@ class SignInController extends GetxController {
   @override
   void onClose() {
     emailCtrl.dispose();
-    passwordController.dispose();
+    passwordCtrl.dispose();
     super.onClose();
   }
 
-  Future<void> signIn() async {
+  Future<void> signIn({email, password}) async {
     try {
       // emailService.sendMail(EmailModel(
       //     to: emailCtrl.text.trim(),
       //     subject: 'Email Verification',
       //     message: ''), SignUpOTPTemplate.template.replaceAll('{{NAME}}', emailCtrl.text.trim()));
       isLoadingSignIn(true);
-      await authProvider.signIn(
-          email: emailCtrl.text.trim(),
-          password: passwordController.text.trim());
-      Get.to(DashboardScreen());
+      await authProvider.signIn(email: email, password: password);
+      Get.offAll(DashboardScreen());
     } on FirebaseAuthException catch (e) {
       debugPrint(e.message);
       if (e.message != null) {

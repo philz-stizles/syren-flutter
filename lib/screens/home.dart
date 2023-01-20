@@ -20,7 +20,7 @@ class Home extends StatelessWidget {
         } else if (snapshot.hasData) {
           return DashboardScreen();
         } else {
-          return SplashView();
+          return const SplashView();
         }
       },
     );

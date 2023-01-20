@@ -17,7 +17,13 @@ class ChatService extends GetxService {
 
   Future<bool> add(ChatModel model) async {
     try {
-      await fireStore.collection('chats').add(model.toJson());
+      model.createdBy = userId;
+      model.to = (await getAdminUser()).id;
+      await fireStore
+          .collection('chats')
+          .doc(userId)
+          .collection('chats')
+          .add(model.toJson());
       return true;
     } catch (e) {
       debugPrintStack();
@@ -25,54 +31,29 @@ class ChatService extends GetxService {
     }
   }
 
-  // Future<bool> add(BloodPressureModel bp) async {
-  //   try {
-  //     await collection.doc().set(bp.toJson());
-  //     return true;
-  //   } catch (e) {
-  //     debugPrintStack();
-  //     return false;
-  //   }
-  // }
-
-  // updates an existing entry (missing fields won't be touched on update),
-  // document must exist
-  Future updateByUser(String documentId, BloodPressureModel bp) async {
-    await fireStore
-        .collection('users')
-        .doc(userId)
-        .collection('bloodPressures')
-        .doc(documentId)
-        .update(bp.toJson());
-  }
-
-  Future<List<BloodPressureModel>> list(String userId) async {
-    return (await FirebaseFirestore.instance
-            .collection('bloodPressures')
-            .where("userId", isEqualTo: userId)
-            .orderBy("timeStamp", descending: true)
-            .get())
-        .docs
-        .map((item) => BloodPressureModel.fromJson(item.data()))
-        .toList();
+  Future<QueryDocumentSnapshot<Map<String, dynamic>>> getAdminUser() async {
+    try {
+      return (await fireStore
+              .collection('users')
+              .where('role', isEqualTo: 'admin')
+              .get())
+          .docs
+          .first;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> stream() {
-    return fireStore
-        .collection('chats')
-        .orderBy('createdAt', descending: true)
-        .snapshots();
-  }
-
-  Future delete(String documentId) async =>
-      await fireStore.collection('chats').doc(documentId).delete();
-
-  Future deleteByUser(String documentId) async {
-    await fireStore
-        .collection('users')
-        .doc(userId)
-        .collection('bloodPressures')
-        .doc(documentId)
-        .delete();
+    try {
+      return fireStore
+          .collection('chats')
+          .doc(userId)
+          .collection('chats')
+          .orderBy('createdAt', descending: true)
+          .snapshots();
+    } catch (e) {
+      rethrow;
+    }
   }
 }

@@ -7,8 +7,8 @@ import 'package:syren/widgets/widgets.dart';
 import 'change_password_controller.dart';
 
 class ChangePasswordView extends GetView<ChangePasswordController> {
-  ChangePasswordView({super.key});
-  static String routeName = "/change-password";
+  const ChangePasswordView({super.key});
+  static const String routeName = "/change-password";
 
   @override
   Widget build(BuildContext context) {
@@ -117,11 +117,11 @@ class ChangePasswordView extends GetView<ChangePasswordController> {
               ))),
         ),
       ),
-      bottomNavigationBar: AppBottomNavigationBar(
-          currentIndex: 3,
-          onTap: ((value) {
-            // Get.to(SettingsView());
-          })),
+      // bottomNavigationBar: AppBottomNavigationBar(
+      //     currentIndex: 3,
+      //     onTap: ((value) {
+      //       // Get.to(SettingsView());
+      //     })),
     );
   }
 }

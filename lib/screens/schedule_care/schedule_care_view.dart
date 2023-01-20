@@ -9,7 +9,7 @@ import 'schedule_care_controller.dart';
 
 class ScheduleCareView extends GetView<ScheduleCareController> {
   const ScheduleCareView({super.key});
-  static String routeName = "/schedule-care";
+  static const String routeName = "/schedule-care";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,23 +39,26 @@ class ScheduleCareView extends GetView<ScheduleCareController> {
                         children: [
                           ImageCaptionCard(
                               title: 'Home Visit',
-                              imageLocation: 'assets/images/consultant.jpg',
+                              imageLocation: 'assets/images/home_visit.jpg',
                               icon: Icons.medical_information_outlined,
                               tap: () => Get.toNamed(HomeVisitView.routeName)),
                           ImageCaptionCard(
                               title: 'Clinic\n Appointment',
-                              imageLocation: 'assets/images/consultant.jpg',
+                              imageLocation:
+                                  'assets/images/clinic_appointment.jpg',
                               icon: Icons.calendar_today_outlined,
                               tap: () =>
                                   Get.toNamed(ClinicAppointmentView.routeName)),
                           ImageCaptionCard(
                               title: 'Ambulance\n Services',
-                              imageLocation: 'assets/images/consultant.jpg',
+                              imageLocation:
+                                  'assets/images/ambulance_service.jpg',
                               icon: Icons.medical_information_outlined,
                               tap: () => Get.toNamed(HomeVisitView.routeName)),
                           ImageCaptionCard(
                               title: 'Diagnostics\n Center Appointment',
-                              imageLocation: 'assets/images/consultant.jpg',
+                              imageLocation:
+                                  'assets/images/diag_center_appointment.jpg',
                               icon: Icons.local_hospital_outlined,
                               tap: () =>
                                   Get.toNamed(ClinicAppointmentView.routeName)),
@@ -63,11 +66,13 @@ class ScheduleCareView extends GetView<ScheduleCareController> {
               ],
             ),
           )),
-      bottomNavigationBar: AppBottomNavigationBar(
-          currentIndex: 0,
-          onTap: ((value) {
-            // Get.to(SettingsView());
-          })),
+      // bottomNavigationBar: AppBottomNavigationBar(
+      //     currentIndex: controller.dashboardCtrl.index.value,
+      //     onTap: (int value) {
+      //       print(value);
+      //       Get.toNamed(DashboardScreen.routeName,
+      //           arguments: {'pageIndex': value});
+      //     }),
     );
   }
 }

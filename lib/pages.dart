@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:syren/screens/dashboard/dashboard_controller.dart';
+import 'package:syren/screens/dashboard/dashboard_view.dart';
 import 'package:syren/screens/schedule_care/ambulance_service/ambulance_service_controller.dart';
 import 'package:syren/screens/schedule_care/clinic_appointment/clinic_appointment_controller.dart';
 import 'package:syren/screens/schedule_care/home_visit/home_visit_controller.dart';
@@ -48,12 +50,17 @@ getPages() {
         page: () => ForgotPasswordView(),
         binding: ForgotPasswordBinding()),
     GetPage(
+        name: DashboardScreen.routeName,
+        page: () => DashboardScreen(),
+        arguments: Get.arguments,
+        binding: DashboardBinding()),
+    GetPage(
         name: ChangePasswordView.routeName,
-        page: () => ChangePasswordView(),
+        page: () => const ChangePasswordView(),
         binding: ChangePasswordBinding()),
     GetPage(
         name: ProfileView.routeName,
-        page: () => ProfileView(),
+        page: () => const ProfileView(),
         binding: ProfileBinding()),
     GetPage(
         name: ProfileEditView.routeName,
@@ -65,11 +72,11 @@ getPages() {
         binding: MedicationsBinding()),
     GetPage(
         name: SettingsView.routeName,
-        page: () => SettingsView(),
+        page: () => const SettingsView(),
         binding: SettingsBinding()),
     GetPage(
         name: NotificationSettingsView.routeName,
-        page: () => NotificationSettingsView(),
+        page: () => const NotificationSettingsView(),
         binding: NotificationSettingsBinding()),
     GetPage(
         name: MedicalRecordEditView.routeName,
@@ -105,7 +112,7 @@ getPages() {
         binding: FeedbackBinding()),
     GetPage(
         name: RemindersView.routeName,
-        page: () => const RemindersView(),
+        page: () => RemindersView(),
         binding: RemindersBinding()),
     GetPage(
         name: SetMedReminderView.routeName,
@@ -117,7 +124,7 @@ getPages() {
         binding: SetVitalReminderBinding()),
     GetPage(
         name: ScheduleCareView.routeName,
-        page: () => ScheduleCareView(),
+        page: () => const ScheduleCareView(),
         binding: ScheduleCareBinding()),
     GetPage(
         name: NotificationsView.routeName,
@@ -125,15 +132,31 @@ getPages() {
         binding: NotificationsBinding()),
     GetPage(
         name: HomeVisitView.routeName,
-        page: () => HomeVisitView(),
+        page: () => const HomeVisitView(),
         binding: HomeVisitBinding()),
     GetPage(
         name: ClinicAppointmentView.routeName,
-        page: () => ClinicAppointmentView(),
+        page: () => const ClinicAppointmentView(),
         binding: ClinicAppointmentBinding()),
     GetPage(
         name: AmbulanceServiceView.routeName,
         page: () => AmbulanceServiceView(),
         binding: AmbulanceServiceBinding()),
+    GetPage(
+        name: DrugStoreView.routeName,
+        page: () => const DrugStoreView(),
+        binding: DrugStoreBinding()),
+    GetPage(
+        name: PurchaseMedicationView.routeName,
+        page: () => const PurchaseMedicationView(),
+        binding: PurchaseMedicationBinding()),
+    GetPage(
+        name: PurchaseEquipmentView.routeName,
+        page: () => const PurchaseEquipmentView(),
+        binding: PurchaseEquipmentBinding()),
+    GetPage(
+        name: PurchaseDetailView.routeName,
+        page: () => PurchaseDetailView(),
+        binding: PurchaseDetailBinding()),
   ];
 }

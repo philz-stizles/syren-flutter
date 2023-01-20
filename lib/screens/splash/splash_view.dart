@@ -7,8 +7,8 @@ import 'package:syren/utils/palette.dart';
 import 'package:syren/widgets/widgets.dart';
 
 class SplashView extends StatelessWidget {
-  SplashView({super.key});
-  static String routeName = "/splash-view";
+  const SplashView({super.key});
+  static const String routeName = "/splash-view";
 
   @override
   Widget build(BuildContext context) {

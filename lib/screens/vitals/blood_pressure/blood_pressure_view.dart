@@ -12,7 +12,7 @@ import 'blood_pressure_controller.dart';
 
 class BloodPressureView extends GetView<BloodPressureController> {
   BloodPressureView({super.key});
-  static String routeName = "/blood-pressure";
+  static const String routeName = "/blood-pressure";
 
   final bpFormKey = GlobalKey<FormState>();
 
@@ -113,7 +113,7 @@ class BloodPressureView extends GetView<BloodPressureController> {
                             return Container(
                               margin: const EdgeInsets.only(bottom: 10),
                               decoration: BoxDecoration(
-                                border: Border.all(color: Palette.brown),
+                                border: Border.all(color: Palette.grey),
                                 borderRadius:
                                     BorderRadius.circular(mediumBorderRadius),
                               ),
@@ -170,7 +170,7 @@ class BloodPressureView extends GetView<BloodPressureController> {
                           Container(
                             margin: const EdgeInsets.only(bottom: 10),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Palette.brown),
+                              border: Border.all(color: Palette.grey),
                               borderRadius:
                                   BorderRadius.circular(mediumBorderRadius),
                             ),
@@ -180,7 +180,7 @@ class BloodPressureView extends GetView<BloodPressureController> {
                                 children: [
                                   const Text('Present Blood Pressure',
                                       style: TextStyle(
-                                          fontSize: 12, color: Palette.brown)),
+                                          fontSize: 12, color: Palette.grey)),
                                   const SizedBox(
                                     height: 10,
                                   ),
@@ -190,14 +190,14 @@ class BloodPressureView extends GetView<BloodPressureController> {
                                             '${bp?.systolic}/${bp?.diastolic}',
                                         style: const TextStyle(
                                             fontSize: 18,
-                                            color: Palette.brown,
+                                            color: Palette.grey,
                                             fontWeight: FontWeight.bold),
                                         children: const [
                                           TextSpan(
                                             text: 'mmHg',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                color: Palette.brown),
+                                                color: Palette.grey),
                                           )
                                         ]),
                                   )
@@ -211,7 +211,7 @@ class BloodPressureView extends GetView<BloodPressureController> {
                               : Container(
                                   margin: const EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Palette.brown),
+                                    border: Border.all(color: Palette.grey),
                                     borderRadius: BorderRadius.circular(
                                         mediumBorderRadius),
                                   ),
@@ -223,7 +223,7 @@ class BloodPressureView extends GetView<BloodPressureController> {
                                         const Text('Previous Blood Pressure',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                color: Palette.brown)),
+                                                color: Palette.grey)),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -233,14 +233,14 @@ class BloodPressureView extends GetView<BloodPressureController> {
                                                   '${previousBp.systolic}/${previousBp.diastolic}',
                                               style: const TextStyle(
                                                   fontSize: 18,
-                                                  color: Palette.brown,
+                                                  color: Palette.grey,
                                                   fontWeight: FontWeight.bold),
                                               children: const [
                                                 TextSpan(
                                                   text: 'mmHg',
                                                   style: TextStyle(
                                                       fontSize: 12,
-                                                      color: Palette.brown),
+                                                      color: Palette.grey),
                                                 )
                                               ]),
                                         )

@@ -16,12 +16,6 @@ class DiagnosticCenterController extends GetxController {
   var isLoadingSignIn = false.obs;
 
   @override
-  void onInit() {
-    // Simulating obtaining the user name from some local storage
-    super.onInit();
-  }
-
-  @override
   void onClose() {
     fastingController.dispose();
     randomController.dispose();

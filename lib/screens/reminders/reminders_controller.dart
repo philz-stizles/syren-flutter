@@ -1,13 +1,27 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/controllers/vital_reminder_controller.dart';
+import 'package:syren/models/models.dart';
+import 'package:syren/services/services.dart';
 
 class RemindersController extends GetxController {
-  // Controllers.
-  final vitalReminderCtrl = Get.put(VitalReminderController());
+  // Services.
+  final notificationSrv = Get.find<NotificationService>();
 
   // Observables.
-  var morningMedications = false.obs;
   var page = 0.obs;
+  var morningMedications = true.obs;
+  RxList<NotificationModel> notifications = <NotificationModel>[].obs;
+
+  @override
+  Future<void> onReady() async {
+    debugPrint('ready reminders');
+    await getNotifications();
+    super.onReady();
+  }
+
+  Future<void> getNotifications() async {
+    notifications.assignAll(await notificationSrv.query());
+  }
 }
 
 class RemindersBinding implements Bindings {

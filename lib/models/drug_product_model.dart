@@ -4,19 +4,23 @@ import 'package:syren/models/review_model.dart';
 class DrugProductModel {
   String? id;
   String? imageLocation;
-  String? name;
+  late String name;
+  String? category;
   String? description;
+  String? prescribedBy;
   List<ReviewModel>? reviews;
-  int? price;
+  late double price;
   int? quantity;
 
   DrugProductModel({
     this.id,
     this.imageLocation,
-    this.name,
+    required this.name,
+    this.category,
     this.description,
+    this.prescribedBy,
     this.reviews,
-    this.price,
+    required this.price,
     this.quantity,
   });
 

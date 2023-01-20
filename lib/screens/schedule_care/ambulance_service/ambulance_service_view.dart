@@ -7,7 +7,7 @@ import 'ambulance_service_controller.dart';
 
 class AmbulanceServiceView extends GetView<AmbulanceServiceController> {
   AmbulanceServiceView({super.key});
-  static String routeName = '/ambulance-service';
+  static const String routeName = '/ambulance-service';
 
   final bpFormKey = GlobalKey<FormState>();
 

@@ -7,7 +7,7 @@ import 'blood_sugar_add_controller.dart';
 
 class BloodSugarAddView extends GetView<BloodSugarAddController> {
   BloodSugarAddView({super.key});
-  static String routeName = "/blood-sugar-add";
+  static const String routeName = "/blood-sugar-add";
 
   final bpFormKey = GlobalKey<FormState>();
 

@@ -4,13 +4,12 @@ import 'package:get/get.dart';
 
 import 'package:syren/utils/constants.dart';
 import 'package:syren/utils/palette.dart';
-import 'package:syren/widgets/widgets.dart';
 
 import 'notification_settings_controller.dart';
 
 class NotificationSettingsView extends GetView<NotificationSettingsController> {
   const NotificationSettingsView({super.key});
-  static String routeName = '/notification-settings';
+  static const String routeName = '/notification-settings';
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +103,8 @@ class NotificationSettingsView extends GetView<NotificationSettingsController> {
           ],
         ),
       ),
-      bottomNavigationBar:
-          AppBottomNavigationBar(currentIndex: 3, onTap: ((value) {})),
+      // bottomNavigationBar:
+      //     AppBottomNavigationBar(currentIndex: 3, onTap: ((value) {})),
     );
   }
 }

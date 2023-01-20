@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:syren/screens/dashboard/dashboard_controller.dart';
-import 'package:syren/screens/drug_store/drug_store.dart';
 import 'package:syren/screens/views.dart';
-import 'package:syren/screens/vitals/vitals_controller.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:get/get.dart';
 
@@ -12,8 +9,6 @@ import '../../widgets/widgets.dart';
 
 class HomeView extends StatelessWidget {
   HomeView({super.key});
-
-  // final dashboardCtrl = Get.put(DashboardController());
 
   RxString isActive = ''.obs;
 
@@ -88,41 +83,34 @@ class HomeView extends StatelessWidget {
                     childAspectRatio: 0.90,
                     children: [
                       ImageCaptionCard(
-                        title: 'Vitals',
-                        description:
-                            'Get on top of your health today by checking your vitals',
-                        imageLocation: 'assets/images/food-bank-initiative.jpg',
-                        icon: Icons.area_chart,
-                        tap: () {
-                          Get.to(VitalsView(), binding: VitalsBinding());
-                        },
-                      ),
+                          title: 'Vitals',
+                          description:
+                              'Get on top of your health today by checking your vitals',
+                          imageLocation:
+                              'assets/images/food-bank-initiative.jpg',
+                          icon: Icons.line_axis,
+                          tap: () => Get.toNamed(VitalsView.routeName)),
                       ImageCaptionCard(
                         title: 'Schedule Care',
                         description:
                             'Schedule your daily plans with consultants',
                         imageLocation: 'assets/images/consultant.jpg',
                         icon: Icons.calendar_month_outlined,
-                        tap: () {
-                          Get.toNamed(ScheduleCareView.routeName);
-                        },
+                        tap: () => Get.toNamed(ScheduleCareView.routeName),
                       ),
                       ImageCaptionCard(
-                        title: 'Drug Store',
-                        description:
-                            'Get Prescribed medications easily at affordable prices, and Medical Equiments.',
-                        imageLocation: 'assets/images/medication.jpg',
-                        icon: Icons.medication,
-                        tap: () {
-                          Get.toNamed(DrugStoreView.routeName);
-                        },
-                      ),
+                          title: 'Drug Store',
+                          description:
+                              'Get Prescribed medications easily at affordable prices, and Medical Equiments.',
+                          imageLocation: 'assets/images/medication.jpg',
+                          icon: Icons.medication,
+                          tap: () => Get.toNamed(DrugStoreView.routeName)),
                       ImageCaptionCard(
                           title: 'Urgent Care\n(Panic Button)',
                           description:
                               'Any urgent issue? Call on our attention, we\'re here to help you.',
                           imageLocation: 'assets/images/siren.jpg',
-                          icon: Icons.emergency_outlined,
+                          icon: Icons.emergency_sharp,
                           tap: () => Get.toNamed(UrgentCareView.routeName)),
                     ])),
             Container(
@@ -174,24 +162,6 @@ class HomeView extends StatelessWidget {
           ],
         ),
       )),
-      // bottomNavigationBar: AppBottomNavigationBar(
-      //     currentIndex: dashboardCtrl.index.value,
-      //     onTap: dashboardCtrl.onTap),
     );
-  }
-
-  Widget _buildMenuItem(
-      {required String title, void Function()? onTap, required bool isActive}) {
-    return GestureDetector(
-        onTap: onTap,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(secondaryBorderRadius),
-              color: isActive ? Palette.primary : Palette.white),
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Text(title),
-          ),
-        ));
   }
 }

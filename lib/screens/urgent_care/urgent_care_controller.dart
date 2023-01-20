@@ -8,12 +8,12 @@ class UrgentCareController extends GetxController {
 
   @override
   void onInit() {
-    numberCtrl.text = "085921191121";
+    numberCtrl.text = "07044007947";
     super.onInit();
   }
 
   makingPhoneCall() async {
-    var url = Uri.parse("tel:9776765434");
+    var url = Uri.parse("tel:07044007947");
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {

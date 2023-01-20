@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:syren/utils/constants.dart';
+import 'package:timeago/timeago.dart' as timeago;
 import 'package:syren/utils/palette.dart';
 
 class ImageCaptionCard extends StatelessWidget {
@@ -53,6 +56,7 @@ class ImageCaptionCard extends StatelessWidget {
                         children: [
                           Icon(
                             icon,
+                            size: 30,
                             color: Palette.white,
                           ),
                           const SizedBox(
@@ -198,9 +202,16 @@ class JumbotronCard extends StatelessWidget {
               child: Text(
                 caption,
                 maxLines: 2,
-                style: const TextStyle(color: Palette.white),
+                style: const TextStyle(
+                    color: Palette.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600),
               ),
-            ))
+            )),
+        Positioned(
+            right: 20,
+            bottom: 20,
+            child: Image.asset('assets/images/syren_sm.png'))
       ],
     );
   }
@@ -244,7 +255,7 @@ class ReminderCard extends StatelessWidget {
             ),
             Text(
               note!,
-              style: const TextStyle(fontSize: 12, color: Palette.brown),
+              style: const TextStyle(fontSize: 12, color: Palette.grey),
             ),
           ]),
           Row(
@@ -294,7 +305,7 @@ class NotificationCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(Icons.alarm, size: 24, color: Palette.secondary),
+              Icon(icon, size: 24, color: Palette.secondary),
               const SizedBox(
                 width: 10,
               ),
@@ -315,21 +326,95 @@ class NotificationCard extends StatelessWidget {
                       Text(
                         message!,
                         style:
-                            const TextStyle(fontSize: 12, color: Palette.brown),
+                            const TextStyle(fontSize: 12, color: Palette.grey),
                       ),
                     ]),
               )
             ],
           ),
         ),
-        const Text(
-          '1 hour ago',
-          style: TextStyle(fontSize: 12, color: Palette.brown),
+        Text(
+          timeago.format(DateTime.parse(time!)),
+          style: const TextStyle(fontSize: 12, color: Palette.grey),
         ),
         const SizedBox(
           height: 16,
         ),
       ],
+    );
+  }
+}
+
+class DrugProductCard extends StatelessWidget {
+  const DrugProductCard(
+      {super.key,
+      this.imageLocation,
+      this.name,
+      this.description,
+      this.prescribedBy,
+      this.price,
+      this.onTap});
+  final String? imageLocation;
+  final String? name;
+  final String? description;
+  final String? prescribedBy;
+  final String? price;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+          decoration: BoxDecoration(
+              border: Border.all(color: Palette.grey),
+              borderRadius: BorderRadius.circular(mediumBorderRadius)),
+          padding: const EdgeInsets.all(15.0),
+          margin: const EdgeInsets.only(bottom: 16.0),
+          child: Row(children: [
+            Image.asset(imageLocation!,
+                width: Get.width * 0.24,
+                height: 90,
+                filterQuality: FilterQuality.high,
+                fit: BoxFit.contain),
+            const SizedBox(
+              width: 10,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text(
+                  name!,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                description == null
+                    ? const SizedBox()
+                    : Text(
+                        description!,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                SizedBox(
+                  height: description == null ? 0 : 5,
+                ),
+                prescribedBy == null
+                    ? const SizedBox()
+                    : Text('Prescribed By: $prescribedBy'),
+                SizedBox(
+                  height: prescribedBy == null ? 0 : 5,
+                ),
+                Text(
+                  'Price: \$$price',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Palette.primary),
+                )
+              ],
+            )
+          ])),
     );
   }
 }

@@ -10,7 +10,7 @@ import 'medications_controller.dart';
 
 class MedicationsView extends GetView<MedicationsController> {
   MedicationsView({super.key});
-  static String routeName = "/medications";
+  static const String routeName = "/medications";
 
   @override
   Widget build(BuildContext context) {
@@ -93,21 +93,19 @@ class MedicationsView extends GetView<MedicationsController> {
               style: TextStyle(fontSize: 12, color: Palette.grey),
             )
           : Expanded(
-              child: Expanded(
-                  child: ListView.builder(
-                itemCount: meds.length,
-                itemBuilder: (context, index) {
-                  var item = meds[index];
-                  return MedicationCard(
-                      imageLocation: item.imageLocation,
-                      title: item.title,
-                      pills: item.pills,
-                      time: item.time,
-                      daysLeft: item.daysLeft,
-                      when: item.when);
-                },
-              )),
-            )
+              child: ListView.builder(
+              itemCount: meds.length,
+              itemBuilder: (context, index) {
+                var item = meds[index];
+                return MedicationCard(
+                    imageLocation: item.imageLocation,
+                    title: item.title,
+                    pills: item.pills,
+                    time: item.time,
+                    daysLeft: item.daysLeft,
+                    when: item.when);
+              },
+            )),
     ];
   }
 

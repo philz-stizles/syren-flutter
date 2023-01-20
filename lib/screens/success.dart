@@ -8,7 +8,7 @@ class SuccessView extends StatelessWidget {
       required this.message,
       required this.title,
       required this.backToPage});
-  static String routeName = '/success';
+  static const String routeName = '/success';
   final String title;
   final String message;
   final String backToPage;
@@ -19,7 +19,7 @@ class SuccessView extends StatelessWidget {
         appBar: AppBar(
             automaticallyImplyLeading: false,
             leading: IconButton(
-                onPressed: (() => Get.toNamed(backToPage)),
+                onPressed: (() => Get.offNamed(backToPage)),
                 icon: const Icon(Icons.arrow_back)),
             title: Text(title)),
         body: Center(

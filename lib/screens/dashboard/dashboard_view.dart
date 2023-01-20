@@ -6,8 +6,10 @@ import 'package:syren/screens/reminders/reminders_controller.dart';
 
 import '../../widgets/widgets.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends GetView<DashboardController> {
   DashboardScreen({super.key});
+
+  static const String routeName = "/dashboard";
 
   final dashboardCtrl = Get.put(DashboardController());
   var m = Get.put(MedicationsController());

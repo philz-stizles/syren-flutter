@@ -12,7 +12,7 @@ import 'blood_sugar_controller.dart';
 
 class BloodSugarView extends GetView<BloodSugarController> {
   BloodSugarView({super.key});
-  static String routeName = "/blood-sugar";
+  static const String routeName = "/blood-sugar";
 
   final bpFormKey = GlobalKey<FormState>();
 
@@ -112,7 +112,7 @@ class BloodSugarView extends GetView<BloodSugarController> {
                           return Container(
                             margin: const EdgeInsets.only(bottom: 10),
                             decoration: BoxDecoration(
-                              border: Border.all(color: Palette.brown),
+                              border: Border.all(color: Palette.grey),
                               borderRadius:
                                   BorderRadius.circular(mediumBorderRadius),
                             ),
@@ -170,7 +170,7 @@ class BloodSugarView extends GetView<BloodSugarController> {
                               : Container(
                                   margin: const EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Palette.brown),
+                                    border: Border.all(color: Palette.grey),
                                     borderRadius: BorderRadius.circular(
                                         mediumBorderRadius),
                                   ),
@@ -182,7 +182,7 @@ class BloodSugarView extends GetView<BloodSugarController> {
                                         const Text('Present Blood Sugar',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                color: Palette.brown)),
+                                                color: Palette.grey)),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -191,14 +191,14 @@ class BloodSugarView extends GetView<BloodSugarController> {
                                               text: '${bp?.fasting}',
                                               style: const TextStyle(
                                                   fontSize: 18,
-                                                  color: Palette.brown,
+                                                  color: Palette.grey,
                                                   fontWeight: FontWeight.bold),
                                               children: const [
                                                 TextSpan(
                                                   text: 'mg/dL',
                                                   style: TextStyle(
                                                       fontSize: 12,
-                                                      color: Palette.brown),
+                                                      color: Palette.grey),
                                                 )
                                               ]),
                                         )
@@ -212,7 +212,7 @@ class BloodSugarView extends GetView<BloodSugarController> {
                               : Container(
                                   margin: const EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
-                                    border: Border.all(color: Palette.brown),
+                                    border: Border.all(color: Palette.grey),
                                     borderRadius: BorderRadius.circular(
                                         mediumBorderRadius),
                                   ),
@@ -224,7 +224,7 @@ class BloodSugarView extends GetView<BloodSugarController> {
                                         const Text('Previous Blood Sugar',
                                             style: TextStyle(
                                                 fontSize: 12,
-                                                color: Palette.brown)),
+                                                color: Palette.grey)),
                                         const SizedBox(
                                           height: 10,
                                         ),
@@ -234,14 +234,14 @@ class BloodSugarView extends GetView<BloodSugarController> {
                                                   '${previousBp.fasting}/${previousBp.random}',
                                               style: const TextStyle(
                                                   fontSize: 18,
-                                                  color: Palette.brown,
+                                                  color: Palette.grey,
                                                   fontWeight: FontWeight.bold),
                                               children: const [
                                                 TextSpan(
                                                   text: 'mmHg',
                                                   style: TextStyle(
                                                       fontSize: 12,
-                                                      color: Palette.brown),
+                                                      color: Palette.grey),
                                                 )
                                               ]),
                                         )

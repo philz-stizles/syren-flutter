@@ -8,7 +8,7 @@ import 'package:syren/widgets/widgets.dart';
 
 class ClinicAppointmentView extends GetView<ClinicAppointmentController> {
   const ClinicAppointmentView({super.key});
-  static String routeName = '/clinic-appointment';
+  static const String routeName = '/clinic-appointment';
 
   @override
   Widget build(BuildContext context) {

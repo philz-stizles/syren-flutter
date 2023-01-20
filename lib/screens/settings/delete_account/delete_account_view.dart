@@ -5,7 +5,7 @@ import 'package:syren/widgets/widgets.dart';
 
 class DeleteAccountView extends StatelessWidget {
   const DeleteAccountView({super.key});
-  static String routeName = '/delete-account';
+  static const String routeName = '/delete-account';
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +63,6 @@ class DeleteAccountView extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar: AppBottomNavigationBar(
-          currentIndex: 3,
-          onTap: ((value) {
-            // Get.to(SettingsView());
-          })),
     );
   }
 }

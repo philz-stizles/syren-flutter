@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:get/get.dart';
+import 'package:syren/screens/dashboard/dashboard_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ScheduleCareController extends GetxController {
+  // Controllers
+  var dashboardCtrl = Get.find<DashboardController>();
+
   final numberCtrl = TextEditingController();
 
   @override

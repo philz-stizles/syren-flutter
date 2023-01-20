@@ -55,7 +55,7 @@ class FeedbackController extends GetxController {
 
       FocusManager.instance.primaryFocus?.unfocus();
 
-      Get.to(SuccessView(
+      Get.to(const SuccessView(
         message: 'You\'ve successfully submitted your feedback',
         title: 'Feedback',
         backToPage: SettingsView.routeName,

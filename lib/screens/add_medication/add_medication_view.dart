@@ -7,7 +7,7 @@ import 'package:syren/widgets/widgets.dart';
 import 'add_medication_controller.dart';
 
 class AddMedicationView extends GetView<AddMedicationController> {
-  AddMedicationView({super.key});
+  const AddMedicationView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class AddMedicationView extends GetView<AddMedicationController> {
           children: [
             RadioButtonField(
                 labelText: 'Set duration for getting drugs',
-                options: ['Weekly', 'Monthly']),
+                options: const ['Weekly', 'Monthly']),
             const Divider(
               height: 0,
             ),
