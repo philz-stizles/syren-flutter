@@ -169,6 +169,7 @@ class AppTextField extends StatelessWidget {
     this.iconTap,
     this.descriptionText,
     this.initialValue,
+    this.formFieldKey,
   });
   final GlobalKey<FormState>? formKey;
   final String? hintText;
@@ -184,6 +185,7 @@ class AppTextField extends StatelessWidget {
   final int? maxLength;
   final TextInputType type;
   final TextEditingController? editingCtrl;
+  final GlobalKey<FormFieldState>? formFieldKey;
   final FormFieldValidator<String>? validator;
   final int maxLines;
 
@@ -219,6 +221,7 @@ class AppTextField extends StatelessWidget {
                     ),
                   ),
             TextFormField(
+              key: formFieldKey,
               maxLines: maxLines,
               initialValue: initialValue,
               controller: editingCtrl,
@@ -234,13 +237,14 @@ class AppTextField extends StatelessWidget {
                     ? null
                     : GestureDetector(onTap: iconTap, child: Icon(icon)),
               ),
-              validator: (val) {
-                if (val == null || val.isEmpty) {
-                  return validationText ?? "Please provide a valid value";
-                } else {
-                  return null;
-                }
-              },
+              validator: validator ??
+                  (val) {
+                    if (val == null || val.isEmpty) {
+                      return validationText ?? "Please provide a valid value";
+                    } else {
+                      return null;
+                    }
+                  },
             ),
           ],
         ));

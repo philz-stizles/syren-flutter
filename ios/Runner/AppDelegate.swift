@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import FirebaseCore
 import GoogleMaps
 
 @UIApplicationMain
@@ -12,6 +13,7 @@ import GoogleMaps
       UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
     }
     GMSServices.provideAPIKey("AIzaSyCA218vLy08hiibb010YL4DNb7fSt6A_HI")
+    FirebaseApp.configure()
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
