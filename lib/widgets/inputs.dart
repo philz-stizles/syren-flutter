@@ -48,7 +48,7 @@ class AppPasswordField extends StatelessWidget {
                       color: Palette.secondary),
                 ),
           SizedBox(
-            height: labelText == null ? 0 : 5,
+            height: labelText == null ? 0 : 10,
           ),
           Obx(() => TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -56,28 +56,17 @@ class AppPasswordField extends StatelessWidget {
                 controller: editingCtrl,
                 obscureText: isObscure.value,
                 decoration: InputDecoration(
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: Color(0xFEFE0000),
-                      width: 1, // width: 0
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                      color: Color(0xFEFE0000),
-                      width: 1, // width: 0
-                    ),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
                   hintText: hintText,
                   suffixIcon: GestureDetector(
                       onTap: () {
                         isObscure.value = !isObscure.value;
                       },
-                      child: Icon(isObscure.value
-                          ? Icons.visibility_off
-                          : Icons.visibility)),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Icon(isObscure.value
+                            ? Icons.visibility_off
+                            : Icons.visibility),
+                      )),
                 ),
                 validator: (val) {
                   if (val == null || val.isEmpty) {
@@ -121,20 +110,6 @@ class SelectField extends StatelessWidget {
       enabled: false,
       style: const TextStyle(fontSize: 14),
       decoration: InputDecoration(
-          focusedErrorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color(0xFEFE0000),
-              width: 1, // width: 0
-            ),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: Color(0xFEFE0000),
-              width: 1, // width: 0
-            ),
-            borderRadius: BorderRadius.circular(5),
-          ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
           ),
@@ -229,7 +204,7 @@ class AppTextField extends StatelessWidget {
                         color: Palette.secondary),
                   ),
             SizedBox(
-              height: labelText == null ? 0 : 5,
+              height: labelText == null ? 0 : 10,
             ),
             descriptionText == null
                 ? const SizedBox()
@@ -237,10 +212,10 @@ class AppTextField extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: Text(
                       descriptionText!,
-                      // style: AppTextStyles.defaultStyle.copyWith(
-                      //     fontSize: 10,
-                      //     fontWeight: FontWeight.w400,
-                      //     color: const Color(0xFFC8CBD5)),
+                      style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFFC8CBD5)),
                     ),
                   ),
             TextFormField(
@@ -254,20 +229,6 @@ class AppTextField extends StatelessWidget {
               obscureText: isObscured,
               decoration: InputDecoration(
                 enabled: isEnabled,
-                focusedErrorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0xFEFE0000),
-                    width: 1, // width: 0
-                  ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Color(0xFEFE0000),
-                    width: 1, // width: 0
-                  ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
                 hintText: hintText,
                 suffixIcon: icon == null
                     ? null
@@ -275,7 +236,7 @@ class AppTextField extends StatelessWidget {
               ),
               validator: (val) {
                 if (val == null || val.isEmpty) {
-                  return "Please provide a valid ${validationText ?? labelText?.toLowerCase() ?? hintText?.toLowerCase()}";
+                  return validationText ?? "Please provide a valid value";
                 } else {
                   return null;
                 }
@@ -310,15 +271,15 @@ class DateInputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 10.0),
+        margin: const EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 15.0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             labelText!,
             style: TextStyle(
-                fontSize: 12, fontWeight: fontWeight, color: Palette.secondary),
+                fontSize: 14, fontWeight: fontWeight, color: Palette.secondary),
           ),
           SizedBox(
-            height: labelText == null ? 0 : 5,
+            height: labelText == null ? 0 : 10,
           ),
           TextFormField(
             readOnly: true,
@@ -326,20 +287,6 @@ class DateInputField extends StatelessWidget {
             style: const TextStyle(fontSize: 14),
             controller: editingCtrl,
             decoration: InputDecoration(
-              focusedErrorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: Color(0xFEFE0000),
-                  width: 1, // width: 0
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderSide: const BorderSide(
-                  color: Color(0xFEFE0000),
-                  width: 1, // width: 0
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
               hintText: hintText,
               suffixIcon: icon == null
                   ? null
@@ -349,13 +296,6 @@ class DateInputField extends StatelessWidget {
                         icon,
                         color: Palette.secondary,
                       )),
-              // suffixIcon: GestureDetector(
-              //     onTap: () {
-              //       isObscure.value = !isObscure.value;
-              //     },
-              //     child: Icon(isObscure.value
-              //         ? Icons.visibility_off
-              //         : Icons.visibility)),
             ),
             // validator: (val) {
             //   if (val == null || val.isEmpty) {
@@ -653,19 +593,17 @@ class BottomSheetSelectField extends StatelessWidget {
 class DropdownSelectField extends StatelessWidget {
   const DropdownSelectField(
       {super.key,
-      required this.editingCtrl,
       required this.options,
-      required this.dropdownValue,
+      this.dropdownValue,
       required this.onChanged,
       this.labelText,
       this.fontWeight = FontWeight.w700,
       this.hint});
 
   final FontWeight fontWeight;
-  final TextEditingController editingCtrl;
   final ValueChanged<String?>? onChanged;
   final List<String> options;
-  final String dropdownValue;
+  final String? dropdownValue;
   final String? labelText;
   final String? hint;
 
@@ -686,12 +624,13 @@ class DropdownSelectField extends StatelessWidget {
           DecoratedBox(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  border: Border.all(color: Palette.secondary, width: 1.5)),
+                  border: Border.all(color: Palette.grey, width: 1.5)),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: DropdownButton<String>(
                   isExpanded: true,
                   underline: Container(),
+                  hint: const Text('Select an option'),
                   // Initial Value
                   value: dropdownValue,
                   style:

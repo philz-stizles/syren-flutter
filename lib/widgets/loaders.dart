@@ -82,12 +82,6 @@ class LoadingOverlay extends StatelessWidget {
                       ),
                       Text(
                         'Loading product details ...',
-                        // style: AppTextStyles.defaultStyle.copyWith(
-                        //   decoration: TextDecoration.none,
-                        //   fontSize: 14,
-                        //   fontWeight: FontWeight.w600,
-                        //   color: Colors.white,
-                        // )
                       )
                     ],
                   ),

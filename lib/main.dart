@@ -21,11 +21,14 @@ Future<void> initServices() async {
   await Get.putAsync(() => EnvironmentService().init());
   await Get.putAsync(() => DeviceService().init());
   await Get.putAsync(() => AppService().init());
+  Get.lazyPut(() => AuthService());
   // await Get.putAsync(() => ThemeService().init());
   // await Get.putAsync(() => BiometricService().init());
+  // await Get.putAsync(() => UserService().init());
   await Get.putAsync(() => EmailService().init());
   await Get.putAsync(() => LocalNotificationService().init());
   await Get.putAsync(() => NotificationService().init());
+  await Get.putAsync(() => ReminderService().init());
 }
 
 class MyApp extends StatelessWidget {
@@ -35,13 +38,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Syren',
-        themeMode: ThemeService().theme,
-        theme: theme(),
-        darkTheme: darkTheme(),
-        home: const Home(),
-        // initialRoute: '/signin',
-        getPages: getPages());
+      debugShowCheckedModeBanner: false,
+      locale: Get.deviceLocale,
+      fallbackLocale: const Locale('en', 'US'),
+      title: 'Syren',
+      themeMode: ThemeService().theme,
+      theme: theme(),
+      darkTheme: darkTheme(),
+      home: const Home(),
+      defaultTransition: Transition.fadeIn,
+      // initialRoute: '/signin',
+      getPages: getPages(),
+    );
   }
 }

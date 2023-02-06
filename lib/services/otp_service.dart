@@ -1,119 +1,62 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syren/models/models.dart';
+import 'package:syren/services/services.dart';
+import 'package:syren/templates/email/signup_otp.dart';
 
 class OTPService extends GetxService {
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  FirebaseAuth auth = FirebaseAuth.instance;
-  String? userId;
-  //
-  @override
-  void onInit() {
-    userId = auth.currentUser!.uid;
-    super.onInit();
-  }
+  // Services.
+  var emailService = Get.find<EmailService>();
+  var firestoreSrv = Get.put(FirestoreService<OTPModel>(
+    'otps',
+    fromDS: (p0, p1) => OTPModel.fromJson(p1!),
+  ));
 
-  final CollectionReference collection =
-      FirebaseFirestore.instance.collection('OTPs');
-
-  // Future<OTPService> init() async {
-  //   // _firestore = FirebaseFirestore.instance;
-
-  //   return this;
-  // }
-
-  Future<bool> createByUser(OTPModel bp) async {
+  Future<void> generateOTP({required String email}) async {
     try {
-      await firestore
-          .collection('users')
-          .doc(userId)
-          .collection('OTPs')
-          .add(bp.toJson());
-      return true;
-    } catch (e) {
-      debugPrintStack();
-      return false;
+      // Generate OTP.
+      var otpCode = (Random.secure().nextInt(1000) + 1000).toString();
+
+      // Store OTP.
+      await firestoreSrv.createItem(OTPModel(
+          email: email,
+          expiresAt: DateTime.now().add(const Duration(minutes: 5)),
+          timeStamp: Timestamp.now(),
+          code: otpCode));
+
+      // Send OTP.
+      emailService.sendMail(
+          EmailModel(to: email, subject: 'Email Verification', message: ''),
+          SignUpOTPTemplate.template
+              .replaceAll('{{EMAIL}}', email)
+              .replaceAll('{{CODE}}', otpCode));
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+      rethrow;
     }
   }
 
-  Future<bool> create(OTPModel bp) async {
+  Future<bool> validateOTP(
+      {required String email, required String code}) async {
     try {
-      await collection.doc().set(bp.toJson());
-      return true;
-    } catch (e) {
-      debugPrintStack();
-      return false;
+      var now = DateTime.now();
+      // Validate OTP.
+      var otps = await firestoreSrv.getQueryList(
+          args: [QueryArgs('email', email), QueryArgs('code', code)]);
+
+      return (otps.firstWhereOrNull((element) {
+                return element.expiresAt!.isAfter(now);
+              })) ==
+              null
+          ? false
+          : true;
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+      rethrow;
     }
-  }
-
-  // Future<OTPModel?> get(
-  //     {required String code, required String expiresAt}) async {
-  //   try {
-  //     QuerySnapshot<Object?> doc =
-  //         await collection.where('code', isEqualTo: code).get().;
-  //     return OTPModel.fromDocumentSnapshot(doc);
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
-
-  // updates an existing entry (missing fields won't be touched on update),
-  // document must exist
-  Future update(String documentId, OTPModel bp) async {
-    await collection.doc(documentId).update(bp.toJson());
-  }
-
-  // updates an existing entry (missing fields won't be touched on update),
-  // document must exist
-  Future updateByUser(String documentId, OTPModel bp) async {
-    await firestore
-        .collection('users')
-        .doc(userId)
-        .collection('OTPs')
-        .doc(documentId)
-        .update(bp.toJson());
-  }
-
-  // adds or updates an existing entry (missing fields will be deleted on
-  // update!), document will be created if needed
-  Future updateOrAdd(String documentId, OTPModel bp) async {
-    await collection.doc(documentId).set(bp.toJson());
-  }
-
-  Future<List<OTPModel>> list(String userId) async {
-    return (await FirebaseFirestore.instance
-            .collection('OTPs')
-            .where("userId", isEqualTo: userId)
-            .orderBy("timeStamp", descending: true)
-            .get())
-        .docs
-        .map((item) => OTPModel.fromJson(item.data()))
-        .toList();
-  }
-
-  Stream<List<OTPModel>> stream() {
-    return firestore
-        .collection('users')
-        .doc(userId)
-        .collection('OTPs')
-        .orderBy("timeStamp", descending: true)
-        .snapshots()
-        .map((QuerySnapshot query) {
-      return query.docs.map((e) => OTPModel.fromDocumentSnapshot(e)).toList();
-    });
-  }
-
-  Future delete(String documentId) async =>
-      await collection.doc(documentId).delete();
-
-  Future deleteByUser(String documentId) async {
-    await firestore
-        .collection('users')
-        .doc(userId)
-        .collection('OTPs')
-        .doc(documentId)
-        .delete();
   }
 }

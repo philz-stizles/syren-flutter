@@ -1,13 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/providers/auth_provider.dart';
 import 'package:syren/widgets/widgets.dart';
 
 class AddMedicationController extends GetxController {
-  // Providers.
-  var authProvider = Get.put(AuthProvider());
-
   // Observables.
   var isLoadingDrugs = false.obs;
 

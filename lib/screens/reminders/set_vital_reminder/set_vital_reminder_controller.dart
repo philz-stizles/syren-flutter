@@ -3,13 +3,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:syren/controllers/controllers.dart';
 import 'package:syren/models/models.dart';
-import 'package:syren/screens/views.dart';
 import 'package:syren/services/services.dart';
 
 class SetVitalReminderController extends GetxController {
   // Services.
   final localNotificationSrv = Get.put(LocalNotificationService());
   final notificationSrv = Get.put(NotificationService());
+  final reminderSrv = Get.find<ReminderService>();
 
   // Controllers.
   final userCtrl = Get.put(UserController());
@@ -18,11 +18,10 @@ class SetVitalReminderController extends GetxController {
   var vitals = ['Blood Pressure', 'Blood Sugar'];
 
   // Form.
-  final vitalCtrl = TextEditingController();
   final noteCtrl = TextEditingController();
 
   // Observables.
-  var vitalDropdownValue = ''.obs;
+  Rxn<String> vitalDropdownValue = Rxn<String>();
   List<Time> morningTimes = const [
     Time(8, 0, 0),
     Time(9, 0, 0),
@@ -40,25 +39,17 @@ class SetVitalReminderController extends GetxController {
   RxList<Time> selectedTimes = <Time>[].obs;
 
   List<NotificationInterval> intervals = const [
-    NotificationInterval.onOff,
+    NotificationInterval.oneOff,
     NotificationInterval.daily,
     NotificationInterval.weekly,
     NotificationInterval.monthly,
     NotificationInterval.yearly
   ];
-  Rx<NotificationInterval> selectedInterval = NotificationInterval.onOff.obs;
+  Rx<NotificationInterval> selectedInterval = NotificationInterval.oneOff.obs;
   var isloading = false.obs;
 
   @override
-  void onInit() {
-    vitalDropdownValue.value = vitals[0];
-    vitalCtrl.text = vitals[0];
-    super.onInit();
-  }
-
-  @override
   void onClose() {
-    vitalCtrl.dispose();
     noteCtrl.dispose();
 
     super.onClose();
@@ -83,9 +74,9 @@ class SetVitalReminderController extends GetxController {
 
       for (var time in selectedTimes) {
         var notification = NotificationModel(
-            title: vitalCtrl.text.trim(),
+            title: vitalDropdownValue.value,
             body:
-                'It’s time to check your ${vitalCtrl.text} ${userCtrl.user!.name!.split(' ')[0]}, Always stay on top of your health.',
+                'It’s time to check your ${vitalDropdownValue.value} ${userCtrl.user!.name!.split(' ')[0]}, Always stay on top of your health.',
             note: noteCtrl.text.trim(),
             time: Time(time.hour, time.minute),
             notificationType: NotificationType.vitalReminder,
@@ -93,12 +84,20 @@ class SetVitalReminderController extends GetxController {
                 .toString());
         await notificationSrv.insert(notification);
 
+        await reminderSrv.insert(ReminderModel(
+            title: notification.title,
+            time: notification.time,
+            date: notification.date,
+            body: notification.body,
+            notificationType: notification.notificationType,
+            note: notification.note));
+
         await localNotificationSrv.scheduleNotification(notification);
       }
 
       Get.back();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     } finally {
       isloading(false);
     }

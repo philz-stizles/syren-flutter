@@ -43,6 +43,14 @@ InputDecorationTheme inputDecorationTheme() {
   //   borderRadius: BorderRadius.circular(5),
   // );
 
+  OutlineInputBorder errorBorder = OutlineInputBorder(
+    borderSide: const BorderSide(
+      color: Color(0xFEFE0000),
+      width: 1, // width: 0
+    ),
+    borderRadius: BorderRadius.circular(5),
+  );
+
   OutlineInputBorder outlineInputBorder = OutlineInputBorder(
     borderSide: const BorderSide(
       color: Palette.grey,
@@ -55,6 +63,7 @@ InputDecorationTheme inputDecorationTheme() {
     hintStyle: const TextStyle(color: Palette.grey, fontSize: 14),
     errorStyle: const TextStyle(fontSize: 12),
     contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+
     enabledBorder: outlineInputBorder, // bOutlineInputBorder,
     focusedBorder: outlineInputBorder, // bOutlineInputBorder,
     disabledBorder: OutlineInputBorder(
@@ -64,7 +73,8 @@ InputDecorationTheme inputDecorationTheme() {
       ),
       borderRadius: BorderRadius.circular(5),
     ),
-
+    errorBorder: errorBorder,
+    focusedErrorBorder: errorBorder,
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(8),
     ),

@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syren/models/medication_model.dart';
-import 'package:syren/screens/add_medication/add_medication_view.dart';
+import 'package:syren/screens/medications/medications_controller.dart';
+import 'package:syren/screens/views.dart';
 import 'package:syren/utils/constants.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:syren/widgets/widgets.dart';
 
-import 'medications_controller.dart';
-
 class MedicationsView extends GetView<MedicationsController> {
   MedicationsView({super.key});
   static const String routeName = "/medications";
+
+  final medicationsCtrl = Get.put(MedicationsController());
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +19,9 @@ class MedicationsView extends GetView<MedicationsController> {
       // persistentFooterButtons: [
       //   PrimaryButton(
       //       title: 'Add More Medication',
-      //       // loading: controller.isLoadingSignIn.value,
+      //       // loading: medicationsCtrl.isLoadingSignIn.value,
       //       press: () async {
-      //         // await controller.signIn();
+      //         // await medicationsCtrl.signIn();
       //       }),
       // ],
       appBar: AppBar(
@@ -37,10 +38,10 @@ class MedicationsView extends GetView<MedicationsController> {
                   children: [
                     Expanded(
                         child: PrimaryButton(
-                      outlined: controller.selectedPageIndex.value != 0,
+                      outlined: medicationsCtrl.selectedPageIndex.value != 0,
                       title: 'Prescribed',
                       press: () {
-                        controller.selectedPageIndex.value = 0;
+                        medicationsCtrl.selectedPageIndex.value = 0;
                       },
                       expanded: false,
                     )),
@@ -50,9 +51,9 @@ class MedicationsView extends GetView<MedicationsController> {
                     Expanded(
                         child: PrimaryButton(
                       title: 'Random',
-                      outlined: controller.selectedPageIndex.value != 1,
+                      outlined: medicationsCtrl.selectedPageIndex.value != 1,
                       press: () {
-                        controller.selectedPageIndex.value = 1;
+                        medicationsCtrl.selectedPageIndex.value = 1;
                       },
                       expanded: false,
                     ))
@@ -61,16 +62,16 @@ class MedicationsView extends GetView<MedicationsController> {
                 const SizedBox(
                   height: 30,
                 ),
-                ...controller.selectedPageIndex.value == 0
-                    ? _buildPrescribedMedication(controller.meds)
-                    : _buildRandomMedication(controller.meds),
+                ...medicationsCtrl.selectedPageIndex.value == 0
+                    ? _buildPrescribedMedication(medicationsCtrl.meds)
+                    : _buildRandomMedication(medicationsCtrl.meds),
                 const SizedBox(
                   height: 20,
                 ),
                 PrimaryButton(
                     title: 'Purchase Medication',
                     press: () {
-                      Get.to(AddMedicationView());
+                      Get.toNamed(DrugStoreView.routeName);
                     }),
               ],
             ),
@@ -120,7 +121,7 @@ class MedicationsView extends GetView<MedicationsController> {
       ),
       meds.isEmpty
           ? const Text(
-              'You Have no medications listed here, Do well to make a purchase.',
+              'You have no medications listed here, Do well to make a purchase.',
               style: TextStyle(fontSize: 12, color: Palette.grey),
             )
           : Expanded(

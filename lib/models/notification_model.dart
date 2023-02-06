@@ -62,6 +62,17 @@ class NotificationModel {
   }
 }
 
-enum NotificationInterval { onOff, daily, weekly, monthly, yearly }
+enum NotificationInterval {
+  oneOff(1, 'One Off'),
+  daily(2, 'Daily'),
+  weekly(3, 'Weekly'),
+  monthly(4, 'Monthly'),
+  yearly(5, 'Yearly');
+
+  const NotificationInterval(this.number, this.value);
+
+  final int number;
+  final String value;
+}
 
 enum NotificationType { vitalReminder, medReminder, defaultNotification }

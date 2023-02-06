@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 

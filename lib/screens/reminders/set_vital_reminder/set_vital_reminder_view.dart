@@ -30,10 +30,8 @@ class SetVitalReminderView extends GetView<SetVitalReminderController> {
                       children: [
                         DropdownSelectField(
                           labelText: 'Reminder for checking',
-                          editingCtrl: controller.vitalCtrl,
                           options: controller.vitals,
                           onChanged: (String? val) {
-                            controller.vitalCtrl.text = val!;
                             controller.vitalDropdownValue.value = val;
                           },
                           dropdownValue: controller.vitalDropdownValue.value,
@@ -141,7 +139,7 @@ class SetVitalReminderView extends GetView<SetVitalReminderController> {
       Wrap(
           children: controller.intervals
               .map((interval) => DecoratedText(
-                  label: interval.name,
+                  label: interval.value,
                   isSelected: controller.selectedInterval.value == interval,
                   onTap: () => controller.setSelectedInterval(interval)))
               .toList()),

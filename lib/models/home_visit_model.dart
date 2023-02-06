@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:syren/models/models.dart';
 
-class HomeVisitModel {
+class HomeVisitModel implements FirebaseModel {
+  @override
   String? id;
   String? address;
   String? specialty;
@@ -34,6 +36,7 @@ class HomeVisitModel {
     date = doc['date'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['address'] = address;

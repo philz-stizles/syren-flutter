@@ -27,61 +27,59 @@ class MedicalRecordEditView extends GetView<MedicalRecordEditController> {
                     ),
                     DropdownSelectField(
                       labelText: 'Do you have any allergies',
-                      editingCtrl: controller.hasAllergiesCtrl,
                       options: controller.alleries,
                       onChanged: (String? val) {},
-                      dropdownValue: controller.hasAllergiesDropdownValue.value,
+                      dropdownValue: controller.hasAllergiesDropdown.value,
                     ),
                     AppTextField(
                       labelText: 'If yes, state it',
                       hintText: 'Enter your allergies',
                       editingCtrl: controller.allergiesCtrl,
+                      validationText: 'Please provide allergy details',
                     ),
                     AppTextField(
                       labelText: 'What medications do you take daily?',
                       hintText: 'Enter medications',
                       editingCtrl: controller.medicationsCtrl,
+                      validationText: 'Please provide medication details',
                     ),
                     DropdownSelectField(
                       labelText: 'Do you have any medical conditions',
-                      editingCtrl: controller.hasConditionsCtrl,
                       options: controller.conditions,
                       onChanged: (String? val) {},
-                      dropdownValue:
-                          controller.hasConditionsDropdownValue.value,
+                      dropdownValue: controller.hasConditionsDropdown.value,
                     ),
                     AppTextField(
                       labelText: 'If yes, state it',
                       hintText: 'Enter your conditions',
                       editingCtrl: controller.conditionsCtrl,
+                      validationText: 'Please provide condition details',
                     ),
                     DropdownSelectField(
                       labelText: 'What is your Genotype?',
-                      editingCtrl: controller.genoTypeCtrl,
                       options: controller.genoTypes,
                       onChanged: (String? val) {
                         controller.genoTypeCtrl.text = val!;
-                        controller.genoTypeDropdownValue.value = val;
+                        controller.genoTypeDropdown.value = val;
                       },
-                      dropdownValue: controller.genoTypeDropdownValue.value,
+                      dropdownValue: controller.genoTypeDropdown.value,
                     ),
                     DropdownSelectField(
                       labelText: 'What is your Blood Group?',
-                      editingCtrl: controller.bloodGroupCtrl,
                       options: controller.bloodGroups,
                       onChanged: (String? val) {
                         controller.bloodGroupCtrl.text = val!;
-                        controller.bloodGroupDropdownValue.value = val;
+                        controller.bloodGroupDropdown.value = val;
                       },
-                      dropdownValue: controller.bloodGroupDropdownValue.value,
+                      dropdownValue: controller.bloodGroupDropdown.value,
                     ),
                     const SizedBox(
                       height: 30,
                     ),
                     PrimaryButton(
                         title: 'Save Changes',
-                        disabled: controller.isLoadingSaveMedRecords.value,
-                        loading: controller.isLoadingSaveMedRecords.value,
+                        disabled: controller.isLoading.value,
+                        loading: controller.isLoading.value,
                         press: () async {
                           if (signUpMedicalsFormKey.currentState!.validate()) {
                             FocusManager.instance.primaryFocus?.unfocus();

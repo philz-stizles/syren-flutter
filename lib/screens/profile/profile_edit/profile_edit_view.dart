@@ -31,7 +31,6 @@ class ProfileEditView extends GetView<ProfileEditController> {
                     ),
                     DropdownSelectField(
                       labelText: 'Gender',
-                      editingCtrl: controller.genderCtrl,
                       options: controller.genderTypes,
                       onChanged: (String? val) {
                         controller.genderCtrl.text = val!;
@@ -41,7 +40,7 @@ class ProfileEditView extends GetView<ProfileEditController> {
                     ),
                     DropdownSelectField(
                       labelText: 'Religion',
-                      editingCtrl: controller.religionCtrl,
+
                       options: controller.religionTypes,
                       onChanged: (String? val) {
                         controller.religionCtrl.text = val!;

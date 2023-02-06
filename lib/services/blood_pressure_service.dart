@@ -18,12 +18,6 @@ class BloodPressureService extends GetxService {
   final CollectionReference collection =
       FirebaseFirestore.instance.collection('bloodPressures');
 
-  // Future<BloodPressureService> init() async {
-  //   // _firestore = FirebaseFirestore.instance;
-
-  //   return this;
-  // }
-
   Future<bool> createByUser(BloodPressureModel bp) async {
     try {
       await firestore
@@ -63,17 +57,6 @@ class BloodPressureService extends GetxService {
     await collection.doc(documentId).update(bp.toJson());
   }
 
-  // updates an existing entry (missing fields won't be touched on update),
-  // document must exist
-  Future updateByUser(String documentId, BloodPressureModel bp) async {
-    await firestore
-        .collection('users')
-        .doc(userId)
-        .collection('bloodPressures')
-        .doc(documentId)
-        .update(bp.toJson());
-  }
-
   // adds or updates an existing entry (missing fields will be deleted on
   // update!), document will be created if needed
   Future updateOrAdd(String documentId, BloodPressureModel bp) async {
@@ -103,17 +86,5 @@ class BloodPressureService extends GetxService {
           .map((e) => BloodPressureModel.fromDocumentSnapshot(e))
           .toList();
     });
-  }
-
-  Future delete(String documentId) async =>
-      await collection.doc(documentId).delete();
-
-  Future deleteByUser(String documentId) async {
-    await firestore
-        .collection('users')
-        .doc(userId)
-        .collection('bloodPressures')
-        .doc(documentId)
-        .delete();
   }
 }

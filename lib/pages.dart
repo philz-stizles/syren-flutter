@@ -6,11 +6,11 @@ import 'package:syren/screens/schedule_care/clinic_appointment/clinic_appointmen
 import 'package:syren/screens/schedule_care/home_visit/home_visit_controller.dart';
 import 'package:syren/screens/medications/medications_controller.dart';
 import 'package:syren/screens/notifications/notifications_controller.dart';
-import 'package:syren/screens/otp/otp_controller.dart';
+import 'package:syren/screens/auth/otp/otp_controller.dart';
 import 'package:syren/screens/schedule_care/schedule_care_controller.dart';
 import 'package:syren/screens/settings/notification_settings/notification_settings_controller.dart';
 import 'package:syren/screens/settings/settings_controller.dart';
-import 'package:syren/screens/signin/signin_controller.dart';
+import 'package:syren/screens/auth/signin/signin_controller.dart';
 import 'package:syren/screens/urgent_care/message/message_controller.dart';
 import 'package:syren/screens/vitals/blood_pressure/blood_pressure_controller.dart';
 import 'package:syren/screens/vitals/blood_pressure_add/blood_pressure_add_controller.dart';
@@ -20,11 +20,11 @@ import 'package:syren/screens/reminders/reminders_controller.dart';
 import 'package:syren/screens/reminders/set_med_reminder/set_med_reminder_controller.dart';
 import 'package:syren/screens/reminders/set_vital_reminder/set_vital_reminder_controller.dart';
 import 'package:syren/screens/settings/feedback/feedback_controller.dart';
-import 'package:syren/screens/forgot_password/forgot_password_controller.dart';
+import 'package:syren/screens/auth/forgot_password/forgot_password_controller.dart';
 import 'package:syren/screens/profile/medical_record_edit/medical_record_edit_controller.dart';
 import 'package:syren/screens/profile/profile_controller.dart';
 import 'package:syren/screens/profile/profile_edit/profile_edit_controller.dart';
-import 'package:syren/screens/signup/signup_controller.dart';
+import 'package:syren/screens/auth/signup/signup_controller.dart';
 import 'package:syren/screens/urgent_care/urgent_care_controller.dart';
 import 'package:syren/screens/views.dart';
 import 'package:syren/screens/vitals/blood_sugar_add/blood_sugar_add_controller.dart';
@@ -39,12 +39,12 @@ getPages() {
         binding: SignInBinding()),
     GetPage(
         name: SignUpView.routeName,
-        page: () => const SignUpView(),
+        page: () => SignUpView(),
         binding: SignUpBinding()),
     GetPage(
-        name: SignUpMedicalsView.routeName,
-        page: () => SignUpMedicalsView(),
-        binding: SignUpBinding()),
+      name: SignUpMedicalsView.routeName,
+      page: () => SignUpMedicalsView(),
+    ),
     GetPage(
         name: ForgotPasswordView.routeName,
         page: () => ForgotPasswordView(),
@@ -52,7 +52,6 @@ getPages() {
     GetPage(
         name: DashboardScreen.routeName,
         page: () => DashboardScreen(),
-        arguments: Get.arguments,
         binding: DashboardBinding()),
     GetPage(
         name: ChangePasswordView.routeName,
@@ -78,6 +77,10 @@ getPages() {
         name: NotificationSettingsView.routeName,
         page: () => const NotificationSettingsView(),
         binding: NotificationSettingsBinding()),
+    GetPage(
+        name: VitalsScreen.routeName,
+        page: () => const VitalsScreen(),
+        binding: VitalsBinding()),
     GetPage(
         name: MedicalRecordEditView.routeName,
         page: () => MedicalRecordEditView(),

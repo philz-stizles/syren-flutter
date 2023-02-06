@@ -32,7 +32,7 @@ class NotificationService extends GetxService {
         });
       }
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     debugPrint('Init Notification Service');
     return this;
@@ -50,7 +50,7 @@ class NotificationService extends GetxService {
           .map((e) => NotificationModel.fromJson(e))
           .toList();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       rethrow;
     }
   }

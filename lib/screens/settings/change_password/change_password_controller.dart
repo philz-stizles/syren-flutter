@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/screens/signin/signin_view.dart';
+import 'package:syren/screens/auth/signin/signin_view.dart';
 import 'package:syren/services/services.dart';
 import 'package:syren/widgets/widgets.dart';
 

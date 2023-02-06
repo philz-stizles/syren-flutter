@@ -89,7 +89,7 @@ class HomeView extends StatelessWidget {
                           imageLocation:
                               'assets/images/food-bank-initiative.jpg',
                           icon: Icons.line_axis,
-                          tap: () => Get.toNamed(VitalsView.routeName)),
+                          tap: () => Get.toNamed(VitalsScreen.routeName)),
                       ImageCaptionCard(
                         title: 'Schedule Care',
                         description:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:syren/controllers/user_controller.dart';
 import 'package:syren/models/models.dart';
 import 'package:syren/screens/profile/medical_record_edit/medical_record_edit_view.dart';
 import 'package:syren/screens/profile/profile_edit/profile_edit_view.dart';
@@ -35,15 +36,25 @@ class ProfileView extends GetView<ProfileController> {
                           radius: 50,
                           backgroundColor: Palette.primary,
                           child: CircleAvatar(
-                            radius: 48,
-                            child: Image.asset('assets/images/avatar.png'),
-                          ),
+                              radius: 48,
+                              backgroundImage: (controller.userCtrl.user !=
+                                          null &&
+                                      controller.userCtrl.user!.avatar != null)
+                                  ? NetworkImage(
+                                      controller.userCtrl.user!.avatar!,
+                                    )
+                                  : Image.asset('assets/images/avatar.png')
+                                      .image,
+                              child: controller.isLoading.value
+                                  ? const CircularLoader()
+                                  : null),
                         ),
                         Positioned(
                             bottom: -5,
                             right: -5,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () async =>
+                                  controller.selectUploadOption(),
                               style: ElevatedButton.styleFrom(
                                 shape: const CircleBorder(),
                                 padding: const EdgeInsets.all(0),
@@ -127,10 +138,68 @@ class ProfileView extends GetView<ProfileController> {
                   height: 10,
                 ),
                 TextIconButton(
-                  leadingIcon: Icons.stream,
+                    leadingIcon: Icons.person_add,
+                    label: 'Add an account',
+                    onPress: () => controller.addAccount()),
+                TextIconButton(
+                  leadingIcon: Icons.link,
+                  trailingIcon: !controller.isShowingAccounts.value
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
                   label: 'Switch account',
-                  onPress: () {},
+                  onPress: () => controller.toggleAccounts(),
                 ),
+                GetX<UserController>(
+                    init: Get.find<UserController>(),
+                    builder: (UserController ctrl) {
+                      return !controller.isShowingAccounts.value
+                          ? const SizedBox()
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: ctrl.accounts.length,
+                              itemBuilder: (context, index) {
+                                var item = ctrl.accounts[index];
+                                return Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        DecoratedBox(
+                                          decoration: BoxDecoration(
+                                              color: Palette.primary,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      defaultBorderRadius)),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(8),
+                                            child: Icon(
+                                              Icons.person_outline,
+                                              color: Palette.white,
+                                              size: 20,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          '${item.name}',
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600),
+                                        )
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    )
+                                  ],
+                                );
+                              });
+                    }),
                 TextIconButton(
                   leadingIcon: Icons.logout,
                   label: logoutText,

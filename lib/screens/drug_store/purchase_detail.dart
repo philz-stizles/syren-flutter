@@ -9,7 +9,7 @@ class PurchaseDetailView extends GetView<PurchaseDetailController> {
   PurchaseDetailView({super.key});
   static const String routeName = "/purchase-detail";
 
-  var item = Get.arguments as DrugProductModel;
+  final item = Get.arguments as DrugProductModel;
 
   @override
   Widget build(BuildContext context) {
@@ -40,23 +40,42 @@ class PurchaseDetailView extends GetView<PurchaseDetailController> {
                       const SizedBox(
                         height: 30,
                       ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Wrap(
                         children: [
-                          Text(
-                            item.name,
-                            style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w700,
-                                color: Palette.label),
-                          ),
-                          const Text(
-                            'Prescribed',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: Palette.label),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                item.name,
+                                style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.w700,
+                                    color: Palette.label),
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.circle,
+                                    size: 16,
+                                    color: item.prescribedBy == null
+                                        ? null
+                                        : Palette.primary,
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  const Text(
+                                    'Prescribed',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                        color: Palette.label),
+                                  ),
+                                ],
+                              )
+                            ],
                           ),
                         ],
                       ),

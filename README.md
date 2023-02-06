@@ -14,3 +14,14 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+https://cloud.google.com > Console > 
+    API Library > 
+        Maps SDK for Android > Enable
+        Map SDK for IOS > Enable
+        Places API > Enable
+    Credentials
+        API Restrictiions > Restrict key
+            -   Maps SDK for Android
+            -   Map SDK for IOS
+            -   Places API

@@ -29,10 +29,8 @@ class ClinicAppointmentView extends GetView<ClinicAppointmentController> {
                     ),
                     DropdownSelectField(
                       labelText: 'Select specialty',
-                      editingCtrl: controller.specialtyCtrl,
                       options: controller.specialties,
                       onChanged: (String? val) {
-                        controller.specialtyCtrl.text = val!;
                         controller.specialtyDropdownValue.value = val;
                       },
                       dropdownValue: controller.specialtyDropdownValue.value,

@@ -53,13 +53,13 @@ class BloodPressureAddView extends GetView<BloodPressureAddController> {
                         loading: controller.isLoadingSaveBp.value,
                         press: () async {
                           if (bpFormKey.currentState!.validate()) {
+                            FocusManager.instance.primaryFocus?.unfocus();
                             UIConfig.showConfirmBottomSheet(
                                 icon: Icons.save_outlined,
                                 promptText:
                                     'Are you sure you want to save these\n blood pressure vitals?',
                                 onConfirmPress: () async {
                                   Get.back();
-                                  FocusManager.instance.primaryFocus?.unfocus();
                                   await controller.saveBp();
                                 });
                           }

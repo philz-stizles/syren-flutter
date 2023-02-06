@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:syren/models/firebase_model.dart';
 
-class BloodSugarModel {
-  String? id;
+class BloodSugarModel extends FirebaseModel {
   late int fasting;
   late int random;
   late Timestamp timeStamp;
 
   BloodSugarModel({
-    this.id,
+    String? id,
     required this.fasting,
     required this.random,
     required this.timeStamp,
-  });
+  }) : super(id);
 
   String get fastingDisplay => '${fasting}mg/dL';
   String get randomDisplay => '${random}mg/dL';
@@ -20,28 +20,26 @@ class BloodSugarModel {
   String formatedTimeStamp(String format) =>
       DateFormat(format).format(timeStamp.toDate());
 
-  BloodSugarModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+  BloodSugarModel.fromJson(Map<String, dynamic> json) : super(json['id']) {
     fasting = json['fasting'];
     random = json['random'];
     timeStamp = json['timeStamp'];
   }
 
-  BloodSugarModel.fromDocumentSnapshot(DocumentSnapshot doc) {
-    id = doc.id;
+  BloodSugarModel.fromDocumentSnapshot(DocumentSnapshot doc) : super(doc.id) {
     fasting = doc['fasting'];
     random = doc['random'];
     timeStamp = doc['timeStamp'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['fasting'] = fasting;
-    data['random'] = random;
-    data['timeStamp'] = timeStamp;
-
-    return data;
+    return {
+      'id': id,
+      'fasting': fasting,
+      'random': random,
+      'timeStamp': timeStamp
+    };
   }
 
   @override

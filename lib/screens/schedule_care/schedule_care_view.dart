@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/screens/schedule_care/clinic_appointment/clinic_appointment_view.dart';
-import 'package:syren/screens/schedule_care/home_visit/home_visit_view.dart';
+import 'package:syren/screens/views.dart';
 import 'package:syren/utils/constants.dart';
 import 'package:syren/widgets/widgets.dart';
 
@@ -22,7 +21,7 @@ class ScheduleCareView extends GetView<ScheduleCareController> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                const JumbotronCard(
+                JumbotronCard(
                     image: 'assets/images/medication-reminder.jpg',
                     caption:
                         'With Syren, You get to Schedule\n care at ease with consultants'),
@@ -54,7 +53,8 @@ class ScheduleCareView extends GetView<ScheduleCareController> {
                               imageLocation:
                                   'assets/images/ambulance_service.jpg',
                               icon: Icons.medical_information_outlined,
-                              tap: () => Get.toNamed(HomeVisitView.routeName)),
+                              tap: () =>
+                                  Get.toNamed(AmbulanceServiceView.routeName)),
                           ImageCaptionCard(
                               title: 'Diagnostics\n Center Appointment',
                               imageLocation:

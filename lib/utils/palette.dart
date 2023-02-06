@@ -12,6 +12,7 @@ class Palette {
   static const label = Color(0xFF1B1C1E);
   static const dimWhite = Color(0xFFF9F9F9);
   static const ash = Color(0xFFB9B9B9);
+  static const success = Color(0xFF65D88C);
 
   static MaterialColor buildMaterialColor(Color color) {
     List strengths = <double>[.05];

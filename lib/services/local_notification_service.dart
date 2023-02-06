@@ -1,12 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:get/get.dart';
 import 'package:syren/models/models.dart';
+import 'package:syren/screens/vitals/vitals_view.dart';
+import 'package:syren/services/services.dart';
 import 'package:timezone/data/latest.dart' as tz_data;
 import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotificationService extends GetxService {
+  // Services.
+  var notificationSrv = Get.put(NotificationService());
+
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
@@ -70,14 +77,18 @@ class LocalNotificationService extends GetxService {
     } else {
       debugPrint('notification done');
     }
-    // await Navigator.push(
-    //   context,
-    //   MaterialPageRoute<void>(builder: (context) => SecondScreen(payload)),
-    // );
+    Get.toNamed(VitalsScreen.routeName);
   }
 
   void onDidReceiveLocalNotification(
       int id, String? title, String? body, String? payload) async {
+    debugPrint('onDidReceiveLocalNotification: $payload');
+
+    if (payload != null) {
+      // Save notification.
+      var jsonObject = jsonDecode(payload);
+      await notificationSrv.insert(NotificationModel.fromJson(jsonObject));
+    }
     // display a dialog with the notification details, tap ok to go to another page
     Get.defaultDialog(
       content: CupertinoAlertDialog(
@@ -88,13 +99,7 @@ class LocalNotificationService extends GetxService {
             isDefaultAction: true,
             child: const Text('Ok'),
             onPressed: () async {
-              // Navigator.of(context, rootNavigator: true).pop();
-              // await Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     // builder: (context) => SecondScreen(payload),
-              //   ),
-              // );
+              Get.toNamed(VitalsScreen.routeName);
             },
           )
         ],
@@ -123,9 +128,9 @@ class LocalNotificationService extends GetxService {
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
           matchDateTimeComponents: DateTimeComponents.time,
-          payload: 'Payload');
+          payload: jsonEncode(model.toJson()));
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 

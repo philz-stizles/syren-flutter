@@ -1,13 +1,15 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syren/models/models.dart';
-import 'package:syren/services/medication_service.dart';
-import 'package:syren/widgets/widgets.dart';
+
+import 'package:syren/services/services.dart';
 
 class MedicationsController extends GetxController {
   // Providers.
-  var medicationSrv = Get.put(MedicationService());
+  var firestoreSrv = Get.put(FirestoreService<MedicationModel>(
+    'Medications',
+    fromDS: (p0, p1) => MedicationModel.fromJson(p1!),
+    toMap: (model) => model.toJson(),
+  ));
 
   // Observables.
   Rx<List<MedicationModel>> medList = Rx<List<MedicationModel>>([]);
@@ -23,24 +25,24 @@ class MedicationsController extends GetxController {
 
   @override
   void onReady() {
-    medList.bindStream(medicationSrv.stream());
+    medList.bindStream(firestoreSrv.streamListByUser());
     super.onReady();
   }
 
-  Future<void> loadMedications() async {
-    try {
-      isLoadingMedications(true);
-      await medicationSrv.list();
-    } on FirebaseAuthException catch (e) {
-      debugPrint(e.message);
-      if (e.message != null) {
-        UIConfig.showSnackBar(
-            message: e.message as String, backgroundColor: Colors.red);
-      }
-    } finally {
-      isLoadingMedications(false);
-    }
-  }
+  // Future<void> loadMedications() async {
+  //   try {
+  //     isLoadingMedications(true);
+  //     await firestoreSrv.getQueryList();
+  //   } on FirebaseAuthException catch (e) {
+  //     debugPrint(e.message);
+  //     if (e.message != null) {
+  //       UIConfig.showSnackBar(
+  //           message: e.message as String, backgroundColor: Colors.red);
+  //     }
+  //   } finally {
+  //     isLoadingMedications(false);
+  //   }
+  // }
 }
 
 class MedicationsBinding implements Bindings {

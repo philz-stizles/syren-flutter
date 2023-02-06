@@ -168,7 +168,7 @@ class MedicationCard extends StatelessWidget {
 }
 
 class JumbotronCard extends StatelessWidget {
-  const JumbotronCard(
+  JumbotronCard(
       {super.key, required this.image, required this.caption, this.icon});
 
   final String image;

@@ -3,28 +3,28 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:syren/controllers/controllers.dart';
 import 'package:syren/models/models.dart';
-import 'package:syren/screens/views.dart';
+import 'package:syren/screens/dashboard/dashboard_controller.dart';
 import 'package:syren/services/services.dart';
 
 class SetMedReminderController extends GetxController {
   // Services.
   final localNotificationSrv = Get.put(LocalNotificationService());
   final notificationSrv = Get.put(NotificationService());
+  final reminderSrv = Get.find<ReminderService>();
 
   // Controllers.
   final userCtrl = Get.put(UserController());
+  final dashboardCtrl = Get.put(DashboardController());
 
   // Data.
   var drugTypes = ['Tablets', 'Syrup'];
 
   // Form.
   final nameCtrl = TextEditingController();
-  final amountCtrl = TextEditingController();
-  final drugTypeCtrl = TextEditingController();
 
   // Observables.
-  var isLoadingSetReminder = false.obs;
-  var drugTypeDropdownValue = ''.obs;
+  RxBool isLoadingSetReminder = false.obs;
+  Rxn<String> drugTypeDropdownValue = Rxn<String>();
   List<Time> morningTimes = const [
     Time(8, 0, 0),
     Time(9, 0, 0),
@@ -37,31 +37,22 @@ class SetMedReminderController extends GetxController {
     Time(19, 0, 0),
     Time(20, 0, 0),
     Time(21, 0, 0),
-    Time(22, 0, 0)
+    Time(23, 15, 0)
   ];
   RxList<Time> selectedTimes = <Time>[].obs;
 
   List<NotificationInterval> intervals = const [
-    NotificationInterval.onOff,
+    NotificationInterval.oneOff,
     NotificationInterval.daily,
     NotificationInterval.weekly,
     NotificationInterval.monthly,
     NotificationInterval.yearly
   ];
-  Rx<NotificationInterval> selectedInterval = NotificationInterval.onOff.obs;
-
-  @override
-  void onInit() {
-    drugTypeDropdownValue.value = drugTypes[0];
-    drugTypeCtrl.text = drugTypes[0];
-    super.onInit();
-  }
+  Rx<NotificationInterval> selectedInterval = NotificationInterval.oneOff.obs;
 
   @override
   void onClose() {
     nameCtrl.dispose();
-    amountCtrl.dispose();
-    drugTypeCtrl.dispose();
 
     super.onClose();
   }
@@ -88,19 +79,30 @@ class SetMedReminderController extends GetxController {
             title: 'Medication',
             body:
                 'It’s time to check your medication ${userCtrl.user!.name!.split(' ')[0]}, Always stay on top of your health.',
-            note: '${nameCtrl.text.trim()} ${drugTypeCtrl.text.trim()}',
+            note: '${nameCtrl.text.trim()} ${drugTypeDropdownValue.value}',
             time: Time(time.hour, time.minute),
             notificationType: NotificationType.medReminder,
             date: DateTime(now.year, now.month, now.day, time.hour, time.minute)
                 .toString());
-        await notificationSrv.insert(notification);
 
+        // Save notification.
+        // await notificationSrv.insert(notification);
+
+        // Save reminder.
+        await reminderSrv.insert(ReminderModel(
+            title: notification.title,
+            time: notification.time,
+            date: notification.date,
+            body: notification.body,
+            notificationType: notification.notificationType,
+            note: notification.note));
+
+        // Schedule reminder notification.
         await localNotificationSrv.scheduleNotification(notification);
       }
-
       Get.back();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     } finally {
       isLoadingSetReminder(false);
     }

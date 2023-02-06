@@ -9,7 +9,11 @@ import 'package:syren/widgets/widgets.dart';
 
 class ClinicAppointmentController extends GetxController {
   // Services.
-  var clinicAppointmentSrv = Get.put(ClinicAppointmentService());
+  var firestoreSrv = Get.put(FirestoreService<ClinicAppointmentModel>(
+    'ClinicAppointments',
+    fromDS: (p0, p1) => ClinicAppointmentModel.fromJson(p1!),
+    toMap: (model) => model.toJson(),
+  ));
 
   // Data.
   var specialties = [
@@ -25,29 +29,20 @@ class ClinicAppointmentController extends GetxController {
   final appointmentDateCtrl = TextEditingController();
 
   final noteCtrl = TextEditingController();
-  final specialtyCtrl = TextEditingController();
+
   final samplesCtrl = TextEditingController();
 
   // Observables.
   var isSavingClinicAppointment = false.obs;
-  var specialtyDropdownValue = ''.obs;
+  Rxn<String> specialtyDropdownValue = Rxn<String>();
   Rx<DateTime> selectedDay = DateTime.now().obs;
   Rx<DateTime> focusedDay = DateTime.now().obs;
   RxString selectedTime = ''.obs;
 
   @override
-  void onInit() {
-    specialtyDropdownValue.value = specialties[0];
-    specialtyCtrl.text = specialties[0];
-
-    super.onInit();
-  }
-
-  @override
   void onClose() {
     appointmentDateCtrl.dispose();
     noteCtrl.dispose();
-    specialtyCtrl.dispose();
     samplesCtrl.dispose();
 
     super.onClose();
@@ -59,7 +54,7 @@ class ClinicAppointmentController extends GetxController {
   }
 
   void clearForm() {
-    specialtyCtrl.text == '';
+    specialtyDropdownValue.value = null;
     noteCtrl.text == '';
     samplesCtrl.text == '';
     selectedTime.value == '';
@@ -68,8 +63,8 @@ class ClinicAppointmentController extends GetxController {
   Future<void> saveClinicAppointment() async {
     try {
       isSavingClinicAppointment(true);
-      await clinicAppointmentSrv.createByUser(ClinicAppointmentModel(
-          specialty: specialtyCtrl.text,
+      await firestoreSrv.createByUser(ClinicAppointmentModel(
+          specialty: specialtyDropdownValue.value,
           note: noteCtrl.text.trim(),
           date: selectedDay.value,
           time: selectedTime.value));

@@ -56,6 +56,14 @@ class NotificationsView extends GetView<NotificationsController> {
                         label: 'Mark all as read',
                         trailingIcon: Icons.check,
                         onPress: () => controller.markAllAsRead(),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      TextIconButton(
+                        label: 'Clear all',
+                        trailingIcon: Icons.clear,
+                        onPress: () => controller.clearAll(),
                       )
                     ],
                   ),

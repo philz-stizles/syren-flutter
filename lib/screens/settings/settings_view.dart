@@ -48,7 +48,7 @@ class SettingsView extends GetView<SettingsController> {
             ),
             AppMenuItem(
               icon: Icons.delete_outlined,
-              onTap: () => Get.to(const DeleteAccountView()),
+              onTap: () => Get.to(DeleteAccountView()),
               label: 'Delete account',
             ),
           ],

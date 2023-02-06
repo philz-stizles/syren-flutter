@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/screens/signup/signup_view.dart';
+import 'package:syren/screens/auth/signup/signup_view.dart';
 import 'package:syren/screens/splash/splash_controller.dart';
 import 'package:syren/utils/constants.dart';
 import 'package:syren/utils/palette.dart';
@@ -89,7 +89,9 @@ class SplashView extends StatelessWidget {
                             ['title'],
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900)),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: Palette.label)),
                     const SizedBox(
                       height: 20,
                     ),
@@ -97,13 +99,17 @@ class SplashView extends StatelessWidget {
                         splashCtrl.splashData[splashCtrl.currentPage.value]
                             ['description'],
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontWeight: FontWeight.normal)),
+                        style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Palette.grey)),
                     const Spacer(),
                     PrimaryButton(
                         title: splashCtrl.currentPage.value ==
                                 splashCtrl.splashData.length - 1
                             ? 'Get Started'
                             : 'Next',
+                        icon: Icons.arrow_forward,
                         press: () {
                           if (splashCtrl.currentPage.value ==
                               splashCtrl.splashData.length - 1) {

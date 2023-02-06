@@ -9,7 +9,8 @@ import 'package:syren/widgets/widgets.dart';
 
 class BloodSugarAddController extends GetxController {
   // Services.
-  var bpService = Get.put(BloodSugarService());
+  var firestoreSrv = Get.put(FirestoreService<BloodSugarModel>('bloodSugars',
+      fromDS: (p0, p1) => BloodSugarModel.fromJson(p1!)));
 
   // Form.
   final fastingCtrl = TextEditingController();
@@ -17,11 +18,6 @@ class BloodSugarAddController extends GetxController {
 
   // Observables.
   var isLoadingSaveBs = false.obs;
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   @override
   void onClose() {
@@ -33,7 +29,7 @@ class BloodSugarAddController extends GetxController {
   Future<void> saveBp() async {
     try {
       isLoadingSaveBs(true);
-      var isSuccess = await bpService.createByUser(BloodSugarModel(
+      var isSuccess = await firestoreSrv.createByUser(BloodSugarModel(
           fasting: int.parse(fastingCtrl.text),
           random: int.parse(randomCtrl.text),
           timeStamp: Timestamp.now()));

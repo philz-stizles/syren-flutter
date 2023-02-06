@@ -54,9 +54,7 @@ class DiagnosticCenterView extends GetView<DiagnosticCenterController> {
                         title: 'Enter Blood Sugar',
                         loading: controller.isLoadingSignIn.value,
                         press: () async {
-                          if (bsFormKey.currentState!.validate()) {
-                            await controller.signIn();
-                          }
+                          if (bsFormKey.currentState!.validate()) {}
                         }),
                     const SizedBox(
                       height: 30,

@@ -19,7 +19,7 @@ class DrugStoreView extends GetView<DrugStoreController> {
         padding: defaultScreenPadding,
         child: Column(
           children: [
-            const JumbotronCard(
+            JumbotronCard(
                 image: 'assets/images/vitals.jpg',
                 caption:
                     'With Syren, you get the best medications and medical equipements to help you.'),

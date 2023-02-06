@@ -18,6 +18,7 @@ class AuthService extends GetxService {
       }
     } on FirebaseAuthException catch (e) {
       debugPrint(e.message);
+      debugPrintStack();
       rethrow;
     }
   }
@@ -53,7 +54,7 @@ class AuthService extends GetxService {
     }
   }
 
-  Future<void> deleteAccount({required String password}) async {
+  Future<void> deleteAccount() async {
     try {
       // Create an instance of the current user.
       User? user = FirebaseAuth.instance.currentUser;

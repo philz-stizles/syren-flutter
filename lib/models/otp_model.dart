@@ -1,53 +1,44 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:syren/models/models.dart';
 
-class OTPModel {
-  String? id;
+class OTPModel extends FirebaseModel {
   String? userId;
+  String? email;
   String? code;
-  Timestamp? expiresAt;
+  DateTime? expiresAt;
   late Timestamp timeStamp;
 
   OTPModel(
-      {this.id,
+      {String? id,
       this.userId,
-      this.code,
+      this.email,
+      required this.code,
       required this.expiresAt,
-      required this.timeStamp});
+      required this.timeStamp})
+      : super(id);
 
-  // String get codeDisplay => '${code}mmHg';
-  // String get expiresAtDisplay => '${expiresAt}mmHg';
-  // String get bp => '$code/${expiresAt}mmHg';
-  // String formatedTimeStamp(String format) =>
-  //     DateFormat(format).format(timeStamp.toDate());
-
-  OTPModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+  OTPModel.fromJson(Map<String, dynamic> json) : super(json['id']) {
     code = json['code'];
-    expiresAt = json['expiresAt'];
+    email = json['email'];
+    expiresAt = (json['expiresAt'] as Timestamp).toDate();
     timeStamp = json['timeStamp'];
   }
 
-  OTPModel.fromDocumentSnapshot(DocumentSnapshot doc) {
-    id = doc.id;
+  OTPModel.fromDocumentSnapshot(DocumentSnapshot doc) : super(doc.id) {
     code = doc['code'];
+    email = doc['email'];
     expiresAt = doc['expiresAt'];
     timeStamp = doc['timeStamp'];
   }
 
-  // OTPModel.fromQuerySnapshot(QuerySnapshot query) {
-  //   id = query.;
-  //   code = doc['code'];
-  //   expiresAt = doc['expiresAt'];
-  //   timeStamp = doc['timeStamp'];
-  // }
-
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['code'] = code;
-    data['expiresAt'] = expiresAt;
-    data['timeStamp'] = timeStamp;
-
-    return data;
+    return {
+      'code': code,
+      'email': email,
+      'expiresAt': expiresAt,
+      'timeStamp': timeStamp
+    };
   }
 
   @override

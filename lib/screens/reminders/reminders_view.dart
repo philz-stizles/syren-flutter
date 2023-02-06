@@ -3,16 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:syren/models/models.dart';
+import 'package:syren/screens/reminders/reminders_controller.dart';
 import 'package:syren/screens/views.dart';
 import 'package:syren/utils/constants.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:syren/widgets/widgets.dart';
 
-import 'reminders_controller.dart';
-
-class RemindersView extends GetView<RemindersController> {
+class RemindersView extends StatelessWidget {
   RemindersView({super.key});
   static const String routeName = "/reminders";
+
+  final reminderCtrl = Get.put(RemindersController());
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +31,9 @@ class RemindersView extends GetView<RemindersController> {
                         Expanded(
                             child: PrimaryButton(
                           title: 'Medications',
-                          outlined: controller.page.value != 0,
+                          outlined: reminderCtrl.page.value != 0,
                           press: () {
-                            controller.page.value = 0;
+                            reminderCtrl.page.value = 0;
                           },
                           expanded: false,
                         )),
@@ -42,9 +43,9 @@ class RemindersView extends GetView<RemindersController> {
                         Expanded(
                             child: PrimaryButton(
                           title: 'Vitals',
-                          outlined: controller.page.value != 1,
+                          outlined: reminderCtrl.page.value != 1,
                           press: () {
-                            controller.page.value = 1;
+                            reminderCtrl.page.value = 1;
                           },
                           expanded: false,
                         ))
@@ -53,121 +54,74 @@ class RemindersView extends GetView<RemindersController> {
                     const SizedBox(
                       height: 20,
                     ),
-                    ...controller.page.value == 0
-                        ? _buildMedications(controller.notifications
-                            .where((NotificationModel model) =>
-                                model.notificationType ==
-                                NotificationType.medReminder)
-                            .toList())
-                        : _buildVitals(controller.notifications
-                            .where((NotificationModel model) =>
-                                model.notificationType ==
-                                NotificationType.vitalReminder)
-                            .toList())
+                    ...reminderCtrl.page.value == 0
+                        ? _buildPage(
+                            reminders: reminderCtrl.reminderSrv.reminders
+                                .where((ReminderModel model) =>
+                                    model.notificationType ==
+                                    NotificationType.medReminder)
+                                .toList(),
+                            image: 'assets/images/medication-reminder.jpg',
+                            caption:
+                                'With Syren, you’ll never\n miss your medications',
+                            addRoute: SetMedReminderView.routeName,
+                            onClear: () async => await reminderCtrl
+                                .clear(NotificationType.medReminder))
+                        : _buildPage(
+                            reminders: reminderCtrl.reminderSrv.reminders
+                                .where((ReminderModel model) =>
+                                    model.notificationType ==
+                                    NotificationType.vitalReminder)
+                                .toList(),
+                            image: 'assets/images/vitals.jpg',
+                            caption:
+                                'With Syren, you’re sure to have \n stable blood vitals',
+                            addRoute: SetVitalReminderView.routeName,
+                            onClear: () async => await reminderCtrl
+                                .clear(NotificationType.vitalReminder))
                   ],
                 ))));
   }
 
-  List<Widget> _buildMedications(List<NotificationModel> notifications) {
-    return [
-      const JumbotronCard(
-          image: 'assets/images/medication-reminder.jpg',
-          caption: 'With Syren, You’ll never\n miss your Medications'),
-      const SizedBox(
-        height: 20,
-      ),
-      TextIconButton(
-        label: 'Add New',
-        onPress: () {
-          Get.toNamed(SetMedReminderView.routeName);
-        },
-        trailingIcon: Icons.add_circle_outline,
-      ),
-      const SizedBox(
-        height: 10,
-      ),
-      // ...reminders.isEmpty
-      //     ? [
-      //         const Align(
-      //             alignment: Alignment.centerLeft,
-      //             child: Text(
-      //               'You have no reminder set',
-      //               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-      //             ))
-      //       ]
-      //     : [
-      Container(
-        decoration: BoxDecoration(
-            color: Palette.primary, borderRadius: BorderRadius.circular(10)),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(children: const [
-              Text(
-                'Morning Vitals',
-                style: TextStyle(color: Palette.white, fontSize: 12),
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              Icon(
-                Icons.cloud_outlined,
-                color: Palette.white,
-                size: 20,
-              )
-            ]),
-            Transform.scale(
-              scale: 0.8,
-              child: CupertinoSwitch(
-                  value: controller.morningMedications.value,
-                  onChanged: (bool newValue) {
-                    controller.morningMedications.value = newValue;
-                  }),
-            )
-          ],
-        ),
-      ),
-      const SizedBox(
-        height: 16,
-      ),
-      Expanded(
-          child: ListView.builder(
-              itemCount: notifications.length,
-              shrinkWrap: true,
-              itemBuilder: ((context, index) {
-                var notification = notifications[index];
-                return ReminderCard(
-                    title: notification.title,
-                    note: notification.note,
-                    time: DateFormat('HH:mm')
-                        .format(DateTime.parse(notification.date!))
-                        .toString());
-              })))
-      //]
-    ];
-  }
+  List<Widget> _buildPage(
+      {List<ReminderModel> reminders = const [],
+      required String image,
+      required String caption,
+      required String addRoute,
+      required void Function() onClear}) {
+    var morningMeds = reminders
+        .where((element) => DateTime.parse(element.date!).hour <= 12)
+        .toList();
+    var eveningMeds = reminders
+        .where((element) => DateTime.parse(element.date!).hour > 12)
+        .toList();
 
-  List<Widget> _buildVitals(List<NotificationModel> vitalReminders) {
     return [
-      const JumbotronCard(
-          image: 'assets/images/medication-reminder.jpg',
-          caption: 'With Syren, You’re sure to have\n stable blood vitals.'),
+      JumbotronCard(image: image, caption: caption),
       const SizedBox(
         height: 20,
       ),
-      TextIconButton(
-        label: 'Add New',
-        onPress: () {
-          Get.toNamed(SetVitalReminderView.routeName);
-        },
-        trailingIcon: Icons.add_circle_outline,
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextIconButton(
+            label: 'Setup New',
+            onPress: () {
+              Get.toNamed(addRoute);
+            },
+            trailingIcon: Icons.add_circle_outline,
+          ),
+          TextIconButton(
+            label: 'Clear',
+            onPress: onClear,
+            trailingIcon: Icons.clear_outlined,
+          )
+        ],
       ),
       const SizedBox(
         height: 10,
       ),
-      ...vitalReminders.isEmpty
+      ...reminders.isEmpty
           ? [
               const Align(
                   alignment: Alignment.centerLeft,
@@ -177,57 +131,124 @@ class RemindersView extends GetView<RemindersController> {
                   ))
             ]
           : [
-              Container(
-                decoration: BoxDecoration(
-                    color: Palette.primary,
-                    borderRadius: BorderRadius.circular(10)),
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(children: const [
-                      Text(
-                        'Morning Vitals',
-                        style: TextStyle(color: Palette.white, fontSize: 12),
+              ...morningMeds.isNotEmpty
+                  ? [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Palette.primary,
+                            borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(children: const [
+                              Text(
+                                'Morning Medications',
+                                style: TextStyle(
+                                    color: Palette.white, fontSize: 12),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Icon(
+                                Icons.cloud_outlined,
+                                color: Palette.white,
+                                size: 20,
+                              )
+                            ]),
+                            Transform.scale(
+                              scale: 0.8,
+                              child: CupertinoSwitch(
+                                  value: reminderCtrl.morningMedications.value,
+                                  onChanged: (bool newValue) {
+                                    reminderCtrl.morningMedications.value =
+                                        newValue;
+                                  }),
+                            )
+                          ],
+                        ),
                       ),
-                      SizedBox(
-                        width: 8,
+                      const SizedBox(
+                        height: 16,
                       ),
-                      Icon(
-                        Icons.cloud_outlined,
-                        color: Palette.white,
-                        size: 20,
-                      )
-                    ]),
-                    Transform.scale(
-                      scale: 0.8,
-                      child: CupertinoSwitch(
-                          value: controller.morningMedications.value,
-                          onChanged: (bool newValue) {
-                            controller.morningMedications.value = newValue;
-                          }),
-                    )
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Expanded(
-                  child: ListView.builder(
-                      itemCount: vitalReminders.length,
-                      shrinkWrap: true,
-                      itemBuilder: ((context, index) {
-                        var reminder = vitalReminders[index];
-                        return ReminderCard(
-                            title: reminder.title,
-                            note: reminder.note,
-                            time: DateFormat('HH:mm')
-                                .format(DateTime.parse(reminder.date!))
-                                .toString());
-                      })))
+                      Expanded(
+                          child: ListView.builder(
+                              itemCount: morningMeds.length,
+                              shrinkWrap: true,
+                              itemBuilder: ((context, index) {
+                                var reminder = morningMeds[index];
+                                debugPrint(
+                                    reminder.notificationType.toString());
+                                return ReminderCard(
+                                    title: reminder.title,
+                                    note: reminder.note,
+                                    time: DateFormat('HH:mm a')
+                                        .format(DateTime.parse(reminder.date!))
+                                        .toString());
+                              })))
+                    ]
+                  : [],
+              ...eveningMeds.isNotEmpty
+                  ? [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Palette.primary,
+                            borderRadius: BorderRadius.circular(10)),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Row(children: const [
+                              Text(
+                                'Evening Medications',
+                                style: TextStyle(
+                                    color: Palette.white, fontSize: 12),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Icon(
+                                Icons.nightlight_outlined,
+                                color: Palette.white,
+                                size: 20,
+                              )
+                            ]),
+                            Transform.scale(
+                              scale: 0.8,
+                              child: CupertinoSwitch(
+                                  value: reminderCtrl.eveningMedications.value,
+                                  onChanged: (bool newValue) {
+                                    reminderCtrl.eveningMedications.value =
+                                        newValue;
+                                  }),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Expanded(
+                          child: ListView.builder(
+                              itemCount: eveningMeds.length,
+                              shrinkWrap: true,
+                              itemBuilder: ((context, index) {
+                                var reminder = eveningMeds[index];
+                                debugPrint(
+                                    reminder.notificationType.toString());
+                                return ReminderCard(
+                                    title: reminder.title,
+                                    note: reminder.note,
+                                    time: DateFormat('HH:mm a')
+                                        .format(DateTime.parse(reminder.date!))
+                                        .toString());
+                              })))
+                    ]
+                  : []
             ]
     ];
   }

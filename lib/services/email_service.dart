@@ -12,12 +12,12 @@ class EmailService extends GetxService {
     // Note that using a username and password for gmail only works if
     // you have two-factor authentication enabled and created an App password.
     // Search for "gmail app password 2fa. The alternative is to use oauth.
-    // smtpServer =
-    //   gmail(dotenv.get('GOOGLE_SMTP_USER'), dotenv.get('GOOGLE_SMTP_PASS'));
-    smtpServer = SmtpServer(dotenv.get('SMTP_HOST'),
-        username: dotenv.get('SMTP_USER'),
-        password: dotenv.get('SMTP_PASS'),
-        port: int.parse(dotenv.get('SMTP_PORT')));
+    smtpServer =
+        gmail(dotenv.get('GOOGLE_SMTP_USER'), dotenv.get('GOOGLE_SMTP_PASS'));
+    // smtpServer = SmtpServer(dotenv.get('SMTP_HOST'),
+    //     username: dotenv.get('SMTP_USER'),
+    //     password: dotenv.get('SMTP_PASS'),
+    //     port: int.parse(dotenv.get('SMTP_PORT')));
     debugPrint('Init Email Service');
     return this;
   }
@@ -78,5 +78,4 @@ class EmailService extends GetxService {
 //     ];
 
 //   final sendReport2 = await send(equivalentMessage, smtpServer);
-
 }

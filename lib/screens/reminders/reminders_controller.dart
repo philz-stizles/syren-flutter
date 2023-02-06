@@ -1,26 +1,22 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/models/models.dart';
+import 'package:syren/models/notification_model.dart';
 import 'package:syren/services/services.dart';
 
 class RemindersController extends GetxController {
   // Services.
-  final notificationSrv = Get.find<NotificationService>();
+  final reminderSrv = Get.find<ReminderService>();
 
   // Observables.
-  var page = 0.obs;
-  var morningMedications = true.obs;
-  RxList<NotificationModel> notifications = <NotificationModel>[].obs;
+  RxInt page = 0.obs;
+  RxBool morningMedications = true.obs;
+  RxBool eveningMedications = true.obs;
 
-  @override
-  Future<void> onReady() async {
-    debugPrint('ready reminders');
-    await getNotifications();
-    super.onReady();
+  Future<void> clearAll() async {
+    await reminderSrv.clearAll();
   }
 
-  Future<void> getNotifications() async {
-    notifications.assignAll(await notificationSrv.query());
+  Future<void> clear(NotificationType type) async {
+    await reminderSrv.clearByType(type);
   }
 }
 

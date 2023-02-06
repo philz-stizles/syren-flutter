@@ -1,14 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:syren/models/models.dart';
 
-class BloodPressureModel {
+class BloodPressureModel implements FirebaseModel {
+  @override
   String? id;
   late int systolic;
   late int diastolic;
   late Timestamp timeStamp;
 
   BloodPressureModel(
-      {this.id,
+      {String? id,
       required this.systolic,
       required this.diastolic,
       required this.timeStamp});
@@ -33,13 +35,13 @@ class BloodPressureModel {
     timeStamp = doc['timeStamp'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['systolic'] = systolic;
-    data['diastolic'] = diastolic;
-    data['timeStamp'] = timeStamp;
-
-    return data;
+    return {
+      'systolic': systolic,
+      'diastolic': diastolic,
+      'timeStamp': timeStamp,
+    };
   }
 
   @override

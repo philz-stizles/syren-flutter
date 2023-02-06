@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:syren/models/firebase_model.dart';
 
-class FeedbackModel {
+class FeedbackModel implements FirebaseModel {
+  @override
   String? id;
   String? userId;
   late double rating;
@@ -35,6 +37,7 @@ class FeedbackModel {
     date = doc['date'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['userId'] = userId;

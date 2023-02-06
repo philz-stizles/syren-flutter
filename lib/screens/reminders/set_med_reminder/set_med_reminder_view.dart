@@ -34,10 +34,8 @@ class SetMedReminderView extends GetView<SetMedReminderController> {
                           ),
                           DropdownSelectField(
                             labelText: 'Type of drug',
-                            editingCtrl: controller.drugTypeCtrl,
                             options: controller.drugTypes,
                             onChanged: (String? val) {
-                              controller.drugTypeCtrl.text = val!;
                               controller.drugTypeDropdownValue.value = val;
                             },
                             dropdownValue:
@@ -144,7 +142,7 @@ class SetMedReminderView extends GetView<SetMedReminderController> {
       Wrap(
           children: controller.intervals
               .map((interval) => DecoratedText(
-                  label: interval.name,
+                  label: interval.value,
                   isSelected: controller.selectedInterval.value == interval,
                   onTap: () => controller.setSelectedInterval(interval)))
               .toList()),

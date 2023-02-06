@@ -8,6 +8,7 @@ class UserController extends GetxController {
 
   // Observables.
   Rx<UserModel?> userModel = UserModel().obs;
+  RxList<UserModel> accounts = <UserModel>[].obs;
 
   UserModel? get user => userModel.value;
 
@@ -21,5 +22,6 @@ class UserController extends GetxController {
   void onReady() async {
     // user = (await userService.getUser())!;
     userModel.bindStream(userService.getUserStream());
+    accounts.bindStream(userService.getAccounts());
   }
 }

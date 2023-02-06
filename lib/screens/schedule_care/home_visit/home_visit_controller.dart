@@ -4,12 +4,16 @@ import 'package:get/get.dart';
 import 'package:syren/models/models.dart';
 import 'package:syren/screens/schedule_care/schedule_care_view.dart';
 import 'package:syren/screens/success.dart';
-import 'package:syren/services/home_visit_service.dart';
+import 'package:syren/services/services.dart';
 import 'package:syren/widgets/widgets.dart';
 
 class HomeVisitController extends GetxController {
   // Services.
-  var homeVisitSrv = Get.put(HomeVisitService());
+  var firestoreSrv = Get.put(FirestoreService<HomeVisitModel>(
+    'HomeVisits',
+    fromDS: (p0, p1) => HomeVisitModel.fromJson(p1!),
+    toMap: (model) => model.toJson(),
+  ));
 
   // Data.
   var specialties = [
@@ -25,29 +29,19 @@ class HomeVisitController extends GetxController {
   final appointmentDateCtrl = TextEditingController();
 
   final addressCtrl = TextEditingController();
-  final specialtyCtrl = TextEditingController();
   final samplesCtrl = TextEditingController();
 
   // Observables.
   var isSavingHomeVisit = false.obs;
-  var specialtyDropdownValue = ''.obs;
+  Rxn<String> specialtyDropdownValue = Rxn<String>();
   Rx<DateTime> selectedDay = DateTime.now().obs;
   Rx<DateTime> focusedDay = DateTime.now().obs;
   RxString selectedTime = ''.obs;
 
   @override
-  void onInit() {
-    specialtyDropdownValue.value = specialties[0];
-    specialtyCtrl.text = specialties[0];
-
-    super.onInit();
-  }
-
-  @override
   void onClose() {
     appointmentDateCtrl.dispose();
     addressCtrl.dispose();
-    specialtyCtrl.dispose();
     samplesCtrl.dispose();
 
     super.onClose();
@@ -59,17 +53,17 @@ class HomeVisitController extends GetxController {
   }
 
   void clearForm() {
-    specialtyCtrl.clear();
     addressCtrl.clear();
     samplesCtrl.clear();
+    specialtyDropdownValue.value = null;
     selectedTime.value = '';
   }
 
   Future<void> saveHomeVisit() async {
     try {
       isSavingHomeVisit(true);
-      await homeVisitSrv.createByUser(HomeVisitModel(
-          specialty: specialtyCtrl.text,
+      await firestoreSrv.createByUser(HomeVisitModel(
+          specialty: specialtyDropdownValue.value,
           address: addressCtrl.text.trim(),
           samples: samplesCtrl.text.trim(),
           date: selectedDay.value,

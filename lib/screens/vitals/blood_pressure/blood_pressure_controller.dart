@@ -4,7 +4,9 @@ import 'package:syren/services/services.dart';
 
 class BloodPressureController extends GetxController {
   // Services.
-  var bpService = Get.put(BloodPressureService());
+  var firestoreService = Get.put(FirestoreService<BloodPressureModel>(
+      'bloodPressures',
+      fromDS: (p0, p1) => BloodPressureModel.fromJson(p1!)));
 
   // Observables.
   var page = 1.obs;
@@ -14,7 +16,8 @@ class BloodPressureController extends GetxController {
 
   @override
   void onReady() {
-    bpList.bindStream(bpService.stream());
+    bpList.bindStream(firestoreService.streamQueryListByUser(
+        orderBy: [OrderBy('timeStamp', descending: true)]));
   }
 }
 

@@ -175,7 +175,7 @@ class SignUpOTPTemplate {
                                                  height="100"
                                                  border="0" style="display: block;" 
                                                  alt="Syren Logo"
-                                                 src="" />
+                                                 src="data:image/svg;base64,iVBORw0KGgoAAAANSUhEUgAAAFYAAAAhCAYAAABDcVyOAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAN4SURBVHgB7VrRcdswDGXu+l+PoG7gbqARvEHUCeINrE5gdQJ5A2cDZQNnA6YTKJ3glYzACoJIU7blxJfy3fFsggBBPoEQSVupmQBgYcrGlEIldDBkbNFho86AsctMeUaPXP3voEjj0JaoE+wzskEiVsAQUXnILSbY+Uhdq4QehpASY2yO6C89pBYqYYxABI5Sg13qprRMx35fqoQwiNxdKDWYz3tPWyJ1KgKpYR+L5oQJCKSGROocCKQGizJiUyG9zOLACbsGI29iOgkMmL5raITOVs0AdFu8At2uJFOfCYHU0PJlj+40J8k9nEsGup1IizFmeWA3hUBq2EZ09KnkUpTyB9hguGpK9dmACanBQ64lZ3WCj0fW74LJ3TG8pbp9ADZFLIW9k+eibsduV1bBbZisgGd/7voiPae74mObBdR5LDXIk5rFpJcaI7YVxC6InIzqbgxa2GuS16K+Y99LanvAGHvnl/w53Is5aVwj75tO155BbVm7L7qjOVL0a+1rdBGSCb2c6WXMp8OKZJrJXGpxEepQkV+n23j6c7YNkzXqGkB/r8txYO12YAfZjsiThj+fW9QYRrGLoDXVHVma6WgnE7ZuXLUYr8NC1HnQPEo/swBd3mo8E28wzLdZQC961Ui2lii+hN98MJ2Ky5gvTpaWMpI7HNBHYsPkOYbE5sy2nJVYdE/RF6Ua4rIbXf5qY3oeH+5lkQk5v0POmC7IzyJAgo4QqwWxrizfhVh00SOJaskJX2KhKK0w4U3KfGw9/gfECv2Nb7JHiHXyUsj5C/J6xB4hqsE4qs6KUtHHjtnWNImK9SuJk/k4RGAdsHvb0aCLfr4aM1yDWPS/wsJD1EroXhSlHr8afowu2DHcHcDTrgPEWj+HgJ81mxemEPtFTZucJc4uxUw0/TSluru7e2W6D+ajNIUT+GLKD6P3pE4E9f2NxpCb8tWUP9Tnjvsm/Sej+0JjfTH1Z9HlLxrbs8fPd+HntymPrI9XmrObk8MTa48Dx5f9cqLuyVF6LtCfqgaRdjNAv+x9L6fCo39xLp1p3Fr4z9RHA/3ZN4c/p40iD/5bLK/uO4zfrpg9jaf6cFKJnD3CaEKRh/ExViP9WaMD/D+7WNilvY7Y5h8ZpTcN9LnR7dP+1SfaW5v087cEI3JwZFMJlwH+m6NaJVwO9EfENuXKefAXMJhlWZn9quYAAAAASUVORK5CYII=" />
                                         </a>
                                     </td>
                                 </tr>
@@ -201,7 +201,7 @@ class SignUpOTPTemplate {
                 <table border="0" align="center" width="590" cellpadding="0" cellspacing="0" class="container590">
 
                     <tr>
-                        <td align="center" style="color: #343434; font-size: 24px; font-family: Quicksand, Calibri, sans-serif; font-weight:700;letter-spacing: 3px; line-height: 35px;"
+                        <td align="center" style="color: #343434; font-size: 14px; font-family: Quicksand, Calibri, sans-serif;"
                             class="main-header">
                             <!-- section text ======-->
 
@@ -245,32 +245,14 @@ class SignUpOTPTemplate {
                                         <!-- section text ======-->
 
                                         <p style="line-height: 24px;margin-bottom:15px;">
-                                            Thank you for registering on the <b>Syren insurance platform</b>.
+                                            Thank you for registering on the <b>Syren medical platform</b>.
                                         </p>
                                         <p style="line-height: 24px; margin-bottom:20px;">
-                                            <b>Please</b> Kindly click the link below to verify your email.
+                                            Your email verification code is <b>{{CODE}}</b>.
                                         </p>
-                                        <table border="0" align="left" width="180" cellpadding="0" cellspacing="0" bgcolor="5caad2" style="margin-bottom:20px;">
+                                        <table border="0" align="left" width="180" cellpadding="0" cellspacing="0" style="margin-bottom:20px;">
 
-                                            <tr>
-                                                <td height="10" style="font-size: 10px; line-height: 10px;">
-                                                    &nbsp;
-                                                </td>
-                                            </tr>
-
-                                            <tr>
-                                                <td align="center" style="color: #ffffff; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 22px; letter-spacing: 2px;">
-                                                    <!-- main section button -->
-
-                                                    <div style="line-height: 22px;">
-                                                        <a href="##VERIFICATIONLINK##"
-                                                            target="_blank"
-                                                            style="color: #ffffff; text-decoration: none;">
-                                                            Verify Email
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                           
 
                                             <tr>
                                                 <td height="10" style="font-size: 10px; line-height: 10px;">
@@ -416,7 +398,7 @@ class SignUpOTPTemplate {
                                     <td align="left" style="color: #aaaaaa; font-size: 14px; font-family: 'Work Sans', Calibri, sans-serif; line-height: 24px;">
                                         <div style="line-height: 24px;">
 
-                                            <span style="color: #333333;"> &copy; Powered by OSM-FINC LTD.</span>
+                                            <span style="color: #333333;"> &copy; Powered by Syren.</span>
 
                                         </div>
                                     </td>

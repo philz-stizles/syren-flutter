@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:syren/models/models.dart';
 
-class MedicationModel {
+class MedicationModel implements FirebaseModel {
+  @override
   String? id;
   String? imageLocation;
   String? title;
@@ -40,6 +42,7 @@ class MedicationModel {
     time = doc['time'];
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['imageLocation'] = imageLocation;

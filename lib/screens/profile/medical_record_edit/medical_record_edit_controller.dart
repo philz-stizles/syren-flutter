@@ -21,55 +21,41 @@ class MedicalRecordEditController extends GetxController {
   var bloodGroups = ['O+', 'AB+', 'A+', 'AB-', 'B+'];
 
   // Form.
-  final hasAllergiesCtrl = TextEditingController();
   final allergiesCtrl = TextEditingController();
   final medicationsCtrl = TextEditingController();
-  final hasConditionsCtrl = TextEditingController();
   final conditionsCtrl = TextEditingController();
   final genoTypeCtrl = TextEditingController();
   final bloodGroupCtrl = TextEditingController();
 
   // Observables.
-  var isLoadingSaveMedRecords = false.obs;
-  var genderDropdownValue = ''.obs;
-  var religionDropdownValue = ''.obs;
-  var hasAllergiesDropdownValue = ''.obs;
-  var hasConditionsDropdownValue = ''.obs;
-  var genoTypeDropdownValue = ''.obs;
-  var bloodGroupDropdownValue = ''.obs;
+  RxBool isLoading = false.obs;
+  Rxn<String> hasAllergiesDropdown = Rxn<String>();
+  Rxn<String> hasConditionsDropdown = Rxn<String>();
+  Rxn<String> genoTypeDropdown = Rxn<String>();
+  Rxn<String> bloodGroupDropdown = Rxn<String>();
 
   @override
   void onInit() {
     // Initialize input fields.
-    if (userCtrl.user != null && userCtrl.user?.hasAllergies != null) {
-      hasAllergiesCtrl.text =
-          userCtrl.user!.hasAllergies! == true ? 'Yes' : 'No';
-    }
-
-    if (userCtrl.user != null && userCtrl.user!.hasMedicalConditions != null) {
-      hasConditionsCtrl.text =
-          userCtrl.user!.hasMedicalConditions! == true ? 'Yes' : 'No';
-    }
-
     allergiesCtrl.text = userCtrl.user!.allergies ?? '';
     medicationsCtrl.text = userCtrl.user!.medications ?? '';
     conditionsCtrl.text = userCtrl.user!.medicalConditions ?? '';
     genoTypeCtrl.text = userCtrl.user!.genoType ?? '';
     bloodGroupCtrl.text = userCtrl.user!.bloodGroup ?? '';
 
-    hasAllergiesDropdownValue.value = alleries[0];
-    hasConditionsDropdownValue.value = conditions[0];
-    genoTypeDropdownValue.value = genoTypes[0];
-    bloodGroupDropdownValue.value = bloodGroups[0];
+    hasAllergiesDropdown.value =
+        userCtrl.user!.hasAllergies! == true ? 'Yes' : 'No';
+    hasConditionsDropdown.value =
+        userCtrl.user!.hasMedicalConditions! == true ? 'Yes' : 'No';
+    genoTypeDropdown.value = userCtrl.user!.genoType;
+    bloodGroupDropdown.value = userCtrl.user!.bloodGroup;
     super.onInit();
   }
 
   @override
   void onClose() {
-    hasAllergiesCtrl.dispose();
     allergiesCtrl.dispose();
     medicationsCtrl.dispose();
-    hasConditionsCtrl.dispose();
     conditionsCtrl.dispose();
     genoTypeCtrl.dispose();
     bloodGroupCtrl.dispose();
@@ -78,12 +64,14 @@ class MedicalRecordEditController extends GetxController {
 
   Future<void> saveMedRecords() async {
     try {
-      isLoadingSaveMedRecords(true);
+      isLoading(true);
       var userMap = {
-        'hasAllergies': true,
+        'hasAllergies': hasAllergiesDropdown.value != null &&
+            hasAllergiesDropdown.value?.toLowerCase() == 'yes',
+        'hasMedicalConditions':
+            hasConditionsDropdown.value?.toLowerCase() == 'yes',
         'allergies': allergiesCtrl.text.trim(),
         'medications': medicationsCtrl.text.trim(),
-        'hasMedicalConditions': true,
         'medicalConditions': conditionsCtrl.text.trim(),
         'genoType': genoTypeCtrl.text.trim(),
         'bloodGroup': bloodGroupCtrl.text.trim()
@@ -107,7 +95,7 @@ class MedicalRecordEditController extends GetxController {
             message: e.message as String, backgroundColor: Colors.red);
       }
     } finally {
-      isLoadingSaveMedRecords(false);
+      isLoading(false);
     }
   }
 }

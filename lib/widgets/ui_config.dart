@@ -116,14 +116,20 @@ class UIConfig {
   static void showSnackBar(
       {required String message,
       required backgroundColor,
+      duration = const Duration(seconds: 5),
       icon,
+      action,
       position = SnackPosition.BOTTOM}) {
-    Get.showSnackbar(GetSnackBar(
-        message: message,
-        backgroundColor: backgroundColor,
-        duration: const Duration(seconds: 5),
-        icon: icon,
-        snackPosition: position));
+    Get.showSnackbar(
+      GetSnackBar(
+          message: message,
+          backgroundColor: backgroundColor,
+          duration: duration,
+          icon: icon,
+          snackPosition: position,
+          isDismissible: true,
+          mainButton: action),
+    );
   }
 
   static showResponseDialog(

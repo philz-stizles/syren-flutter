@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/providers/auth_provider.dart';
-import 'package:syren/screens/signin/signin_view.dart';
+
+import 'package:syren/screens/auth/signin/signin_view.dart';
+import 'package:syren/services/services.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:syren/widgets/widgets.dart';
 
 class AppDrawer extends StatelessWidget {
   AppDrawer({super.key});
 
-  var authProvider = Get.put(AuthProvider());
+  var authSrv = Get.find<AuthService>();
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +97,7 @@ class AppDrawer extends StatelessWidget {
         PrimaryButton(
             title: 'Sign Out',
             press: () async {
-              await authProvider.signOut();
+              await authSrv.signOut();
               Get.offAllNamed(SignInView.routeName);
             })
       ]),
