@@ -10,7 +10,7 @@ import 'package:syren/widgets/widgets.dart';
 class FeedbackController extends GetxController {
   // Services.
   var firestoreSrv = Get.put(FirestoreService<FeedbackModel>(
-    'Feedbacks',
+    'feedbacks',
     fromDS: (p0, p1) => FeedbackModel.fromJson(p1!),
     toMap: (model) => model.toJson(),
   ));
