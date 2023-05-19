@@ -23,7 +23,9 @@ class SignInController extends GetxController {
 
   @override
   void onInit() {
-    emailCtrl.text = (Get.arguments != null) ? Get.arguments['email'] : '';
+    emailCtrl.text = (Get.arguments != null && Get.arguments['email'] != null) 
+    ? Get.arguments['email'] 
+    : '';
     super.onInit();
   }
 
@@ -40,7 +42,6 @@ class SignInController extends GetxController {
       await authService.signIn(email: email, password: password);
       Get.offAll(DashboardScreen());
     } on FirebaseAuthException catch (e) {
-      debugPrint(e.message);
       if (e.message != null) {
         UIConfig.showSnackBar(
             message: e.message as String,

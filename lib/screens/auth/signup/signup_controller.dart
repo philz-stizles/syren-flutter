@@ -30,6 +30,7 @@ class SignUpController extends GetxController {
   final nameCtrl = TextEditingController();
   final phoneCtrl = TextEditingController();
   final emailCtrl = TextEditingController();
+  final emailKey = GlobalKey<FormFieldState>();
   final dobCtrl = TextEditingController();
   final passwordCtrl = TextEditingController();
   final allergiesCtrl = TextEditingController();
@@ -38,13 +39,15 @@ class SignUpController extends GetxController {
   final conditionsCtrl = TextEditingController();
 
   // Observables.
+  var emailExists = false.obs;
+  var isCheckingEmail = false.obs;
   var isLoadingSignUp = false.obs;
-  Rxn<String> genderDropdownValue = Rxn<String>();
-  Rxn<String> religionDropdownValue = Rxn<String>();
-  Rxn<String> allergiesDropdownValue = Rxn<String>();
-  Rxn<String> conditionsDropdownValue = Rxn<String>();
-  Rxn<String> genoTypeDropdownValue = Rxn<String>();
-  Rxn<String> bloodGroupDropdownValue = Rxn<String>();
+  var genderDropdownValue = Rxn<String>();
+  var religionDropdownValue = Rxn<String>();
+  var allergiesDropdownValue = Rxn<String>();
+  var conditionsDropdownValue = Rxn<String>();
+  var genoTypeDropdownValue = Rxn<String>();
+  var bloodGroupDropdownValue = Rxn<String>();
 
   @override
   void onInit() {
@@ -91,7 +94,7 @@ class SignUpController extends GetxController {
           bloodGroup: bloodGroupDropdownValue.value);
       await authProvider.signUp(
           userModel: userModel, password: passwordCtrl.text.trim());
-      if (userSrv.userId == null) {
+      if (userSrv.authUser.value == null) {
         UIConfig.showSnackBar(
             message: 'Signup was successful', backgroundColor: Colors.green);
         // Get.offAll(DashboardScreen());

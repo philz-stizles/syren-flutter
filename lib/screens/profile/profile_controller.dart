@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:syren/controllers/user_controller.dart';
 import 'package:syren/screens/auth/signin/signin_view.dart';
 import 'package:syren/screens/auth/signup/signup_view.dart';
 import 'package:syren/services/services.dart';
@@ -12,12 +11,9 @@ import 'package:syren/widgets/widgets.dart';
 
 class ProfileController extends GetxController {
   // Services.
-  var authService = Get.find<AuthService>();
-  var imageService = Get.put(ImageService());
-  var userService = Get.put(UserService());
-
-  // Services.
-  var userCtrl = Get.put(UserController());
+  final authService = Get.find<AuthService>();
+  final imageService = Get.put(ImageService());
+  final userService = Get.put(UserService());
 
   // Observables
   var isProfileSelected = true.obs;
@@ -26,7 +22,7 @@ class ProfileController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    userCtrl.user = await userService.getUser();
+    // userCtrl.user = await userService.getUser();
     super.onInit();
   }
 
@@ -104,15 +100,20 @@ class ProfileController extends GetxController {
     isShowingAccounts.value = !isShowingAccounts.value;
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut({String? email}) async {
     await authService.signOut();
     Get.back();
-    Get.toNamed(SignInView.routeName);
+    Get.offAllNamed(SignInView.routeName, arguments: {'email': email});
   }
 
   Future<void> addAccount() async {
     Get.toNamed(SignUpView.routeName,
-        arguments: {'parent': userCtrl.user?.email});
+        arguments: {'parent': userService.user?.email});
+  }
+
+  Future<void> switchAccount({required String email}) async {
+    await authService.signOut();
+    Get.offAllNamed(SignInView.routeName, arguments: {'email': email});
   }
 }
 

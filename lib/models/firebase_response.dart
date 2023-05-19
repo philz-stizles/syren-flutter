@@ -32,7 +32,7 @@ class FirebaseSignupResponse extends FirebaseResponse {
     refreshToken = json['refreshToken'];
     expiresIn = json['expiresIn'];
     localId = json['localId'];
-    error = Error.fromJson(json);
+    error = Error.fromJson(json['error']);
   }
 }
 

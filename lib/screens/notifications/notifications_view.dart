@@ -68,6 +68,7 @@ class NotificationsView extends GetView<NotificationsController> {
                     ],
                   ),
                   // const SizedBox(height: 5),
+                  // ..._buildRecentNotifications(controller.notifications)
                   ..._buildRecentNotifications(controller.notifications)
                 ],
               ))),

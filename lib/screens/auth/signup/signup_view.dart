@@ -20,7 +20,7 @@ class SignUpView extends GetView<SignUpController> {
     return Scaffold(
         appBar: AppBar(
             automaticallyImplyLeading:
-                controller.userSrv.userId == null ? false : true,
+                controller.userSrv.authUser.value == null ? false : true,
             title: Image.asset(
               'assets/images/logo.png',
               scale: 1.2,
@@ -81,17 +81,34 @@ class SignUpView extends GetView<SignUpController> {
                     Focus(
                         onFocusChange: (hasFocus) async {
                           if (!hasFocus) {
-                            var exists =
-                                await controller.userSrv.checkIfUserExists();
+                            controller.isCheckingEmail(true);
+                            var exists = await controller.userSrv
+                                .checkIfEmailExists(
+                                    controller.emailCtrl.text.trim());
+                            controller.isCheckingEmail(false);
                             if (exists) {
-                              print(exists);
+                              controller.emailExists.value = true;
+                            } else {
+                              controller.emailExists.value = false;
                             }
+
+                            controller.emailKey.currentState!.validate();
                           }
                         },
                         child: AppTextField(
                           labelText: 'Email Address',
                           hintText: 'Enter your email address',
                           editingCtrl: controller.emailCtrl,
+                          formFieldKey: controller.emailKey,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please provide a valid email address';
+                            } else if (controller.emailExists.value) {
+                              return 'This email is already taken';
+                            } else {
+                              return null;
+                            }
+                          },
                         )),
                     DateInputField(
                       labelText: 'Date of Birth',
@@ -125,22 +142,32 @@ class SignUpView extends GetView<SignUpController> {
                         title: 'Next',
                         loading: controller.isLoadingSignUp.value,
                         press: () async {
+                           FocusManager.instance.primaryFocus?.unfocus();
                           if (signUpFormKey.currentState!.validate()) {
-                            FocusManager.instance.primaryFocus?.unfocus();
-                            if (Get.isSnackbarOpen) {
-                              Get.closeCurrentSnackbar();
+                           
+                            if (controller.dobCtrl.text.isNotEmpty) {
+                              if (Get.isSnackbarOpen) {
+                                Get.closeCurrentSnackbar();
+                              }
+                              Get.toNamed(SignUpMedicalsView.routeName);
+                              // await controller.signUp();
+                            } else {
+                              UIConfig.showSnackBar(
+                                  message:
+                                      'Please, kindly provide your date of birth',
+                                  backgroundColor: Colors.red);
                             }
-                            Get.toNamed(SignUpMedicalsView.routeName);
-                            // await controller.signUp();
                           }
                         }),
                     const SizedBox(
                       height: 20,
                     ),
-                    AccountCTA(
-                        text: 'Already have an account?',
-                        onTap: () => Get.offNamed(SignInView.routeName),
-                        linkText: 'Sign in'),
+                    controller.userSrv.authUser.value == null
+                        ? AccountCTA(
+                            text: 'Already have an account?',
+                            onTap: () => Get.offNamed(SignInView.routeName),
+                            linkText: 'Sign in')
+                        : const SizedBox()
                   ],
                 ))),
           ),

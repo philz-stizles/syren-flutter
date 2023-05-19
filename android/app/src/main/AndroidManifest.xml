@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.devdezyn.syren">
+    <uses-permission android:name="android.permission.INTERNET"/>
     <queries>
     <intent>
       <action android:name="android.intent.action.SENDTO" />
@@ -42,6 +43,6 @@
             android:value="2" />
         <meta-data 
           android:name="com.google.android.geo.API_KEY"
-          android:value="AIzaSyCA218vLy08hiibb010YL4DNb7fSt6A_HI"/>
+          android:value="${googleMapsApiKey}"/>
     </application>
 </manifest>

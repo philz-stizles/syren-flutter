@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/controllers/user_controller.dart';
 import 'package:syren/models/models.dart';
 import 'package:syren/screens/profile/medical_record_edit/medical_record_edit_view.dart';
 import 'package:syren/screens/profile/profile_edit/profile_edit_view.dart';
+import 'package:syren/services/services.dart';
 import 'package:syren/utils/constants.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:syren/widgets/widgets.dart';
@@ -37,14 +37,15 @@ class ProfileView extends GetView<ProfileController> {
                           backgroundColor: Palette.primary,
                           child: CircleAvatar(
                               radius: 48,
-                              backgroundImage: (controller.userCtrl.user !=
-                                          null &&
-                                      controller.userCtrl.user!.avatar != null)
-                                  ? NetworkImage(
-                                      controller.userCtrl.user!.avatar!,
-                                    )
-                                  : Image.asset('assets/images/avatar.png')
-                                      .image,
+                              backgroundImage:
+                                  (controller.userService.user != null &&
+                                          controller.userService.user!.avatar !=
+                                              null)
+                                      ? NetworkImage(
+                                          controller.userService.user!.avatar!,
+                                        )
+                                      : Image.asset('assets/images/avatar.png')
+                                          .image,
                               child: controller.isLoading.value
                                   ? const CircularLoader()
                                   : null),
@@ -132,8 +133,8 @@ class ProfileView extends GetView<ProfileController> {
                   height: 20,
                 ),
                 ...controller.isProfileSelected.value
-                    ? _buildProfile(controller.userCtrl.user)
-                    : _buildMedicalRecords(controller.userCtrl.user),
+                    ? _buildProfile(controller.userService.user)
+                    : _buildMedicalRecords(controller.userService.user),
                 const SizedBox(
                   height: 10,
                 ),
@@ -149,9 +150,9 @@ class ProfileView extends GetView<ProfileController> {
                   label: 'Switch account',
                   onPress: () => controller.toggleAccounts(),
                 ),
-                GetX<UserController>(
-                    init: Get.find<UserController>(),
-                    builder: (UserController ctrl) {
+                GetX<UserService>(
+                    init: Get.find<UserService>(),
+                    builder: (UserService ctrl) {
                       return !controller.isShowingAccounts.value
                           ? const SizedBox()
                           : ListView.builder(
@@ -161,37 +162,42 @@ class ProfileView extends GetView<ProfileController> {
                                 var item = ctrl.accounts[index];
                                 return Column(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        DecoratedBox(
-                                          decoration: BoxDecoration(
-                                              color: Palette.primary,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      defaultBorderRadius)),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(8),
-                                            child: Icon(
-                                              Icons.person_outline,
-                                              color: Palette.white,
-                                              size: 20,
+                                    //switchAccount
+                                    GestureDetector(
+                                      onTap: () => controller.switchAccount(
+                                          email: item.email!),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          DecoratedBox(
+                                            decoration: BoxDecoration(
+                                                color: Palette.primary,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        defaultBorderRadius)),
+                                            child: const Padding(
+                                              padding: EdgeInsets.all(8),
+                                              child: Icon(
+                                                Icons.person_outline,
+                                                color: Palette.white,
+                                                size: 20,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          '${item.name}',
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w600),
-                                        )
-                                      ],
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            '${item.name}',
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w600),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                     const SizedBox(
                                       height: 10,

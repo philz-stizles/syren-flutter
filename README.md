@@ -21,7 +21,45 @@ https://cloud.google.com > Console >
         Map SDK for IOS > Enable
         Places API > Enable
     Credentials
-        API Restrictiions > Restrict key
+        API Restrictions > Restrict key
             -   Maps SDK for Android
             -   Map SDK for IOS
             -   Places API
+
+### Create Project
+
+    mkdir syren
+    cd syren
+    flutter create .
+
+### Run Project
+
+    flutter run
+
+### Adding a Launcher Icon
+
+    flutter pub add flutter_launcher_icons
+
+    flutter pub run flutter_launcher_icons
+
+### Firebase
+
+    rules_version = '2';
+    // Allow users can only read and write their own data
+    service cloud.firestore {
+        match /databases/{database}/documents {
+            // Make sure the uid of the requesting user matches name of the user
+            // document. The wildcard expression {userId} makes the userId variable
+            // available in rules.
+            match /%collection%/{userId} {
+                allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+                allow create: if request.auth != null;
+            }
+        }
+    }
+
+### Build
+
+    flutter clean
+    flutter pub get
+    flutter build appbundle --release

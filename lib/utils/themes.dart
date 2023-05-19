@@ -146,6 +146,7 @@ BottomNavigationBarThemeData bottomNavigationBarTheme() {
 ElevatedButtonThemeData elevatedButtonTheme() {
   return ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
+          foregroundColor: Palette.dimWhite,
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 15),
           disabledBackgroundColor: Colors.grey.shade500,
           shape: RoundedRectangleBorder(

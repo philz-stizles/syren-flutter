@@ -25,6 +25,7 @@ class AuthService extends GetxService {
 
   Future signIn({required String email, required String password}) async {
     try {
+      debugPrint(email);
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
@@ -55,6 +56,19 @@ class AuthService extends GetxService {
   }
 
   Future<void> deleteAccount() async {
+    try {
+      // Create an instance of the current user.
+      User? user = FirebaseAuth.instance.currentUser;
+
+      //Pass in the password to updatePassword.
+      await user?.delete();
+    } on FirebaseAuthException catch (e) {
+      debugPrint(e.message);
+      rethrow;
+    }
+  }
+
+  Future<void> switchAccount() async {
     try {
       // Create an instance of the current user.
       User? user = FirebaseAuth.instance.currentUser;

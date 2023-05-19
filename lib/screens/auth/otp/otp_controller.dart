@@ -30,12 +30,11 @@ class OtpController extends GetxController {
   FocusNode? pin4FocusNode;
 
   // Observables.
-  RxBool isLoadingOtp = false.obs;
-  RxBool isLoadingValidateOtp = false.obs;
-  RxBool isLoadingGenerateOtp = false.obs;
-
-  final _timer = Rxn<Timer>();
-  final duration = Rxn<Duration>();
+  var isLoadingOtp = false.obs;
+  var isLoadingValidateOtp = false.obs;
+  var isLoadingGenerateOtp = false.obs;
+  var timer = Rxn<Timer>();
+  var duration = Rxn<Duration>();
 
   @override
   void onInit() {
@@ -64,12 +63,12 @@ class OtpController extends GetxController {
 
   void _startTimer() {
     duration.value = const Duration(minutes: 5);
-    _timer.value =
+    timer.value =
         Timer.periodic(const Duration(seconds: 1), (_) => _setCountDown());
   }
 
   void _stopTimer() {
-    _timer.value?.cancel();
+    timer.value?.cancel();
   }
 
   void _setCountDown() {
@@ -77,7 +76,7 @@ class OtpController extends GetxController {
 
     final seconds = duration.value!.inSeconds - reduceSecondsBy;
     if (seconds < 0) {
-      _timer.value!.cancel();
+      timer.value!.cancel();
     } else {
       duration.value = Duration(seconds: seconds);
     }

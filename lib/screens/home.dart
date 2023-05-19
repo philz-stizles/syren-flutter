@@ -18,6 +18,7 @@ class Home extends StatelessWidget {
             child: Text('Something went wrong'),
           );
         } else if (snapshot.hasData) {
+          print('');
           return DashboardScreen();
         } else {
           return const SplashView();

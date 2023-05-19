@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:syren/controllers/main_controller.dart';
 import 'package:syren/screens/auth/signin/signin_controller.dart';
+import 'package:syren/services/services.dart';
 import 'package:syren/utils/security.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
@@ -26,7 +26,7 @@ class BiometricService extends GetxService {
   final RxBool isLoading = false.obs;
 
   final signInCtrl = Get.put(SignInController());
-  final mainCtrl = Get.put(MainController());
+  final mainCtrl = Get.put(UserService());
 
   @override
   onInit() async {
@@ -61,7 +61,7 @@ class BiometricService extends GetxService {
     isBiometricEnabled.value = true;
     await _storage.write(fingerprintKey, isBiometricEnabled.value);
 
-    var email = mainCtrl.currentUser.value!.email;
+    var email = mainCtrl.user!.email;
     if (email != null) {
       await _storage.write(usernameKey, Security.encrypt(email));
     }

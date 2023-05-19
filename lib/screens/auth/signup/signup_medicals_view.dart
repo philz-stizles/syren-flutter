@@ -121,10 +121,12 @@ class SignUpMedicalsView extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    AccountCTA(
-                        text: 'Already have an account?',
-                        onTap: () => Get.offNamed(SignInView.routeName),
-                        linkText: 'Sign in'),
+                    signupCtrl.userSrv.authUser.value == null
+                        ? AccountCTA(
+                            text: 'Already have an account?',
+                            onTap: () => Get.offNamed(SignInView.routeName),
+                            linkText: 'Sign in')
+                        : const SizedBox()
                   ],
                 ))),
           ),

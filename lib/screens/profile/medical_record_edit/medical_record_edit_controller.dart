@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/controllers/user_controller.dart';
 import 'package:syren/services/user_service.dart';
 import 'package:syren/widgets/widgets.dart';
 
@@ -10,7 +9,7 @@ class MedicalRecordEditController extends GetxController {
   var userSrv = Get.find<UserService>();
 
   // Controllers.
-  var userCtrl = Get.find<UserController>();
+  var userCtrl = Get.find<UserService>();
 
   // Data.
   var religionTypes = ['Christian', 'Muslim', 'Other'];

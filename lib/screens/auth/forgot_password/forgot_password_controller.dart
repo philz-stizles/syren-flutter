@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:syren/services/services.dart';
 import 'package:syren/widgets/widgets.dart';
+import 'package:syren/screens/views.dart';
 
 class ForgotPasswordController extends GetxController {
   // Providers.
@@ -22,11 +23,14 @@ class ForgotPasswordController extends GetxController {
 
   Future<void> resetPassword() async {
     try {
+      final email = emailController.text.trim();
       isLoadingForgotPassword(true);
-      await authServ.resetPassword(email: emailController.text.trim());
+      await authServ.resetPassword(email: email);
       UIConfig.showSnackBar(
           message: 'Password reset was sent successfully',
           backgroundColor: Colors.green);
+      Get.offAllNamed(SignInView.routeName,
+            arguments: {'email': email});
     } on FirebaseAuthException catch (e) {
       debugPrint(e.message);
       if (e.message != null) {

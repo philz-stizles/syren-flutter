@@ -71,7 +71,7 @@ class AppPasswordField extends StatelessWidget {
                 validator: (val) {
                   if (val == null || val.isEmpty) {
                     isError.value = true;
-                    return "Please provide a valid ${hintText?.toLowerCase()}";
+                    return "Please provide a valid ${labelText?.toLowerCase()}";
                   } else {
                     isError.value = false;
                     return null;
@@ -634,7 +634,7 @@ class DropdownSelectField extends StatelessWidget {
                 child: DropdownButton<String>(
                   isExpanded: true,
                   underline: Container(),
-                  hint: const Text('Select an option'),
+                  hint: const Text('Select'),
                   // Initial Value
                   value: dropdownValue,
                   style:

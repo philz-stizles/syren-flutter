@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:syren/controllers/controllers.dart';
 import 'package:syren/models/models.dart';
 import 'package:syren/screens/dashboard/dashboard_controller.dart';
 import 'package:syren/services/services.dart';
@@ -13,7 +12,7 @@ class SetMedReminderController extends GetxController {
   final reminderSrv = Get.find<ReminderService>();
 
   // Controllers.
-  final userCtrl = Get.put(UserController());
+  final userCtrl = Get.put(UserService());
   final dashboardCtrl = Get.put(DashboardController());
 
   // Data.

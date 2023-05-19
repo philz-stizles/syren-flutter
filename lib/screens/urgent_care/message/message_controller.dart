@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:syren/controllers/controllers.dart';
 import 'package:syren/models/models.dart';
 import 'package:syren/services/services.dart';
 
 class MessageController extends GetxController {
   // Services.
   var chatSrv = Get.put(ChatService());
-  var userCtrl = Get.put(UserController());
+  var userCtrl = Get.put(UserService());
 
   // Observable.
   var chatMessage = ''.obs;

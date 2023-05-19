@@ -5,6 +5,7 @@ import 'package:syren/services/services.dart';
 class NotificationsController extends GetxController {
   // Services.
   final notificationSrv = Get.find<NotificationService>();
+  final localNotificationSrv = Get.find<LocalNotificationService>();
 
   // Observables.
   RxInt page = 0.obs;
