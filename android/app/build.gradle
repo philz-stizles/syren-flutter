@@ -65,7 +65,6 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders = [googleGeoAPIKey: googleGeoAPIKey]
-        // manifestPlaceholders = [mapApiKey: "$System.env.MAP_API_KEY"]
     }
 
     signingConfigs {

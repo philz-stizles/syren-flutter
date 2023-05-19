@@ -4,10 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:syren/models/models.dart';
+import 'package:syren/utils/constants.dart';
 
 class PlacesService {
   final baseUrl = dotenv.get('MAP_PLACES_BASE_URL');
-  final key = dotenv.get('MAP_API_KEY');
+  final key = googleMapsApiKey; // dotenv.get('MAP_API_KEY');
 
   Future<List<PlaceSearchModel>> getAutocomplete(String search) async {
     var url =

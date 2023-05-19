@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:syren/utils/palette.dart';
+
+// API
+var googleMapsApiKey = dotenv.get('GOOGLE_MAPS_API_KEY');
 
 // TEXT
 const signupText = '';

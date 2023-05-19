@@ -14,6 +14,8 @@ import 'package:syren/services/places_service.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:syren/widgets/widgets.dart';
 
+import '../../../utils/constants.dart';
+
 class MapScreen extends StatelessWidget {
   late PlaceLocationModel initialLocation;
   final bool isSelecting;
@@ -148,7 +150,7 @@ class MapController extends GetxController {
     if (search != null && search.isNotEmpty) {
       http.Response response = await http.get(Uri(
           host:
-              '${dotenv.get('MAP_PLACES_BASE_URL')}?input=$search&types=(cities)&key=${dotenv.get('MAP_API_KEY')}'));
+              '${dotenv.get('MAP_PLACES_BASE_URL')}?input=$search&types=(cities)&key=${googleMapsApiKey}'));
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body.toString());
