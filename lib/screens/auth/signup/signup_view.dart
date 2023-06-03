@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syren/screens/auth/signin/signin_view.dart';
@@ -58,26 +59,36 @@ class SignUpView extends GetView<SignUpController> {
                         const SizedBox(
                           width: 10,
                         ),
-                        Expanded(
-                          child: DropdownSelectField(
-                            labelText: 'Religion',
-                            options: controller.religionTypes,
-                            onChanged: (String? val) {
-                              controller.religionDropdownValue.value = val;
-                            },
-                            dropdownValue:
-                                controller.religionDropdownValue.value,
-                            // initialValue: 'Christian',
-                          ),
-                        )
+                        // Expanded(
+                        //   child: DropdownSelectField(
+                        //     labelText: 'Religion',
+                        //     options: controller.religionTypes,
+                        //     onChanged: (String? val) {
+                        //       controller.religionDropdownValue.value = val;
+                        //     },
+                        //     dropdownValue:
+                        //         controller.religionDropdownValue.value,
+                        //     // initialValue: 'Christian',
+                        //   ),
+                        // )
                       ],
                     ),
-                    AppTextField(
-                      type: TextInputType.number,
-                      labelText: 'Contact',
-                      hintText: '+234',
-                      editingCtrl: controller.phoneCtrl,
-                    ),
+                    AppPhoneField(
+                        type: TextInputType.phone,
+                        labelText: 'Contact',
+                        hintText: 'Phone Number',
+                        editingCtrl: controller.phoneCtrl,
+                        onChange: (code) {
+                          controller.phoneCountryCode.value = code.dialCode!;
+                        }),
+                    
+                    // ),
+                    // AppTextField(
+                    //   type: TextInputType.number,
+                    //   labelText: 'Contact',
+                    //   hintText: '+234',
+                    //   editingCtrl: controller.phoneCtrl,
+                    // ),
                     Focus(
                         onFocusChange: (hasFocus) async {
                           if (!hasFocus) {
@@ -142,9 +153,8 @@ class SignUpView extends GetView<SignUpController> {
                         title: 'Next',
                         loading: controller.isLoadingSignUp.value,
                         press: () async {
-                           FocusManager.instance.primaryFocus?.unfocus();
+                          FocusManager.instance.primaryFocus?.unfocus();
                           if (signUpFormKey.currentState!.validate()) {
-                           
                             if (controller.dobCtrl.text.isNotEmpty) {
                               if (Get.isSnackbarOpen) {
                                 Get.closeCurrentSnackbar();

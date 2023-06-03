@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:syren/models/models.dart';
 import 'package:syren/screens/schedule_care/ambulance_service/map_view.dart';
 import 'package:syren/screens/views.dart';
+import 'package:syren/services/geolocator_service.dart';
 import 'package:syren/services/location_service.dart';
 import 'package:syren/services/services.dart';
 import 'package:syren/widgets/widgets.dart';
@@ -17,6 +17,7 @@ class AmbulanceServiceController extends GetxController {
     fromDS: (p0, p1) => AmbulanceServiceModel.fromJson(p1!),
     toMap: (model) => model.toJson(),
   ));
+  var geoLocatorSrv = Get.put(GeolocatorService());
 
   // Form.
   final ambulanceServiceFormKey = GlobalKey<FormState>();
@@ -93,26 +94,35 @@ class AmbulanceServiceController extends GetxController {
 
   Future<void> getCurrentUserLocation() async {
     try {
-      final locationData = await Location().getLocation();
+      var position = await geoLocatorSrv.getCurrentPosition();
 
-      showPreview(locationData.latitude, locationData.longitude);
+      if (position == null) {
+        return;
+      }
 
-      selectLocation(locationData.latitude!, locationData.longitude!);
+      showPreview(position.latitude, position.longitude);
+
+      selectLocation(position.latitude, position.longitude);
     } catch (e) {
       return;
     }
   }
 
   Future<void> navigateToMapScreen(BuildContext context) async {
-    final locationData = await Location().getLocation();
+    var position = await geoLocatorSrv.getCurrentPosition();
+
+    if (position == null) {
+      return;
+    }
+
     final LatLng? selectedLocation =
         await Navigator.of(context).push(MaterialPageRoute(
             fullscreenDialog: true,
             builder: (ctx) => MapScreen(
                   isSelecting: true,
                   initialLocation: PlaceLocationModel(
-                      latitude: locationData.latitude!,
-                      longitude: locationData.longitude!),
+                      latitude: position.latitude,
+                      longitude: position.longitude),
                 )));
 
     if (selectedLocation == null) {

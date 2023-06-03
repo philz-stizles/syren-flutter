@@ -26,12 +26,6 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>Upload image from camera for screen background</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location background</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Upload images for screen background</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -57,5 +51,13 @@
 	<false/>
 	<key>googleMapsApiKey</key>
 	<string>$(GOOGLE_MAPS_API_KEY)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>This app needs access to location when open.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>This app needs access to location when in the background.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Upload image from camera for screen background</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Upload images for screen background</string>
 </dict>
 </plist>

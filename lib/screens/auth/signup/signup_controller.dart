@@ -20,7 +20,7 @@ class SignUpController extends GetxController {
   // Data.
   var religionTypes = ['Christian', 'Muslim', 'Other'];
   var genderTypes = ['Male', 'Female'];
-  var alleries = ['Yes', 'No'];
+  var allergies = ['Yes', 'No'];
   var conditions = ['Yes', 'No'];
   var genoTypes = ['AA', 'AS', 'SS'];
   var bloodGroups = ['O+', 'AB+', 'A+', 'AB-', 'B+'];
@@ -48,6 +48,7 @@ class SignUpController extends GetxController {
   var conditionsDropdownValue = Rxn<String>();
   var genoTypeDropdownValue = Rxn<String>();
   var bloodGroupDropdownValue = Rxn<String>();
+  var phoneCountryCode = Rxn<String>();
 
   @override
   void onInit() {

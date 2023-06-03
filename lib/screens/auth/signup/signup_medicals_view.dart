@@ -34,7 +34,7 @@ class SignUpMedicalsView extends StatelessWidget {
                     ),
                     DropdownSelectField(
                       labelText: 'Do you have any allergies',
-                      options: signupCtrl.alleries,
+                      options: signupCtrl.allergies,
                       onChanged: (String? val) {
                         signupCtrl.allergiesDropdownValue.value = val;
                       },
@@ -45,13 +45,26 @@ class SignUpMedicalsView extends StatelessWidget {
                       hintText: 'Enter your allergies',
                       editingCtrl: signupCtrl.allergiesCtrl,
                       validationText: 'Please provide valid allergies',
+                      validator: (val) {
+                        if (signupCtrl.allergiesDropdownValue.value != null &&
+                            signupCtrl.allergiesDropdownValue.value
+                                    ?.toLowerCase() ==
+                                'yes' &&
+                            (val == null || val.isEmpty)) {
+                          return "Please provide a valid value";
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
                     AppTextField(
-                      labelText: 'What medications do you take daily?',
-                      hintText: 'Enter medications',
-                      editingCtrl: signupCtrl.medicationsCtrl,
-                      validationText: 'Please provide valid medications',
-                    ),
+                        labelText: 'What medications do you take daily?',
+                        hintText: 'Enter medications',
+                        editingCtrl: signupCtrl.medicationsCtrl,
+                        validationText: 'Please provide valid medications',
+                        validator: (val) {
+                          return null;
+                        }),
                     DropdownSelectField(
                       labelText: 'Do you have any medical conditions',
                       options: signupCtrl.conditions,
@@ -61,11 +74,22 @@ class SignUpMedicalsView extends StatelessWidget {
                       dropdownValue: signupCtrl.conditionsDropdownValue.value,
                     ),
                     AppTextField(
-                      labelText: 'If yes, state it',
-                      hintText: 'Enter your conditions',
-                      editingCtrl: signupCtrl.conditionsCtrl,
-                      validationText: 'Please provide valid conditions',
-                    ),
+                        labelText: 'If yes, state it',
+                        hintText: 'Enter your conditions',
+                        editingCtrl: signupCtrl.conditionsCtrl,
+                        validationText: 'Please provide valid conditions',
+                        validator: (val) {
+                          if (signupCtrl.conditionsDropdownValue.value !=
+                                  null &&
+                              signupCtrl.conditionsDropdownValue.value
+                                      ?.toLowerCase() ==
+                                  'yes' &&
+                              (val == null || val.isEmpty)) {
+                            return "Please provide a valid value";
+                          } else {
+                            return null;
+                          }
+                        }),
                     DropdownSelectField(
                       labelText: 'What is your Genotype?',
                       options: signupCtrl.genoTypes,

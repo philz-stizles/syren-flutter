@@ -10,7 +10,7 @@ import 'package:syren/utils/palette.dart';
 import 'package:syren/widgets/widgets.dart';
 
 class OtpController extends GetxController {
-  // Servives.
+  // Services.
   var otpSrv = Get.put(OTPService());
 
   // Controllers.

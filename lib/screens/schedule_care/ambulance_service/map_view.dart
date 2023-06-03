@@ -8,8 +8,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_maps_webservice/places.dart';
-import 'package:syren/controllers/location_controller.dart';
 import 'package:syren/models/models.dart';
+import 'package:syren/services/geolocator_service.dart';
 import 'package:syren/services/places_service.dart';
 import 'package:syren/utils/palette.dart';
 import 'package:syren/widgets/widgets.dart';
@@ -110,7 +110,10 @@ class MapScreen extends StatelessWidget {
                     //             title: Text(item.description!),
                     //           );
                     //         })),
-                    PrimaryButton(title: 'Confirm Location', press: () {})
+                    PrimaryButton(title: 'Confirm Location', press: () {
+                      Navigator.of(context)
+                              .pop(mapCtrl.pickedLocation.value);
+                    })
                   ],
                 ),
               ))
@@ -121,9 +124,10 @@ class MapScreen extends StatelessWidget {
 class MapController extends GetxController {
   // Services.
   var placeSrv = Get.put(PlacesService());
+  var geoLocatorSrv = Get.put(GeolocatorService());
 
   // Controllers.
-  GoogleMapController? googleMapCtrl; //contrller for Google map.
+  GoogleMapController? googleMapCtrl;
   TextEditingController searchCtrl = TextEditingController();
 
   // Observables.
@@ -169,8 +173,9 @@ class MapController extends GetxController {
     //   await placeSrv.getAutocomplete(searchCtrl.text.trim());
   }
 
-  void selectLocation(LatLng position) {
+  Future<void> selectLocation(LatLng position) async {
     pickedLocation.value = position;
     searchCtrl.text = position.toString();
+    // searchCtrl.text = await geoLocatorSrv.getAddressFromLatLng();
   }
 }
